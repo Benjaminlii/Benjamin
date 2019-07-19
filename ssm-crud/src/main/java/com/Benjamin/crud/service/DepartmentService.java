@@ -14,7 +14,7 @@ public class DepartmentService {
 
     @Autowired
     public DepartmentService(DepartmentMapper departmentMapper) {
-        this.departmentMapper = departmentMapper;
+        this.departmentMapper =departmentMapper;
     }
 
     public List<Department> getDept(){
