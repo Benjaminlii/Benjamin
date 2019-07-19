@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ssm-crud:war exploded">
-    <output-path>/media/benjamin/Data/Java/Benjamin/ssm-crud/target/ssm-crud</output-path>
+    <output-path>$PROJECT_DIR$/ssm-crud/target/ssm-crud</output-path>
     <properties id="maven-jee-properties">
       <options>
         <exploded>true</exploded>
@@ -60,7 +60,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="/media/benjamin/Data/Java/Benjamin/ssm-crud/target/ssm-crud/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/ssm-crud/target/ssm-crud/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ssm-crud/web/Web" />
     </root>

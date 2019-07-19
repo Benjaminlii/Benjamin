@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:///media/benjamin/Data/Java/Benjamin/ssm-crud/ssm-crud.iml" filepath="/media/benjamin/Data/Java/Benjamin/ssm-crud/ssm-crud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ssm-crud/ssm-crud.iml" filepath="$PROJECT_DIR$/ssm-crud/ssm-crud.iml" />
     </modules>
   </component>
 </project>
