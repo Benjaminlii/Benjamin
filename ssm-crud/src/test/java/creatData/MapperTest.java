@@ -1,5 +1,8 @@
 package creatData;
 
+import com.Benjamin.crud.dao.DepartmentMapper;
+import com.Benjamin.crud.dao.EmployeeMapper;
+import com.Benjamin.crud.pojo.Employee;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,32 +27,32 @@ import java.util.UUID;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class MapperTest {
-//    @Autowired
-//    DepartmentMapper departmentMapper;
-//
-//    @Autowired
-//    EmployeeMapper employeeMapper;
-//
-//    @Autowired
-//    SqlSession sqlSession;
-//
-//    @Test
-//    @Transactional
-//    @Rollback(false)
-//    public void testCrud() throws Exception {
-//        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-//        for (int i = 1; i < 1000; i++) {
-//            String uuid = UUID.randomUUID().toString().substring(0, 5) + i;
-//            mapper.insertSelective(
-//                    new Employee(
-//                            null,
-//                            uuid,
-//                            i % 2 == 0 ? "M" : "W",
-//                            uuid + "@Ben.com",
-//                            i % 3 == 0 ? 1 : 2
-//                    )
-//            );
-//        }
-//    }
+    @Autowired
+    DepartmentMapper departmentMapper;
+
+    @Autowired
+    EmployeeMapper employeeMapper;
+
+    @Autowired
+    SqlSession sqlSession;
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void testCrud() {
+        EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
+        for (int i = 1; i < 1000; i++) {
+            String uuid = UUID.randomUUID().toString().substring(0, 5) + i;
+            mapper.insertSelective(
+                    new Employee(
+                            null,
+                            uuid,
+                            i % 2 == 0 ? "M" : "W",
+                            uuid + "@Ben.com",
+                            i % 3 == 0 ? 1 : 2
+                    )
+            );
+        }
+    }
 
 }
