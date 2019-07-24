@@ -1,0 +1,6 @@
+web工程
+分布式集群中的服务提供者
+需要spring和mybatis
+
+user包存放用户信息
+loan包存放理财产品信息

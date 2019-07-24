@@ -13,6 +13,11 @@
         <element id="directory" name="classes">
           <element id="module-output" name="p2p-dataservice" />
         </element>
+        <element id="directory" name="lib">
+          <element id="archive" name="p2p-exterface-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="p2p-exterface" />
+          </element>
+        </element>
       </element>
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/p2p-parent/p2p-dataservice/target/p2p-dataservice/META-INF/MANIFEST.MF" />

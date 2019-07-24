@@ -13,7 +13,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/ssm-crud/pom.xml" />
-        <option value="$PROJECT_DIR$/mybatisGenerator/pom.xml" />
         <option value="$PROJECT_DIR$/p2p-parent/pom.xml" />
       </list>
     </option>

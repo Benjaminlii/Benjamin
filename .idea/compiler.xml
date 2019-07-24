@@ -9,7 +9,6 @@
         <module name="p2p-common" />
         <module name="p2p-pay" />
         <module name="p2p-exterface" />
-        <module name="mybatisGenerator" />
         <module name="p2p-web" />
         <module name="p2p-timer" />
         <module name="p2p-dataservice" />
@@ -19,13 +18,13 @@
     <bytecodeTargetLevel>
       <module name="museum" target="1.7" />
       <module name="mybatisGenerator" target="1.7" />
-      <module name="p2p-common" target="1.5" />
-      <module name="p2p-dataservice" target="1.7" />
-      <module name="p2p-exterface" target="1.5" />
-      <module name="p2p-parent" target="1.5" />
-      <module name="p2p-pay" target="1.7" />
-      <module name="p2p-timer" target="1.7" />
-      <module name="p2p-web" target="1.7" />
+      <module name="p2p-common" target="1.8" />
+      <module name="p2p-dataservice" target="1.8" />
+      <module name="p2p-exterface" target="1.8" />
+      <module name="p2p-parent" target="1.8" />
+      <module name="p2p-pay" target="1.8" />
+      <module name="p2p-timer" target="1.8" />
+      <module name="p2p-web" target="1.8" />
       <module name="ssm-crud" target="1.7" />
     </bytecodeTargetLevel>
   </component>

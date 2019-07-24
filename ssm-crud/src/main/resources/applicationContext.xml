@@ -39,10 +39,10 @@
         <!-- 数据源 -->
         <property name="dataSource" ref="pooledDataSource"/>
         <!-- MyBatis中mapper文件的位置 -->
-        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:com.Benjamin.p2p.mapper/*.xml"/>
     </bean>
     <!-- 配置扫描器 -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean class="org.mybatis.spring.com.Benjamin.p2p.mapper.MapperScannerConfigurer">
         <!-- 扫描所有的dao接口，加入到ioc容器中 -->
         <property name="basePackage" value="com.Benjamin.crud.dao"/>
     </bean>

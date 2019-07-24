@@ -33,7 +33,7 @@
 
         <!-- 映射文件的位置 -->
         <sqlMapGenerator
-                targetPackage="mapper"
+                targetPackage="com.Benjamin.p2p.mapper"
                 targetProject=".\src\main\resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
