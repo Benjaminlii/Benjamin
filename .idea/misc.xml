@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/Museum" />
     <file type="web" url="file://$PROJECT_DIR$/ssm-crud" />
     <file type="web" url="file:///media/benjamin/Data/Java/Benjamin/ssm-crud" />
   </component>
@@ -8,6 +9,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/ssm-crud/pom.xml" />
+        <option value="$PROJECT_DIR$/Museum/pom.xml" />
       </list>
     </option>
   </component>
