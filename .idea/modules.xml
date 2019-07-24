@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LeetCodeNoteBook/LeetCodeNoteBook.iml" filepath="$PROJECT_DIR$/LeetCodeNoteBook/LeetCodeNoteBook.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Museum/museum.iml" filepath="$PROJECT_DIR$/Museum/museum.iml" />
       <module fileurl="file://$PROJECT_DIR$/ssm-crud/ssm-crud.iml" filepath="$PROJECT_DIR$/ssm-crud/ssm-crud.iml" />
       <module fileurl="file://$PROJECT_DIR$/testJedis/testJedis.iml" filepath="$PROJECT_DIR$/testJedis/testJedis.iml" />
     </modules>
