@@ -14,9 +14,9 @@ import java.util.ArrayList;
  * date:2019.7.23
  */
 
-public class LeetCode1078Bigram {
+public class LeetCode1078 {
     public static void main(String[] args) {
-        System.out.println(new LeetCode1078Bigram().findOcurrences(
+        System.out.println(new LeetCode1078().findOcurrences(
                 "alice is a good girl she is a good student",
                 "a",
                 "good"
