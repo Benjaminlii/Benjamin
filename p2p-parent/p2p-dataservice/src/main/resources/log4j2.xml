@@ -5,13 +5,13 @@
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="ACCEPT"/>
             <PatternLayout pattern="[dataservice] %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %class{36} %L %M - %msg%xEx%n"/>
         </Console>
-        <RollingFile name="RollingFile"
-                     fileName="/opt/tomcat_dataservice/logs/dataservice.log"
-                     filePattern="/opt/tomcat_dataservice/logs/$${date:yyyy-MM}/dataservice-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout
-                    pattern="[dataservice] %d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
-            <SizeBasedTriggeringPolicy size="100MB"/>
-        </RollingFile>
+<!--        <RollingFile name="RollingFile"-->
+<!--                     fileName="/opt/tomcat_dataservice/logs/dataservice.log"-->
+<!--                     filePattern="/opt/tomcat_dataservice/logs/$${date:yyyy-MM}/dataservice-%d{MM-dd-yyyy}-%i.log.gz">-->
+<!--            <PatternLayout-->
+<!--                    pattern="[dataservice] %d{yyyy-MM-dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>-->
+<!--            <SizeBasedTriggeringPolicy size="100MB"/>-->
+<!--        </RollingFile>-->
     </appenders>
     <loggers>
         <logger name="com.Benjamin.p2p.mapper" level="debug"/>

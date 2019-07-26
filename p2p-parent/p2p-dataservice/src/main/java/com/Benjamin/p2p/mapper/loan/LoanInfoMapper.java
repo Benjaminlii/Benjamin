@@ -58,4 +58,9 @@ public interface LoanInfoMapper {
      * @mbggenerated Wed Jul 24 20:22:31 CST 2019
      */
     int updateByPrimaryKey(LoanInfo record);
+
+    /**
+     * 历史平均年化收益率
+     */
+    Double selectHistoryAverageRate();
 }

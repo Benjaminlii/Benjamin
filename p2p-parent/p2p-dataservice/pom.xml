@@ -204,5 +204,26 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+
+        <!--
+            maven中制定resources为资源文件夹
+            但mybatis制定.mapper和接口放在一个文件夹中
+            所以就需要指定资源文件夹
+        -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+            </resource>
+        </resources>
+
     </build>
 </project>
