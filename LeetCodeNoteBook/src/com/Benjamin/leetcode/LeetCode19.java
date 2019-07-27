@@ -2,6 +2,12 @@ package com.Benjamin.leetcode;
 
 import java.util.Stack;
 
+/**
+ * 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
+ *
+ * author:Benjamin
+ * date:2019.7.23
+ */
 public class LeetCode19 {
     public static void main(String[] args) {
         ListNode listNode = new ListNode(1);
