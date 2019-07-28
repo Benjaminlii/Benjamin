@@ -14,4 +14,11 @@ public interface FinanceAccountMapper {
     int updateByPrimaryKeySelective(FinanceAccount record);
 
     int updateByPrimaryKey(FinanceAccount record);
+
+    /**
+     * 根据user的id查询账户信息
+     * @param uid
+     * @return
+     */
+    FinanceAccount selectFinanceAccountByUid(Integer uid);
 }

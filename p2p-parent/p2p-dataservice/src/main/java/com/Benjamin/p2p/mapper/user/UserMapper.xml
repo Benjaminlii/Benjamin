@@ -173,7 +173,15 @@
 
     <!-- 根据手机号查询用户 -->
     <select id="selectUserByPhone" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from u_user where phone = #{phone}
+    </select>
+
+    <!-- 查询同时匹配手机号和登录密码的User -->
+    <select id="selectUserByPhoneAndLoginPassword" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from u_user
+        where phone = #{0} and login_password = #{1}
     </select>
 </mapper>

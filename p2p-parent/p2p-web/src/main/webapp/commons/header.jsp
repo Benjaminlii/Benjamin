@@ -52,8 +52,10 @@
             <c:choose>
                 <c:when test="${empty user}">
                     <!-- 未登录start -->
-                    <div class="no-login"><a href="register.jsp" class="btn-reg">注册</a><a href="login.jsp"
-                                                                                          class="btn-login">登录</a></div>
+                    <div class="no-login"><a href="${pageContext.request.contextPath}/register.jsp"
+                                             class="btn-reg">注册</a><a
+                            href="${pageContext.request.contextPath}/login.jsp"
+                            class="btn-login">登录</a></div>
                     <!-- 未登录end -->
                 </c:when>
                 <c:otherwise>

@@ -78,10 +78,10 @@ public class UserServiceImpl implements UserService {
             financeAccount.setUid(user.getId());
             financeAccount.setAvailableMoney(Constants.INIT_MONEY);
             int insertFinanceCount = financeAccountMapper.insertSelective(financeAccount);
-            if(insertFinanceCount < 0){
+            if (insertFinanceCount < 0) {
                 resultObject.setErrorCode(Constants.FAIL);
             }
-        }else{
+        } else {
             resultObject.setErrorCode(Constants.FAIL);
         }
 
@@ -92,4 +92,21 @@ public class UserServiceImpl implements UserService {
     public int modifyUserByUid(User updateUser) {
         return userMapper.updateByPrimaryKeySelective(updateUser);
     }
+
+    @Override
+    public User login(String phone, String loginPassword) {
+        //根据phone查询出数据库中的user信息
+        User user = userMapper.selectUserByPhoneAndLoginPassword(phone, loginPassword);
+        if (user != null) {
+            //更新注册时间
+            User updateUser = new User();
+            updateUser.setId(user.getId());
+            updateUser.setLastLoginTime(new Date());
+
+            userMapper.updateByPrimaryKeySelective(updateUser);
+        }
+
+        return user;
+    }
+
 }

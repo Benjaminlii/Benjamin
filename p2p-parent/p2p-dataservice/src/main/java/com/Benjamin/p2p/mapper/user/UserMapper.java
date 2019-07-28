@@ -24,4 +24,9 @@ public interface UserMapper {
      * 根据手机号查询用户
      */
     User selectUserByPhone(String phone);
+
+    /**
+     * 查询同事匹配手机号和登录密码的用户
+     */
+    User selectUserByPhoneAndLoginPassword(String phone, String loginPassword);
 }

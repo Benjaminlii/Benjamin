@@ -30,4 +30,12 @@ public interface UserService {
      * 根据用户id更新用户信息,只更新非空的字段
      */
     int modifyUserByUid(User updateUser);
+
+    /**
+     * 用户登录
+     * @param phone 手机号作为用户名登录
+     * @param loginPassword 登录密码
+     * @return User对象,其中的登录时间为上次的登录时间
+     */
+    User login(String phone, String loginPassword);
 }

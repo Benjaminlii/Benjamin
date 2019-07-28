@@ -3,8 +3,10 @@ package com.Benjamin.p2p.controller;
 import com.Benjamin.p2p.common.constant.Constants;
 import com.Benjamin.p2p.common.util.HttpClientUtils;
 import com.Benjamin.p2p.config.Config;
+import com.Benjamin.p2p.model.user.FinanceAccount;
 import com.Benjamin.p2p.model.user.User;
 import com.Benjamin.p2p.model.vo.ResultObject;
+import com.Benjamin.p2p.service.user.FinanceAccountService;
 import com.Benjamin.p2p.service.user.UserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -21,11 +23,14 @@ import java.util.regex.Pattern;
  * date:2019.7.27
  */
 //@Controller
-@RestController//相当于@Controller,并且在勒种的每个方法上都使用了@ResponseBody注解
+@RestController//相当于@Controller,并且在类中的每个方法上都使用了@ResponseBody注解
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private FinanceAccountService financeAccountService;
 
     @Autowired
     private Config config;
@@ -119,9 +124,9 @@ public class UserController {
      */
     @RequestMapping(value = "/loan/verifyRealName")
     public Map<String, Object> verifyRealName(HttpServletRequest request,
-                                 @RequestParam(value = "realName", required = true) String realName,
-                                 @RequestParam(value = "idCard", required = true) String idCard,
-                                 @RequestParam(value = "replayIdCard", required = true) String replayIdCard) {
+                                              @RequestParam(value = "realName", required = true) String realName,
+                                              @RequestParam(value = "idCard", required = true) String idCard,
+                                              @RequestParam(value = "replayIdCard", required = true) String replayIdCard) {
 
         Map<String, Object> retMap = new HashMap<>();
 
@@ -167,12 +172,12 @@ public class UserController {
                 updateUser.setIdCard(idCard);
                 updateUser.setName(realName);
                 int modifyUserCount = userService.modifyUserByUid(updateUser);
-                if(modifyUserCount > 0){
+                if (modifyUserCount > 0) {
                     //更新session中的user信息
                     request.getSession().setAttribute(Constants.SESSION_USER, userService.queryUserByPhone(user.getPhone()));
                     retMap.put(Constants.ERROR_MESSAGE, Constants.OK);
 
-                }else{
+                } else {
                     retMap.put(Constants.ERROR_MESSAGE, "系统繁忙,请稍后重试.");
                     return retMap;
                 }
@@ -186,6 +191,49 @@ public class UserController {
             retMap.put(Constants.ERROR_MESSAGE, "通信失败,请稍后重试.");
             return retMap;
         }
+
+        return retMap;
+    }
+
+    /**
+     * 获取当前登录用户的账户信息
+     */
+    @RequestMapping(value = "/loan/myFinanceAccount")
+    public FinanceAccount myFinanceAccount(HttpServletRequest request) {
+
+        //从session中获取user
+        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+
+        return financeAccountService.queryFinanceAccountByUid(user.getId());
+    }
+
+    @RequestMapping(value = "/loan/login")
+    public Map<String, Object> login(HttpServletRequest request,
+                                     @RequestParam(value = "phone", required = true) String phone,
+                                     @RequestParam(value = "loginPassword", required = true) String loginPassword){
+        Map<String, Object> retMap = new HashMap<>();
+
+        //验证信息
+        //手机号
+        if (!Pattern.matches("^1[1-9]\\d{9}$", phone)) {
+            retMap.put(Constants.ERROR_MESSAGE, "请输入正确的手机号码");
+            return retMap;
+        }
+
+        //用户登录(判断密码是否匹配,更新上次登陆时间)
+        User user = userService.login(phone, loginPassword);
+
+        //判断用户是否存在
+        if(user == null){
+            //登陆失败
+            retMap.put(Constants.ERROR_MESSAGE, "用户名或密码输入有误,请重新输入.");
+            return retMap;
+        }
+
+        //登陆成功,讲user添加到session中
+        request.getSession().setAttribute(Constants.SESSION_USER, user);
+
+        retMap.put(Constants.ERROR_MESSAGE, Constants.OK);
 
         return retMap;
     }
