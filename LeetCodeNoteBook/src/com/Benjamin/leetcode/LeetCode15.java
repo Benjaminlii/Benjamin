@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
  * author:Benjamin
  * date:2017.2.27
  */
-public class LeedCode15 {
+public class LeetCode15 {
     public static void main(String[] args) {
-        System.out.println(new LeedCode15().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
+        System.out.println(new LeetCode15().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
     }
 
     public List<List<Integer>> threeSum(int[] nums) {
