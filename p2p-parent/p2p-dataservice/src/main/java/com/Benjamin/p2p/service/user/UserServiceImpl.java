@@ -1,17 +1,22 @@
 package com.Benjamin.p2p.service.user;
 
 import com.Benjamin.p2p.common.constant.Constants;
+import com.Benjamin.p2p.mapper.user.FinanceAccountMapper;
 import com.Benjamin.p2p.mapper.user.UserMapper;
+import com.Benjamin.p2p.model.user.FinanceAccount;
+import com.Benjamin.p2p.model.user.User;
+import com.Benjamin.p2p.model.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
  * 用户业务逻辑
- *
+ * <p>
  * author:Benjamin
  * date:2019.7.26
  */
@@ -20,6 +25,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private FinanceAccountMapper financeAccountMapper;
 
     @Autowired
     private RedisTemplate<Object, Object> redisTemplate;
@@ -42,5 +50,46 @@ public class UserServiceImpl implements UserService {
             boundValueOps.set(allUserCount, 15, TimeUnit.MINUTES);
         }
         return allUserCount;
+    }
+
+    @Override
+    public User queryUserByPhone(String phone) {
+        return userMapper.selectUserByPhone(phone);
+    }
+
+    @Override
+    public ResultObject register(String phone, String loginPassword) {
+        ResultObject resultObject = new ResultObject();
+        resultObject.setErrorCode(Constants.SUCCESS);
+
+        //新增用户
+        User user = new User();
+        user.setPhone(phone);
+        user.setLoginPassword(loginPassword);
+        user.setAddTime(new Date());
+        user.setLastLoginTime(new Date());
+        int insertUserCount = userMapper.insertSelective(user);
+
+        if (insertUserCount > 0) {
+            //查询刚刚创建的user
+            user = userMapper.selectUserByPhone(phone);
+            //新增账户
+            FinanceAccount financeAccount = new FinanceAccount();
+            financeAccount.setUid(user.getId());
+            financeAccount.setAvailableMoney(Constants.INIT_MONEY);
+            int insertFinanceCount = financeAccountMapper.insertSelective(financeAccount);
+            if(insertFinanceCount < 0){
+                resultObject.setErrorCode(Constants.FAIL);
+            }
+        }else{
+            resultObject.setErrorCode(Constants.FAIL);
+        }
+
+        return resultObject;
+    }
+
+    @Override
+    public int modifyUserByUid(User updateUser) {
+        return userMapper.updateByPrimaryKeySelective(updateUser);
     }
 }

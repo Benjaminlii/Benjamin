@@ -16,8 +16,16 @@
              http://www.springframework.org/schema/aop
              http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <!-- 载入配置文件 -->
+    <context:property-placeholder location="classpath:config.properties"/>
+    <!-- 配置bean:config,保存调用API所需要的信息 -->
+    <bean class="com.Benjamin.p2p.config.Config">
+        <property name="realNameAppKey" value="${realNameAppKey}"/>
+        <property name="realNameUrl" value="${realNameUrl}"/>
+    </bean>
+
     <!-- 导入sprint mvc配置 -->
-    <import resource="applicationContext-mvc.xml" />
+    <import resource="applicationContext-mvc.xml"/>
     <!-- 导入服务消费者配置 -->
-    <import resource="applicationContext-dubbo-consumer.xml" />
+    <import resource="applicationContext-dubbo-consumer.xml"/>
 </beans>

@@ -19,4 +19,9 @@ public interface UserMapper {
      * 获取平台注册总人数
      */
     Long selectAllUserCount();
+
+    /**
+     * 根据手机号查询用户
+     */
+    User selectUserByPhone(String phone);
 }

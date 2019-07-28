@@ -1,5 +1,7 @@
 package com.Benjamin.p2p.common.constant;
 
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
 public class Constants {
     /**
      * 历史平均年化收益率
@@ -30,4 +32,39 @@ public class Constants {
      * 产品类型:散标
      */
     public static final Integer PRODUCT_TYPE_S = 2;
+
+    /**
+     * 图形验证码
+     */
+    public static final String CAPTCHA = "captcha";
+
+    /**
+     * 错误信息
+     */
+    public static final String ERROR_MESSAGE = "errorMessage";
+
+    /**
+     * OK
+     */
+    public static final String OK = "OK";
+
+    /**
+     * SUCCESS
+     */
+    public static final String SUCCESS = "SUCCESS";
+
+    /**
+     * FAIL
+     */
+    public static final String FAIL = "FAIL";
+
+    /**
+     * 新注册账户的初始金额(赠送)
+     */
+    public static final Double INIT_MONEY = 188.0;
+
+    /**
+     * 用户信息
+     */
+    public static final String SESSION_USER = "user";
 }
