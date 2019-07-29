@@ -31,7 +31,12 @@ public class User {
      * 0为店长
      * 1为店员
      */
-    private Boolean userType;
+    private Byte userType;
+
+    /**
+     * 所在店铺
+     */
+    private Shop shop;
 
     public Short getUserId() {
         return userId;
@@ -73,11 +78,11 @@ public class User {
         this.shopId = shopId;
     }
 
-    public Boolean getUserType() {
+    public Byte getUserType() {
         return userType;
     }
 
-    public void setUserType(Boolean userType) {
+    public void setUserType(Byte userType) {
         this.userType = userType;
     }
 }

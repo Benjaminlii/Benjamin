@@ -11,7 +11,7 @@ public class Shop {
     private Byte shopId;
 
     /**
-     * 店铺姓名
+     * 店铺名
      */
     private String shopName;
 
