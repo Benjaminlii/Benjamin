@@ -1,4 +1,4 @@
-package utils;
+package com.thoughtCoding.theMall.utils;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -6,6 +6,12 @@ import sun.misc.BASE64Encoder;
 import java.io.*;
 
 public class ImageUtil {
+
+//    public static void main(String[] args) {
+//        String img = imageToString("/home/benjamin/IdeaProjects/Benjamin/theMall/src/main/java/com.thoughtCoding.theMall.utils/lion.jpg");
+//        System.out.println(img);
+//        stringToImage(img, "/home/benjamin/IdeaProjects/Benjamin/theMall/src/main/java/com.thoughtCoding.theMall.utils/lion1.jpg");
+//    }
     /**
      * 字符串转图片
      *
@@ -28,7 +34,7 @@ public class ImageUtil {
                     b[i] += 256;
                 }
             }
-            OutputStream out = new FileOutputStream("D:/Systems/" + filename);
+            OutputStream out = new FileOutputStream(filename);
             out.write(b);
             out.flush();
             out.close();

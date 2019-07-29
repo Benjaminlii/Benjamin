@@ -1,4 +1,4 @@
-package httpClient;
+package com.thoughtCoding.theMall.utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
