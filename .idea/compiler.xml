@@ -9,6 +9,7 @@
         <module name="p2p-common" />
         <module name="p2p-pay" />
         <module name="p2p-exterface" />
+        <module name="mybatisGenerator" />
         <module name="theMall" />
         <module name="p2p-web" />
         <module name="p2p-timer" />

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/LeetCodeNoteBook/LeetCodeNoteBook.iml" filepath="$PROJECT_DIR$/LeetCodeNoteBook/LeetCodeNoteBook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mybatisGenerator/mybatisGenerator.iml" filepath="$PROJECT_DIR$/mybatisGenerator/mybatisGenerator.iml" />
       <module fileurl="file://$PROJECT_DIR$/p2p-parent/p2p-common/p2p-common.iml" filepath="$PROJECT_DIR$/p2p-parent/p2p-common/p2p-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/p2p-parent/p2p-dataservice/p2p-dataservice.iml" filepath="$PROJECT_DIR$/p2p-parent/p2p-dataservice/p2p-dataservice.iml" />
       <module fileurl="file://$PROJECT_DIR$/p2p-parent/p2p-exterface/p2p-exterface.iml" filepath="$PROJECT_DIR$/p2p-parent/p2p-exterface/p2p-exterface.iml" />
