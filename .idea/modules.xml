@@ -12,6 +12,7 @@
       <module fileurl="file://$PROJECT_DIR$/p2p-parent/p2p-web/p2p-web.iml" filepath="$PROJECT_DIR$/p2p-parent/p2p-web/p2p-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/ssm-crud/ssm-crud.iml" filepath="$PROJECT_DIR$/ssm-crud/ssm-crud.iml" />
       <module fileurl="file://$PROJECT_DIR$/testJedis/testJedis.iml" filepath="$PROJECT_DIR$/testJedis/testJedis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/theMall/theMall.iml" filepath="$PROJECT_DIR$/theMall/theMall.iml" />
     </modules>
   </component>
 </project>

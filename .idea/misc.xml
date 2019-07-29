@@ -7,6 +7,7 @@
     <file type="web" url="file://$PROJECT_DIR$/p2p-parent/p2p-timer" />
     <file type="web" url="file://$PROJECT_DIR$/p2p-parent/p2p-web" />
     <file type="web" url="file://$PROJECT_DIR$/ssm-crud" />
+    <file type="web" url="file://$PROJECT_DIR$/theMall" />
     <file type="web" url="file:///media/benjamin/Data/Java/Benjamin/ssm-crud" />
   </component>
   <component name="MavenProjectsManager">
@@ -14,6 +15,7 @@
       <list>
         <option value="$PROJECT_DIR$/ssm-crud/pom.xml" />
         <option value="$PROJECT_DIR$/p2p-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/theMall/pom.xml" />
       </list>
     </option>
   </component>
