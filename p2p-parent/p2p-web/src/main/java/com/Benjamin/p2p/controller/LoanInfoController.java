@@ -1,10 +1,14 @@
 package com.Benjamin.p2p.controller;
 
+import com.Benjamin.p2p.common.constant.Constants;
 import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.loan.LoanInfo;
+import com.Benjamin.p2p.model.user.FinanceAccount;
+import com.Benjamin.p2p.model.user.User;
 import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.service.loan.BidInfoService;
 import com.Benjamin.p2p.service.loan.LoanInfoService;
+import com.Benjamin.p2p.service.user.FinanceAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +32,9 @@ public class LoanInfoController {
 
     @Autowired
     private BidInfoService bidInfoService;
+
+    @Autowired
+    private FinanceAccountService financeAccountService;
 
     /**
      * 初始化loan页面
@@ -98,8 +105,12 @@ public class LoanInfoController {
         model.addAttribute("loanInfo", loanInfo);
         model.addAttribute("bidInfoList", bidInfoList);
 
-        //TODO
         //获取当前用户的账户可用余额
+        User user = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+        if(user != null) {
+            FinanceAccount financeAccount = financeAccountService.queryFinanceAccountByUid(user.getId());
+            model.addAttribute("financeAccount", financeAccount);
+        }
 
         return "loanInfo";
     }

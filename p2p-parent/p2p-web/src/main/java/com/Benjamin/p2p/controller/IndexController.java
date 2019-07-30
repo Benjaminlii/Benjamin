@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class IndexController {
      * 首页信息初始化查询
      */
     @RequestMapping(value = "/index")
-    public String index(HttpServletRequest request, Model model){
+    public String index(HttpServletRequest request, Model model) {
 
         //获取历史平均年化收益率
         double historyAverageRate = loanInfoService.queryHistoryAverageRate();
@@ -60,22 +61,43 @@ public class IndexController {
         //获取新手宝产品:产品类型0,显示第1页,每页显示1个
         paramMap.put("productType", Constants.PRODUCT_TYPE_X);
         paramMap.put("pageSize", 1);
-        List<LoanInfo>xLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
+        List<LoanInfo> xLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
 
         //获取优选产品:产品类型1,显示第1页,每页显示4个
         paramMap.put("productType", Constants.PRODUCT_TYPE_U);
         paramMap.put("pageSize", 4);
-        List<LoanInfo>uLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
+        List<LoanInfo> uLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
 
         //获取散标产品:产品类型2,显示第1页,每页显示8个
         paramMap.put("productType", Constants.PRODUCT_TYPE_S);
         paramMap.put("pageSize", 8);
-        List<LoanInfo>sLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
+        List<LoanInfo> sLoanInfoList = loanInfoService.queryLoanInfoByProductType(paramMap);
 
         model.addAttribute("xLoanInfoList", xLoanInfoList);
         model.addAttribute("uLoanInfoList", uLoanInfoList);
         model.addAttribute("sLoanInfoList", sLoanInfoList);
 
         return "index";
+    }
+
+    @RequestMapping(value = "/loan/loadStat")
+    @ResponseBody
+    public Map<String, Object> loadStat(HttpServletRequest request) {
+        Map<String, Object> retMap = new HashMap<>();
+
+        //获取历史平均年化收益率
+        double historyAverageRate = loanInfoService.queryHistoryAverageRate();
+        retMap.put(Constants.HISTORY_AVERAGE_RATE, historyAverageRate);
+
+        //获取平台注册总人数
+        Long allUserCount = userService.queryAllUserCount();
+        retMap.put(Constants.ALL_USER_COUNT, allUserCount);
+
+        //获取平台积累投资金额
+        Double allBidMoney = bidInfoService.queryAllBidMoney();
+        retMap.put(Constants.ALL_BID_MONEY, allBidMoney);
+
+        return retMap;
+
     }
 }

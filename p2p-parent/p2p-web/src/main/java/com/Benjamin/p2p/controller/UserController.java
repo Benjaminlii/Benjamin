@@ -11,6 +11,7 @@ import com.Benjamin.p2p.service.user.UserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +23,8 @@ import java.util.regex.Pattern;
  * author:Benjamin
  * date:2019.7.27
  */
-//@Controller
-@RestController//相当于@Controller,并且在类中的每个方法上都使用了@ResponseBody注解
+@Controller
+//@RestController//相当于@Controller,并且在类中的每个方法上都使用了@ResponseBody注解
 public class UserController {
 
     @Autowired
@@ -39,7 +40,7 @@ public class UserController {
      * 检查手机号是否存在
      */
     @RequestMapping(value = "/loan/checkPhone")
-//    @ResponseBody
+    @ResponseBody
     public Object checkPhone(HttpServletRequest request,
                              @RequestParam(value = "phone", required = true) String phone) {
         Map<String, String> retMap = new HashMap<>();
@@ -62,7 +63,7 @@ public class UserController {
      * 验证图形验证码
      */
     @RequestMapping(value = "/loan/checkCaptcha", method = RequestMethod.POST)//等同于@PostMapping(....)
-//    @ResponseBody
+    @ResponseBody
     public Map<String, Object> checkCaptcha(HttpServletRequest request,
                                             @RequestParam(value = "captcha", required = true) String captcha) {
         Map<String, Object> retMap = new HashMap<>();
@@ -84,6 +85,7 @@ public class UserController {
      * 注册
      */
     @RequestMapping(value = "/loan/register")
+    @ResponseBody
     public Map<String, Object> register(HttpServletRequest request,
                                         @RequestParam(value = "phone", required = true) String phone,
                                         @RequestParam(value = "loginPassword", required = true) String loginPassword,
@@ -123,6 +125,7 @@ public class UserController {
      * 实名认证
      */
     @RequestMapping(value = "/loan/verifyRealName")
+    @ResponseBody
     public Map<String, Object> verifyRealName(HttpServletRequest request,
                                               @RequestParam(value = "realName", required = true) String realName,
                                               @RequestParam(value = "idCard", required = true) String idCard,
@@ -199,6 +202,7 @@ public class UserController {
      * 获取当前登录用户的账户信息
      */
     @RequestMapping(value = "/loan/myFinanceAccount")
+    @ResponseBody
     public FinanceAccount myFinanceAccount(HttpServletRequest request) {
 
         //从session中获取user
@@ -208,6 +212,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loan/login")
+    @ResponseBody
     public Map<String, Object> login(HttpServletRequest request,
                                      @RequestParam(value = "phone", required = true) String phone,
                                      @RequestParam(value = "loginPassword", required = true) String loginPassword){
@@ -230,11 +235,24 @@ public class UserController {
             return retMap;
         }
 
-        //登陆成功,讲user添加到session中
+        //登陆成功,将user添加到session中
         request.getSession().setAttribute(Constants.SESSION_USER, user);
 
         retMap.put(Constants.ERROR_MESSAGE, Constants.OK);
 
         return retMap;
+    }
+
+    @RequestMapping(value = "/loan/logout")
+    public String logout(HttpServletRequest request){
+
+        //让session失效或者清楚session中的key
+        //session失效
+        request.getSession().invalidate();
+
+        //清除key
+//        request.getSession().removeAttribute(Constants.SESSION_USER);
+
+        return "redirect:/index";
     }
 }

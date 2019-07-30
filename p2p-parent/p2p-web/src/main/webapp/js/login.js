@@ -144,3 +144,21 @@ function login() {
     }
 }
 
+$(function(){
+    //获取平台基本信息
+    loadStat();
+});
+
+//获取平台基本信息
+function loadStat() {
+    $.ajax({
+        url:"loan/loadStat",
+        type:"get",
+        success:function(jsonObject) {
+            $(".historyAverageRate").html(jsonObject.historyAverageRate);
+            $("#allUserCount").html(jsonObject.allUserCount);
+            $("#allBidMoney").html(jsonObject.allBidMoney);
+        }
+    });
+}
+

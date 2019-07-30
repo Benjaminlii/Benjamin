@@ -75,7 +75,7 @@
                                 </ul>
                                 <div class="enter">进入“<a href="/webPage/account/acc.html?mytime=1501046257129">我的小金库</a>”
                                 </div>
-                                <div class="exit"><a href="loan/logout">退出</a></div>
+                                <div class="exit"><a href="${pageContext.request.contextPath}/loan/logout">退出</a></div>
                             </div>
                         </div>
                     </div>

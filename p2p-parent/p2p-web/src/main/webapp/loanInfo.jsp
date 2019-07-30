@@ -134,13 +134,18 @@
                         <dl class="usable">
                             <dt>我的账户可用</dt>
                             <dd>资金(元)：
+                                <c:choose>
+                                    <c:when test="${empty user}">
+                                        <!-- 判断用户是否登录：未登录，显示登录连接 -->
+                                        <span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a
+                                                href="${pageContext.request.contextPath}/login.jsp">请登录</a></span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <!-- 判断用户是否登录：已登录，显示可用余额 -->
+                                        <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">${financeAccount.availableMoney}</span>
+                                    </c:otherwise>
+                                </c:choose>
 
-                                <!-- 判断用户是否登录：未登录，显示登录连接 -->
-                                <span style="font-size:18px;color:#ff6161;vertical-align:bottom;"><a
-                                        href="${pageContext.request.contextPath}/login.jsp">请登录</a></span>
-
-                                <!-- 判断用户是否登录：已登录，显示可用余额 -->
-                                <%-- <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">${financeAccount.availableMoney}</span> --%>
 
                             </dd>
                         </dl>
@@ -183,10 +188,138 @@
 <!--页脚end-->
 
 <script type="text/javascript">
+    //验证用户输入的投资金额
+    function checkMoney() {
+        //获取用户输入的投资金额
+        var bidMoney = $.trim($("#bidMoney").val());
+        //获取产品详情信息
+        var productType = "${loanInfo.productType}";//产品类型
+        var rate = "${loanInfo.rate}";//产品利率
+        var cycle = "${loanInfo.cycle}";//产品周期
+
+        /*
+        验证用户输入投资金额
+        a)  投资金额不能为空
+        b)  投资金额应为大于0 的整数
+        c)  投资金额应为100的整数
+        d)  投资金额不能低于起投金额
+        e)  单笔投资金额不能超过最大投资限额
+        f)  验证通过计算预计本息收益
+        2.  计算预计本息收益，公式如下：
+        本息收益  =  投资金额  *  （年化利率/100/365）*  投资周期
+        投资周期：单位为天 */
+
+        if ("" == bidMoney) {
+            $(".max-invest-money").html("");
+            $(".max-invest-money").html("请输入投资金额");
+            return false;
+        } else if (isNaN(bidMoney)) {
+            $(".max-invest-money").html("");
+            $(".max-invest-money").html("投资金额只能为数字");
+            return false;
+        } else if (bidMoney <= 0) {
+            $(".max-invest-money").html("");
+            $(".max-invest-money").html("投资金额应为大于0的数字");
+            return false;
+        } else if (bidMoney % 100 != 0) {
+            $(".max-invest-money").html("");
+            $(".max-invest-money").html("投资金额应为100的整数倍");
+            return false;
+        } else {
+            $(".max-invest-money").html("");
+            //计算收益 = 投资金额 * 天利率 * 投资周期（单位为天）
+            var incomeMoney = "";
+            //根据产品周期分类：新手宝（周期为天）和优先、散标（周期为月）
+            if ("0" == productType) {
+                //新手宝产品
+                incomeMoney = bidMoney * (parseFloat(rate) / 100 / 365) * cycle;
+            } else {
+                //优先或散标产品
+                incomeMoney = bidMoney * (parseFloat(rate) / 100 / 365) * cycle * 30;
+            }
+
+            //Math.pow(x,y)：指x的y次幂
+            incomeMoney = Math.round(incomeMoney * Math.pow(10, 2)) / Math.pow(10, 2);
+            $("#shouyi").html(incomeMoney);
+        }
+        return true;
+    }
+
+    //用户投资
+    function invest() {
+        /*
+            投资业务规则
+                1.用户是否登录
+                2.用户是否进行实名认证
+                3.投资金额是否小于启投金额
+                4.投资金额是否超过单笔投资限额
+                5.投资金额是否超过产品剩余可投金额
+        */
+
+        //获取用户的投资金额
+        var bidMoney = $.trim($("#bidMoney").val());
+        //获取产品详情信息
+        var user = "${user}";
+        var name = "${user.name}";//用户真实姓名
+        var loanId = "${loanInfo.id}";//产品标识
+        var bidMinLimit = "${loanInfo.bidMinLimit}";//最小投资金额
+        var bidMaxLimit = "${loanInfo.bidMaxLimit}";//最大投资限额
+        var leftProductMoney = "${loanInfo.leftProductMoney}";//产品剩余可投金额
+        var availableMoney = "${financeAccount.availableMoney}";//帐户可用余额
+
+        if (checkMoney()) {
+
+            if ("" == user) {
+                if (confirm("您尚未登录，请登录")) {
+                    window.location.href = "login.jsp";
+                }
+            } else if ("" == name) {
+                if (confirm("您尚未实名认证，请去实名认证")) {
+                    window.location.href = "realName.jsp";
+                }
+            } else if (parseFloat(bidMoney) < parseFloat(bidMinLimit)) {
+                $(".max-invest-money").html("");
+                $(".max-invest-money").html("起投金额不得低于" + bidMinLimit + "元");
+            } else if (parseFloat(bidMoney) > parseFloat(bidMaxLimit)) {
+                $(".max-invest-money").html("");
+                $(".max-invest-money").html("投资金额不得高于" + bidMaxLimit + "元");
+            } else if (parseFloat(bidMoney) > parseFloat(leftProductMoney)) {
+                $(".max-invest-money").html("");
+                $(".max-invest-money").html("投资金额不得超过产品剩余可投金额" + leftProductMoney + "元");
+            } else if (parseFloat(bidMoney) > parseFloat(availableMoney)) {
+                $(".max-invest-money").html("");
+                $(".max-invest-money").html("帐户余额不足，请充值");
+            } else {
+                $(".max-invest-money").html("");
+                $.ajax({
+                    url: "loan/invest",
+                    type: "post",
+                    data: {
+                        "bidMoney": bidMoney,
+                        "loanId": loanId
+                    },
+                    success: function (jsonObject) {
+                        if (jsonObject.errorMessage == "ok") {
+                            $("#failurePayment").show();
+                            $("#dialog-overlay1").show();
+                        } else {
+                            $(".max-invest-money").html("");
+                            $(".max-invest-money").html(jsonObject.errorMessage);
+                        }
+                    },
+                    error: function () {
+                        $(".max-invest-money").html("客官请稍后再投资...");
+                    }
+                });
+
+            }
+        }
+    }
+
     function closeit() {
         $("#failurePayment").hide();
         $("#dialog-overlay1").hide();
-        window.location.href = "${pageContext.request.contextPath}/loan/myCenter";
+        window.location.href = "loan/myCenter";
     }
 </script>
 </body>
