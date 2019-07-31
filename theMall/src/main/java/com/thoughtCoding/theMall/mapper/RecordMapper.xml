@@ -209,4 +209,10 @@
         when customer_age &lt;= 70 and customer_age &lt; 80 then '70'
         else null end
     </select>
+
+    <select id="selectRecordsByCustomerId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from t_record
+        where customer_id = #{customerId}
+    </select>
 </mapper>

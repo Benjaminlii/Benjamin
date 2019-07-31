@@ -1,6 +1,7 @@
 package com.thoughtCoding.theMall.service.serviceImpl;
 
 import com.thoughtCoding.theMall.mapper.RecordMapper;
+import com.thoughtCoding.theMall.model.Record;
 import com.thoughtCoding.theMall.service.RecordService;
 import com.thoughtCoding.theMall.vo.Statistics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,5 +100,10 @@ public class RecordServiceImpl implements RecordService {
         }
 
         return rtn;
+    }
+
+    @Override
+    public List<Record> queryRecordsByCustomerId(Integer customerId) {
+        return recordMapper.selectRecordsByCustomerId(customerId);
     }
 }

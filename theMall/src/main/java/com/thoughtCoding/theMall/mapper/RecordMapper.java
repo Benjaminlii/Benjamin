@@ -69,4 +69,9 @@ public interface RecordMapper {
      * 得到(某类型物品)近一年按年龄划分的出货量
      */
     List<Statistics> selectCountByAge(String recordType);
+
+    /**
+     * 得到对应顾客id的历史购买记录
+     */
+    List<Record> selectRecordsByCustomerId(Integer customerId);
 }

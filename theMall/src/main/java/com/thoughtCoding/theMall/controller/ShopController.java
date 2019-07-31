@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 public class ShopController {
 
     @Autowired
-    public ShopService shopService;
+    private ShopService shopService;
 
     /**
      * 得到店铺信息列表

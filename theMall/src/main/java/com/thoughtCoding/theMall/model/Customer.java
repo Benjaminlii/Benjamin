@@ -4,13 +4,18 @@ import java.util.Date;
 
 /**
  * author:Benjamin
- * date:2019.7.19
+ * date:2019.7.31
  */
 public class Customer {
     /**
      * 顾客id
      */
     private Integer customerId;
+
+    /**
+     * 顾客姓名
+     */
+    private String customerName;
 
     /**
      * 顾客性别
@@ -22,6 +27,11 @@ public class Customer {
      * 顾客年龄
      */
     private Byte customerAge;
+
+    /**
+     * 手机号
+     */
+    private String phone;
 
     /**
      * 顾客刷脸id
@@ -47,12 +57,28 @@ public class Customer {
      */
     private Date customerLastTime;
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Integer getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Byte getCustomerSex() {

@@ -18,7 +18,7 @@ public class Constants {
     /**
      * OK
      */
-    public static final Object OK = "OK";
+    public static final String OK = "OK";
 
     /**
      * session中存储的user
@@ -29,8 +29,37 @@ public class Constants {
      * 所有的UserType
      */
     public static final Set<Byte> USER_TYPE = new HashSet<>();
+
+    /**
+     * 神目api请求地址
+     */
+    public static final String SHENMU_URL = "https://api-bmw.deepcam.cn/api/vip";
+
+    /**
+     * action
+     */
+    public static final String ACTION = "action";
+
+    /**
+     * TODO
+     * 公司id
+     */
+    public static final String COMPANY_ID = "xxxxxxxxxx";
+
+    /**
+     * TODO
+     * 访问秘钥
+     */
+    public static final String ACCESS_KEY = "xxxxxxxxxxxxxxxx";
+
+    /**
+     * 安全签名
+     */
+    public static final String SIGN = "sign";
+
     static {
         USER_TYPE.add((byte) 0);
         USER_TYPE.add((byte) 1);
     }
+
 }

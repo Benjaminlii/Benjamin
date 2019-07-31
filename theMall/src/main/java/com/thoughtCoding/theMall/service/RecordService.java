@@ -1,5 +1,8 @@
 package com.thoughtCoding.theMall.service;
 
+import com.thoughtCoding.theMall.model.Record;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,4 +24,9 @@ public interface RecordService {
      * 得到(某类型物品)近一年按年龄划分的出货量
      */
     Map<String, Integer> queryCountByAge(String recordType);
+
+    /**
+     * 根据顾客id查询历史购买记录
+     */
+    List<Record> queryRecordsByCustomerId(Integer customerId);
 }
