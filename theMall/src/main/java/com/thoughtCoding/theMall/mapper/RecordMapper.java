@@ -1,6 +1,10 @@
 package com.thoughtCoding.theMall.mapper;
 
 import com.thoughtCoding.theMall.model.Record;
+import com.thoughtCoding.theMall.vo.Statistics;
+
+import java.util.List;
+import java.util.Map;
 
 public interface RecordMapper {
     /**
@@ -50,4 +54,19 @@ public interface RecordMapper {
      * @mbggenerated Mon Jul 29 19:45:41 CST 2019
      */
     int updateByPrimaryKey(Record record);
+
+    /**
+     * 按月统计某年(某物)的销量
+     */
+    List<Statistics> selectCountByMonth(Map<String, String> map);
+
+    /**
+     * 得到(某物品)某一月按日统计的出货量
+     */
+    List<Statistics> selectCountByDay(Map<String, String> selectMap);
+
+    /**
+     * 得到(某类型物品)近一年按年龄划分的出货量
+     */
+    List<Statistics> selectCountByAge(String recordType);
 }

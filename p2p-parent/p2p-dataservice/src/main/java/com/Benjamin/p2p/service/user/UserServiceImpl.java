@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
         //根据phone查询出数据库中的user信息
         User user = userMapper.selectUserByPhoneAndLoginPassword(phone, loginPassword);
         if (user != null) {
-            //更新注册时间
+            //更新上次登录时间
             User updateUser = new User();
             updateUser.setId(user.getId());
             updateUser.setLastLoginTime(new Date());

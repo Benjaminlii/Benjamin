@@ -50,4 +50,16 @@ public interface UserMapper {
      * @mbggenerated Mon Jul 29 16:54:03 CST 2019
      */
     int updateByPrimaryKey(User record);
+
+    /**
+     * 通过用户名和密码查询user
+     */
+    User selectUserByUsernameAndPassword(String username, String password);
+
+    /**
+     * 根据username查询user
+     * @param username
+     * @return
+     */
+    User selectUserByUsername(String username);
 }

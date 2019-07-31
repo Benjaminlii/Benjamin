@@ -93,7 +93,7 @@
                         <div class="vertical-side">投资列表</div>
                         <dl class="record-list">
                             <dt>
-                                <span class="record-num">序号</span>
+                                <span class="record-sum">序号</span>
                                 <span class="invest-user">投资人</span>
                                 <span class="invest-money">投资金额(元)</span>
                                 <span class="invest-time">投资时间</span>
@@ -107,7 +107,7 @@
                                     <c:forEach items="${bidInfoList}" var="bidInfo" varStatus="index">
                                         <!-- 如果有投资记录，循环遍历显示 -->
                                         <dd>
-                                            <span class="record-num">${index.count }</span>
+                                            <span class="record-sum">${index.count }</span>
                                             <span class="invest-user">${fn:substring(bidInfo.user.phone,0,3)}******${fn:substring(bidInfo.user.phone,9,11)}</span>
                                             <span class="invest-money">${bidInfo.bidMoney }</span>
                                             <span class="invest-time"><fmt:formatDate value="${bidInfo.bidTime}"

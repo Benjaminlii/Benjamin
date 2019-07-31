@@ -124,6 +124,20 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- spring-data-redis依赖的JAR配置 -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.8.4.RELEASE</version>
+        </dependency>
+
+        <!-- jedis依赖的JAR配置 -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+
         <!-- Spring AOP支持start -->
         <dependency>
             <groupId>org.aspectj</groupId>

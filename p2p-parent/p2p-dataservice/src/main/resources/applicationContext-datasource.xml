@@ -16,8 +16,6 @@
              http://www.springframework.org/schema/aop
              http://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <context:property-placeholder location="classpath:db.properties"/>
-
     <!-- 配置数据库连接，阿里数据源druid连接池 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <property name="url" value="jdbc:mysql://localhost:3306/p2p?characterEncoding=utf-8&amp;serverTimezone=UTC"/>
