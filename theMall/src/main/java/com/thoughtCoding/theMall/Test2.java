@@ -1,4 +1,4 @@
-package com.thoughtCoding.theMall.vo;
+package com.thoughtCoding.theMall;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;

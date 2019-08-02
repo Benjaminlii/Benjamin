@@ -180,6 +180,24 @@
         group by day(record_data)
     </select>
 
+    <!-- 按周统计销售量 -->
+    <resultMap id="weekSumResultMap" type="com.thoughtCoding.theMall.vo.Statistics">
+        <result column="week" property="time" jdbcType="SMALLINT"/>
+        <result column="sum" property="sum" jdbcType="SMALLINT"/>
+    </resultMap>
+    <select id="selectCountByWeek" resultMap="weekSumResultMap">
+        select week(record_data)-week(record_data-interval day(record_data)-1 day)+1 week,count(*) sum
+        from t_record
+        <where>
+            <if test="recordType != null">
+                record_type = #{recordType} and
+            </if>
+            year(record_data) = #{year} and
+            month(record_data) = #{month}
+        </where>
+        group by week(record_data)
+    </select>
+
     <!-- 按天年龄销售量 -->
     <resultMap id="ageSumResultMap" type="com.thoughtCoding.theMall.vo.Statistics">
         <result column="age" property="time" jdbcType="SMALLINT"/>
@@ -210,9 +228,29 @@
         else null end
     </select>
 
+    <!-- 查询customerId对应顾客的所有历史购买记录 -->
     <select id="selectRecordsByCustomerId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from t_record
         where customer_id = #{customerId}
     </select>
+
+    <!-- 查询customerId对应顾客历史购买最多的商品种类 -->
+    <select id="selectFavoriteByCustomerId" resultType="java.lang.String">
+        select a.record_type
+        from (select record_type, count(*) sum
+              from t_record
+              where customer_id = #{customerId}
+              group by record_type
+              ORDER BY count(*) desc
+              limit 1) a;
+    </select>
+
+    <select id="selectAllRecordTypes" resultType="java.lang.String">
+        select DISTINCT record_type
+        from t_record
+        group by record_type
+    </select>
+
 </mapper>

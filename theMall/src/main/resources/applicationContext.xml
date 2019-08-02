@@ -42,6 +42,7 @@
 
     <!-- 扫描注解 -->
     <context:component-scan base-package="com.thoughtCoding.theMall.service" />
+    <context:component-scan base-package="com.thoughtCoding.theMall.utils" />
 
     <!-- 事务相关控制 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

@@ -80,6 +80,40 @@ public class RecordServiceImpl implements RecordService {
     }
 
     @Override
+    public Map<String, Integer> queryCountByWeek(String recordType, Integer year, Integer month) {
+        Map<String, Integer> rtn = new HashMap<>();
+
+        //封装查询信息
+        Map<String, String> selectMap = new HashMap<>();
+        selectMap.put("recordType", recordType);
+        selectMap.put("year", year + "");
+        selectMap.put("month", month + "");
+
+        //查询list
+        List<Statistics> statistics = recordMapper.selectCountByWeek(selectMap);
+
+        //将list中的信息转存至map中
+        for (Statistics statistic : statistics) {
+            rtn.put("week" + statistic.getTime(), statistic.getSum());
+        }
+
+        //获取这个月的天数
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date(year, month, 1));
+        int numOfDay = calendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
+
+        //将未统计的月份标为零
+        Set<String> set = rtn.keySet();
+        for (int i = 1; i <= numOfDay; i++) {
+            if (!set.contains("week" + i)) {
+                rtn.put("week" + i, 0);
+            }
+        }
+
+        return rtn;
+    }
+
+    @Override
     public Map<String, Integer> queryCountByAge(String recordType) {
         Map<String, Integer> rtn = new HashMap<>();
 
@@ -105,5 +139,15 @@ public class RecordServiceImpl implements RecordService {
     @Override
     public List<Record> queryRecordsByCustomerId(Integer customerId) {
         return recordMapper.selectRecordsByCustomerId(customerId);
+    }
+
+    @Override
+    public String queryFavoriteByCustomerId(Integer customerId) {
+        return recordMapper.selectFavoriteByCustomerId(customerId);
+    }
+
+    @Override
+    public List<String> queryAllRecordTypes() {
+        return recordMapper.selectAllRecordTypes();
     }
 }

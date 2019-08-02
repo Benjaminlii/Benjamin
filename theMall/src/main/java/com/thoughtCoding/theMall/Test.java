@@ -53,15 +53,16 @@ public class Test {
 //        System.out.println(SignUtil.getSign(map));
 
         //测试mqtt
-        String path = "applicationContext.xml";
-        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(path);
-
-        Test.setMqttHandler((MqttPahoMessageHandler) applicationContext.getBean("mqttHandler"));
-
-        Scanner in = new Scanner(System.in);
-        while (true){
-            Test.send("theMall", in.nextLine());
-        }
+//        String path = "applicationContext.xml";
+//        ApplicationContext applicationContext = new ClassPathXmlApplicationContext(path);
+//
+//        Test.setMqttHandler((MqttPahoMessageHandler) applicationContext.getBean("mqttHandler"));
+//
+//        Scanner in = new Scanner(System.in);
+//        while (true){
+//            Test.send("theMall", in.nextLine());
+//        }
+        System.out.println(new Date().getTime());
 
     }
 }

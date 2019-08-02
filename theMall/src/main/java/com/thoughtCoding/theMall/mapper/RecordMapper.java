@@ -66,6 +66,11 @@ public interface RecordMapper {
     List<Statistics> selectCountByDay(Map<String, String> selectMap);
 
     /**
+     * 得到(某物品)某一月按周统计的出货量
+     */
+    List<Statistics> selectCountByWeek(Map<String, String> selectMap);
+
+    /**
      * 得到(某类型物品)近一年按年龄划分的出货量
      */
     List<Statistics> selectCountByAge(String recordType);
@@ -74,4 +79,14 @@ public interface RecordMapper {
      * 得到对应顾客id的历史购买记录
      */
     List<Record> selectRecordsByCustomerId(Integer customerId);
+
+    /**
+     * 查询customerId对应顾客购买次数对多的商品类别
+     */
+    String selectFavoriteByCustomerId(Integer customerId);
+
+    /**
+     * 查询所有的商品类型
+     */
+    List<String> selectAllRecordTypes();
 }

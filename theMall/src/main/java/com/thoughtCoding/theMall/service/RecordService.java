@@ -21,6 +21,11 @@ public interface RecordService {
     Map<String, Integer> queryCountByDay(String recordType, int year, int month);
 
     /**
+     * 得到(某类型物品)某一月按周统计的出货量
+     */
+    Map<String, Integer> queryCountByWeek(String recordType, Integer year, Integer month);
+
+    /**
      * 得到(某类型物品)近一年按年龄划分的出货量
      */
     Map<String, Integer> queryCountByAge(String recordType);
@@ -29,4 +34,14 @@ public interface RecordService {
      * 根据顾客id查询历史购买记录
      */
     List<Record> queryRecordsByCustomerId(Integer customerId);
+
+    /**
+     * 查询对应id顾客历史购买记录中出现最多的种类
+     */
+    String queryFavoriteByCustomerId(Integer customerId);
+
+    /**
+     * 查询所有的商品类型
+     */
+    List<String> queryAllRecordTypes();
 }

@@ -48,6 +48,19 @@ public class RecordController {
     }
 
     /**
+     * 得到(某类型物品)某一月按周统计的出货量
+     */
+    @RequestMapping(value = "/totalNumberByWeek")
+    @ResponseBody
+    public Map<String, Integer> totalNumberByWeek(HttpServletRequest request,
+                                                 @RequestParam(value = "recordType", required = false) String recordType,
+                                                 @RequestParam(value = "year", required = false) Integer year,
+                                                 @RequestParam(value = "month", required = false) Integer month) {
+        Map<String, Integer> map = recordService.queryCountByWeek(recordType, year, month);
+        return map;
+    }
+
+    /**
      * 得到(某类型物品)按年龄划分的近一年出货量
      */
     @RequestMapping(value = "/totalNumberByAge")
@@ -70,5 +83,16 @@ public class RecordController {
         List<Record> records = recordService.queryRecordsByCustomerId(customerId);
 
         return records;
+    }
+
+    /**
+     * 查询购买过的所有商品类型
+     */
+    @RequestMapping(value = "/getRecordTypes")
+    @ResponseBody
+    public List<String> getRecordTypes(HttpServletRequest request){
+        List<String> recordTypes = recordService.queryAllRecordTypes();
+
+        return recordTypes;
     }
 }

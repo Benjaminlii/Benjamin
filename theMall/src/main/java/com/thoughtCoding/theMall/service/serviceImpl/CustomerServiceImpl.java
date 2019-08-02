@@ -1,12 +1,10 @@
 package com.thoughtCoding.theMall.service.serviceImpl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.thoughtCoding.theMall.mapper.CustomerMapper;
 import com.thoughtCoding.theMall.model.Customer;
 import com.thoughtCoding.theMall.service.CustomerService;
 import com.thoughtCoding.theMall.utils.HttpClientUtils;
-import com.thoughtCoding.theMall.utils.MD5Util;
 import com.thoughtCoding.theMall.utils.SignUtil;
 import com.thoughtCoding.theMall.vo.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +73,32 @@ public class CustomerServiceImpl implements CustomerService {
 
         return true;
     }
+
+    @Override
+    public Customer captureCustomer(Integer customerId, String customerName) {
+        Customer customer = null;
+
+        //查询对应id的customer
+        customer = customerMapper.selectByPrimaryKey(customerId);
+        if(customerName.equals(customer.getCustomerName())){
+            //姓名匹配,判断并更新时间
+            Date lastTime = customer.getCustomerLastTime();
+
+            //判断上次到店的时间
+            if(new Date().getTime() - lastTime.getTime() > (1000*60*60*24)){
+                //距离上次到店超过一天
+                Customer updateCustomer = new Customer();
+                updateCustomer.setCustomerId(customerId);
+                updateCustomer.setCustomerLastTime(new Date());
+
+                customerMapper.updateByPrimaryKeySelective(updateCustomer);
+            }
+        }else{
+            //姓名不匹配
+            customer = null;
+        }
+
+        return customer;
+    }
+
 }
