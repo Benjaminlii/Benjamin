@@ -40,7 +40,6 @@ public class ImageUtil {
             out.close();
             return true;
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return false;
