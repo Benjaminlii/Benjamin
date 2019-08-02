@@ -2,6 +2,8 @@ package com.Benjamin.p2p.mapper.user;
 
 import com.Benjamin.p2p.model.user.FinanceAccount;
 
+import java.util.Map;
+
 public interface FinanceAccountMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -21,4 +23,11 @@ public interface FinanceAccountMapper {
      * @return
      */
     FinanceAccount selectFinanceAccountByUid(Integer uid);
+
+    /**
+     * 用户投资时更新账户可用余额
+     * @param paraMap
+     * @return
+     */
+    int updateAvailableMoneyByUid(Map<String, Object> paraMap);
 }

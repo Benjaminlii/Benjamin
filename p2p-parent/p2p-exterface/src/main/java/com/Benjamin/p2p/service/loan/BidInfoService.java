@@ -1,8 +1,10 @@
 package com.Benjamin.p2p.service.loan;
 
 import com.Benjamin.p2p.model.loan.BidInfo;
+import com.Benjamin.p2p.model.vo.ResultObject;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 投资记录业务逻辑
@@ -23,4 +25,10 @@ public interface BidInfoService {
      * @return
      */
     List<BidInfo> queryBidListByLoanId(Integer loanId);
+
+    /**
+     * 用户的投资操作
+     * @param paraMap userId:用户id,loanId:产品id,bidMoney:投资金额
+     */
+    ResultObject invest(Map<String, Object> paraMap);
 }

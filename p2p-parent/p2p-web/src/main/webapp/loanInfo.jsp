@@ -88,7 +88,6 @@
                     <ul class="tabNav clearfix">
                         <li><a id="one3" href="javascript:void(0);" class="s">投资记录</a></li>
                     </ul>
-
                     <div class="invest-record" id="con_one_3" style="display:block">
                         <div class="vertical-side">投资列表</div>
                         <dl class="record-list">
@@ -145,8 +144,6 @@
                                         <span style="font-size:18px;color:#ff6161;vertical-align:bottom;">${financeAccount.availableMoney}</span>
                                     </c:otherwise>
                                 </c:choose>
-
-
                             </dd>
                         </dl>
                         <div class="expect-box">
@@ -167,7 +164,6 @@
         </div>
     </div>
     <!--页中end-->
-
 </div>
 <!--散标投资 end-->
 
@@ -186,7 +182,6 @@
 <!--页脚start-->
 <jsp:include page="commons/footer.jsp"/>
 <!--页脚end-->
-
 <script type="text/javascript">
     //验证用户输入的投资金额
     function checkMoney() {
@@ -292,7 +287,7 @@
             } else {
                 $(".max-invest-money").html("");
                 $.ajax({
-                    url: "loan/invest",
+                    url: "/p2p/loan/invest",
                     type: "post",
                     data: {
                         "bidMoney": bidMoney,
@@ -313,7 +308,11 @@
                 });
 
             }
+
+
         }
+
+
     }
 
     function closeit() {
