@@ -123,11 +123,7 @@ public class BidInfoServiceImpl implements BidInfoService {
 
         //以上产生了fail的操作需要进行回滚
         if (Constants.FAIL.equals(resultObject.getErrorCode())) {
-            try {
-                throw new Exception();
-            } catch (Exception e) {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); //事务回滚
-            }
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); //事务回滚
         }
         return resultObject;
     }
