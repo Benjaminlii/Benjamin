@@ -2,6 +2,7 @@ package com.Benjamin.p2p.mapper.user;
 
 import com.Benjamin.p2p.model.user.FinanceAccount;
 
+import java.util.List;
 import java.util.Map;
 
 public interface FinanceAccountMapper {
@@ -30,4 +31,11 @@ public interface FinanceAccountMapper {
      * @return
      */
     int updateAvailableMoneyByUid(Map<String, Object> paraMap);
+
+    /**
+     * 收益结算时更新账户余额
+     * @param paramMap
+     * @return
+     */
+    Integer updateFinanceAccountByIncomeBack(Map<String, Object> paramMap);
 }

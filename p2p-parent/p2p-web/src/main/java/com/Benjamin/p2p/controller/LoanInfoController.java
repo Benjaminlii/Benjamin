@@ -5,6 +5,7 @@ import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.loan.LoanInfo;
 import com.Benjamin.p2p.model.user.FinanceAccount;
 import com.Benjamin.p2p.model.user.User;
+import com.Benjamin.p2p.model.vo.BidUserTop;
 import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.service.loan.BidInfoService;
 import com.Benjamin.p2p.service.loan.LoanInfoService;
@@ -85,8 +86,9 @@ public class LoanInfoController {
         if (ptype != null)
             model.addAttribute("ptype", ptype);
 
-        //TODO
         //用户投资排行榜
+        List<BidUserTop> bidUserTopList = bidInfoService.queryBidUserTop();
+        model.addAttribute("bidUserTopList", bidUserTopList);
 
         return "loan";
     }

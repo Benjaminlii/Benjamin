@@ -28,4 +28,11 @@ public interface BidInfoMapper {
      * @return
      */
     List<BidInfo> selectBidInfoListByLoanId(Integer loanId);
+
+    /**
+     * 根据产品标识获取产品的所有投资记录
+     * @param loanId
+     * @return
+     */
+    List<BidInfo> selectBidInfoByLoanId(Integer loanId);
 }

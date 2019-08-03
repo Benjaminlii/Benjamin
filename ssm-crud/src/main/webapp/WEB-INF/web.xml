@@ -6,6 +6,7 @@
          version="4.0">
 
     <!-- 启动Spring容器 -->
+    <!-- 方法二:http://www.360doc.com/content/14/0331/15/13228794_365210590.shtml -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:applicationContext.xml</param-value>

@@ -180,4 +180,11 @@
         on b.uid = u.id
         where loan_id = #{value}
     </select>
+
+    <!-- 根据产品标识获取该产品的所有投资记录 -->
+    <select id="selectBidInfoByLoanId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from b_bid_info
+        where loan_id = #{loanId}
+    </select>
 </mapper>

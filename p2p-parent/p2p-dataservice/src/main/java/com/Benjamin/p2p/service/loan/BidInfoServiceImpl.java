@@ -6,16 +6,16 @@ import com.Benjamin.p2p.mapper.loan.LoanInfoMapper;
 import com.Benjamin.p2p.mapper.user.FinanceAccountMapper;
 import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.loan.LoanInfo;
+import com.Benjamin.p2p.model.vo.BidUserTop;
 import com.Benjamin.p2p.model.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -114,6 +114,14 @@ public class BidInfoServiceImpl implements BidInfoService {
                         }
                     }
                 }
+
+                //将用户的投资金额存放到redis中,使用zset存放
+                redisTemplate.opsForZSet().incrementScore(
+                        Constants.INVEST_TOP,
+                        (String) paraMap.get("phone"),
+                        (Double) paraMap.get("bidMoney")
+                );
+
             } else {
                 resultObject.setErrorCode(Constants.FAIL);
             }
@@ -126,6 +134,34 @@ public class BidInfoServiceImpl implements BidInfoService {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly(); //事务回滚
         }
         return resultObject;
+    }
+
+    @Override
+    public List<BidUserTop> queryBidUserTop() {
+        List<BidUserTop> bidUserTops = new ArrayList<>();
+
+        //取出Redis中key为Constants.INVEST_TOP,按倒序排序后,的第0~9个value
+        Set<ZSetOperations.TypedTuple<Object>> typedTuples =
+                redisTemplate.opsForZSet().reverseRangeWithScores(Constants.INVEST_TOP, 0, 9);
+
+        //使用迭代器迭代
+        Iterator<ZSetOperations.TypedTuple<Object>> iterator = typedTuples.iterator();
+        while (iterator.hasNext()){
+            //取出迭代器中当前对象
+            ZSetOperations.TypedTuple<Object> next = iterator.next();
+            //取出手机号 score
+            String phone = (String) next.getValue();
+            Double score = next.getScore();
+
+            //封装数据
+            BidUserTop bidUserTop = new BidUserTop();
+            bidUserTop.setPhone(phone);
+            bidUserTop.setScore(score);
+
+            bidUserTops.add(bidUserTop);
+        }
+
+        return bidUserTops;
     }
 }
 

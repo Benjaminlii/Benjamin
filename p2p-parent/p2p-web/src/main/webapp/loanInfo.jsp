@@ -294,7 +294,7 @@
                         "loanId": loanId
                     },
                     success: function (jsonObject) {
-                        if (jsonObject.errorMessage == "ok") {
+                        if (jsonObject.errorMessage == "OK") {
                             $("#failurePayment").show();
                             $("#dialog-overlay1").show();
                         } else {
@@ -318,7 +318,7 @@
     function closeit() {
         $("#failurePayment").hide();
         $("#dialog-overlay1").hide();
-        window.location.href = "loan/myCenter";
+        window.location.href = "/p2p/myCenter.jsp";
     }
 </script>
 </body>

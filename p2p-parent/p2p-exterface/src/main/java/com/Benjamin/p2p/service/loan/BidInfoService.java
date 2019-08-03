@@ -1,6 +1,7 @@
 package com.Benjamin.p2p.service.loan;
 
 import com.Benjamin.p2p.model.loan.BidInfo;
+import com.Benjamin.p2p.model.vo.BidUserTop;
 import com.Benjamin.p2p.model.vo.ResultObject;
 
 import java.util.List;
@@ -31,4 +32,10 @@ public interface BidInfoService {
      * @param paraMap userId:用户id,loanId:产品id,bidMoney:投资金额
      */
     ResultObject invest(Map<String, Object> paraMap);
+
+    /**
+     * 从Redis缓存中获取用户排行榜
+     * @return
+     */
+    List<BidUserTop> queryBidUserTop();
 }

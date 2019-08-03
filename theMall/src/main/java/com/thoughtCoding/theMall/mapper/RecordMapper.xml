@@ -251,6 +251,7 @@
         select DISTINCT record_type
         from t_record
         group by record_type
+        order by record_type
     </select>
 
 </mapper>
