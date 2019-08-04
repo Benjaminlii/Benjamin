@@ -2,6 +2,7 @@ package com.Benjamin.p2p.service.loan;
 
 import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.vo.BidUserTop;
+import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.model.vo.ResultObject;
 
 import java.util.List;
@@ -38,4 +39,17 @@ public interface BidInfoService {
      * @return
      */
     List<BidUserTop> queryBidUserTop();
+
+    /**
+     * 查询某一用户(useId对应)的时间最近的投资记录
+     * @return
+     */
+    List<BidInfo> queryBidListByUidOrderByTime(Integer userId);
+
+    /**
+     * 分页查询投资记录
+     * @param paramMap
+     * @return
+     */
+    PaginatinoVo<BidInfo> queryBidInfoByPage(Map<String, Object> paramMap);
 }

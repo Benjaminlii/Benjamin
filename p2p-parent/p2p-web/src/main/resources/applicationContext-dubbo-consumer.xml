@@ -13,23 +13,38 @@
     <dubbo:registry protocol="zookeeper" address="192.168.1.189:2181"/>
 
     <!-- 用户业务 -->
-    <dubbo:reference id="userService" interface="com.Benjamin.p2p.service.user.UserService" version="1.0.0"
+    <dubbo:reference id="userService"
+                     interface="com.Benjamin.p2p.service.user.UserService"
+                     version="1.0.0"
                      check="false"/>
 
     <!-- 产品业务 -->
-    <dubbo:reference id="loanInfoService" interface="com.Benjamin.p2p.service.loan.LoanInfoService" version="1.0.0"
+    <dubbo:reference id="loanInfoService"
+                     interface="com.Benjamin.p2p.service.loan.LoanInfoService"
+                     version="1.0.0"
                      check="false"/>
 
     <!-- 投资业务 -->
-    <dubbo:reference id="bidInfoService" interface="com.Benjamin.p2p.service.loan.BidInfoService" version="1.0.0"
+    <dubbo:reference id="bidInfoService"
+                     interface="com.Benjamin.p2p.service.loan.BidInfoService"
+                     version="1.0.0"
                      check="false"/>
 
     <!-- 帐户业务 -->
-    <dubbo:reference id="financeAccountService" interface="com.Benjamin.p2p.service.user.FinanceAccountService"
-                     version="1.0.0" check="false"/>
+    <dubbo:reference id="financeAccountService"
+                     interface="com.Benjamin.p2p.service.user.FinanceAccountService"
+                     version="1.0.0"
+                     check="false"/>
 
     <!-- 收益业务 -->
-    <dubbo:reference id="incomeRecordService" interface="com.Benjamin.p2p.service.loan.IncomeRecordService"
-                     version="1.0.0" check="false"/>
+    <dubbo:reference id="incomeRecordService"
+                     interface="com.Benjamin.p2p.service.loan.IncomeRecordService"
+                     version="1.0.0"
+                     check="false"/>
 
+    <!-- 充值业务 -->
+    <dubbo:reference id="rechargeRecordService"
+                     interface="com.Benjamin.p2p.service.loan.RechargeRecordService"
+                     version="1.0.0"
+                     check="false"/>
 </beans>

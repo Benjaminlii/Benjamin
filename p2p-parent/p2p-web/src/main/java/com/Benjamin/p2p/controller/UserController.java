@@ -3,19 +3,27 @@ package com.Benjamin.p2p.controller;
 import com.Benjamin.p2p.common.constant.Constants;
 import com.Benjamin.p2p.common.util.HttpClientUtils;
 import com.Benjamin.p2p.config.Config;
+import com.Benjamin.p2p.model.loan.BidInfo;
+import com.Benjamin.p2p.model.loan.IncomeRecord;
+import com.Benjamin.p2p.model.loan.RechargeRecord;
 import com.Benjamin.p2p.model.user.FinanceAccount;
 import com.Benjamin.p2p.model.user.User;
 import com.Benjamin.p2p.model.vo.ResultObject;
+import com.Benjamin.p2p.service.loan.BidInfoService;
+import com.Benjamin.p2p.service.loan.IncomeRecordService;
+import com.Benjamin.p2p.service.loan.RechargeRecordService;
 import com.Benjamin.p2p.service.user.FinanceAccountService;
 import com.Benjamin.p2p.service.user.UserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -32,6 +40,15 @@ public class UserController {
 
     @Autowired
     private FinanceAccountService financeAccountService;
+
+    @Autowired
+    private BidInfoService bidInfoService;
+
+    @Autowired
+    private RechargeRecordService rechargeRecordService;
+
+    @Autowired
+    private IncomeRecordService incomeRecordService;
 
     @Autowired
     private Config config;
@@ -215,7 +232,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> login(HttpServletRequest request,
                                      @RequestParam(value = "phone", required = true) String phone,
-                                     @RequestParam(value = "loginPassword", required = true) String loginPassword){
+                                     @RequestParam(value = "loginPassword", required = true) String loginPassword) {
         Map<String, Object> retMap = new HashMap<>();
 
         //验证信息
@@ -229,7 +246,7 @@ public class UserController {
         User user = userService.login(phone, loginPassword);
 
         //判断用户是否存在
-        if(user == null){
+        if (user == null) {
             //登陆失败
             retMap.put(Constants.ERROR_MESSAGE, "用户名或密码输入有误,请重新输入.");
             return retMap;
@@ -244,7 +261,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/loan/logout")
-    public String logout(HttpServletRequest request){
+    public String logout(HttpServletRequest request) {
 
         //让session失效或者清楚session中的key
         //session失效
@@ -254,5 +271,32 @@ public class UserController {
 //        request.getSession().removeAttribute(Constants.SESSION_USER);
 
         return "redirect:/index";
+    }
+
+    @RequestMapping(value = "/loan/myCenter")
+    public String myCenter(HttpServletRequest request, Model model) {
+        //根据用户表示获取用户账户余额
+        //从session中获取用户信息
+        User sessionUser = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+
+        FinanceAccount financeAccount =
+                financeAccountService.queryFinanceAccountByUid(sessionUser.getId());
+
+        model.addAttribute("financeAccount", financeAccount);
+
+        //最近投资列表
+        List<BidInfo> bidInfoList = bidInfoService.queryBidListByUidOrderByTime(sessionUser.getId());
+        model.addAttribute("bidInfoList", bidInfoList);
+
+        //最近充值列表
+        List<RechargeRecord> rechargeRecordList =
+                rechargeRecordService.queryRechargeByUidOrderByTime(sessionUser.getId());
+        model.addAttribute("rechargeRecordList", rechargeRecordList);
+
+        //最近收益列表
+        List<IncomeRecord> incomeRecordList = incomeRecordService.queryIncomeByUidOrderByTime(sessionUser.getId());
+        model.addAttribute("incomeRecordList", incomeRecordList);
+
+        return "myCenter";
     }
 }

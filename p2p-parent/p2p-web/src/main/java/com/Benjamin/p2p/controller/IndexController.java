@@ -1,14 +1,22 @@
 package com.Benjamin.p2p.controller;
 
 import com.Benjamin.p2p.common.constant.Constants;
+import com.Benjamin.p2p.model.loan.BidInfo;
+import com.Benjamin.p2p.model.loan.IncomeRecord;
 import com.Benjamin.p2p.model.loan.LoanInfo;
+import com.Benjamin.p2p.model.loan.RechargeRecord;
+import com.Benjamin.p2p.model.user.User;
+import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.service.loan.BidInfoService;
+import com.Benjamin.p2p.service.loan.IncomeRecordService;
 import com.Benjamin.p2p.service.loan.LoanInfoService;
+import com.Benjamin.p2p.service.loan.RechargeRecordService;
 import com.Benjamin.p2p.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +39,12 @@ public class IndexController {
 
     @Autowired
     private BidInfoService bidInfoService;
+
+    @Autowired
+    private RechargeRecordService rechargeRecordService;
+
+    @Autowired
+    private IncomeRecordService incomeRecordService;
 
     /**
      * 首页信息初始化查询
@@ -99,5 +113,148 @@ public class IndexController {
 
         return retMap;
 
+    }
+
+    @RequestMapping(value = "loan/myInvest")
+    private String myInvest(HttpServletRequest request, Model model,
+                            @RequestParam(value = "currentPage", required = false) Integer currentPage) {
+        //判断当前页码是否为空,为空,默认第一页
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+
+        //分页查询参数
+        Map<String, Object> paramMap = new HashMap<>();
+        int pageSize = 9;
+
+        //起始下标
+        paramMap.put("currentPage", (currentPage - 1) * pageSize);
+
+        //截取的条数
+        paramMap.put("pageSize", pageSize);
+
+        //用户信息
+        User sessionUser = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+        paramMap.put("userId", sessionUser.getId());
+
+        //分页查询产品信息列表(产品类型,页码,每页显示几条),返回分页模型对象(总记录条数,当前页要显示的数据)
+        PaginatinoVo<BidInfo> paginatinoVo = bidInfoService.queryBidInfoByPage(paramMap);
+
+        //计算总页数
+        int totalPage = paginatinoVo.getTotal().intValue() / pageSize;
+        //求余
+        int mod = paginatinoVo.getTotal().intValue() % pageSize;
+        if (mod > 0) {
+            totalPage++;
+        }
+
+        //总记录数
+        model.addAttribute("totalRows", paginatinoVo.getTotal());
+        //总页数
+        model.addAttribute("totalPage", totalPage);
+        //每页显示数据
+        model.addAttribute("bidInfoList", paginatinoVo.getDataList());
+        //当前页码
+        model.addAttribute("currentPage", currentPage);
+
+        return "myInvest";
+    }
+
+    @RequestMapping(value = "/loan/myRecharge")
+    public String myRecharge(HttpServletRequest request, Model model,
+                             @RequestParam(value = "currentPage", required = false) Integer currentPage) {
+        //判断当前页码是否为空,为空,默认第一页
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+
+        //分页查询参数
+        Map<String, Object> paramMap = new HashMap<>();
+        int pageSize = 9;
+
+        //起始下标
+        paramMap.put("currentPage", (currentPage - 1) * pageSize);
+
+        //截取的条数
+        paramMap.put("pageSize", pageSize);
+
+        //用户信息
+        User sessionUser = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+        paramMap.put("userId", sessionUser.getId());
+
+        //分页查询产品信息列表(产品类型,页码,每页显示几条),返回分页模型对象(总记录条数,当前页要显示的数据)
+        PaginatinoVo<RechargeRecord> paginatinoVo = rechargeRecordService.queryRechargeByPage(paramMap);
+
+
+        //计算总页数
+        int totalPage = paginatinoVo.getTotal().intValue() / pageSize;
+        //求余
+        int mod = paginatinoVo.getTotal().intValue() % pageSize;
+        if (mod > 0) {
+            totalPage++;
+        }
+
+        //总记录数
+        model.addAttribute("totalRows", paginatinoVo.getTotal());
+        //总页数
+        model.addAttribute("totalPage", totalPage);
+        //每页显示数据
+        model.addAttribute("rechargeRecordList", paginatinoVo.getDataList());
+        //当前页码
+        model.addAttribute("currentPage", currentPage);
+
+        return "myRecharge";
+    }
+
+    @RequestMapping(value = "/loan/myIncome")
+    public String myIncome(HttpServletRequest request, Model model,
+                           @RequestParam(value = "currentPage", required = false) Integer currentPage) {
+        //判断当前页码是否为空,为空,默认第一页
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+
+        //分页查询参数
+        Map<String, Object> paramMap = new HashMap<>();
+        int pageSize = 9;
+
+        //起始下标
+        paramMap.put("currentPage", (currentPage - 1) * pageSize);
+
+        //截取的条数
+        paramMap.put("pageSize", pageSize);
+
+        //用户信息
+        User sessionUser = (User) request.getSession().getAttribute(Constants.SESSION_USER);
+        paramMap.put("userId", sessionUser.getId());
+
+        //分页查询产品信息列表(产品类型,页码,每页显示几条),返回分页模型对象(总记录条数,当前页要显示的数据)
+        PaginatinoVo<IncomeRecord> paginatinoVo = incomeRecordService.queryIncomeByPage(paramMap);
+
+        //计算总页数
+        int totalPage = paginatinoVo.getTotal().intValue() / pageSize;
+        //求余
+        int mod = paginatinoVo.getTotal().intValue() % pageSize;
+        if (mod > 0) {
+            totalPage++;
+        }
+
+        //总记录数
+        model.addAttribute("totalRows", paginatinoVo.getTotal());
+        //总页数
+        model.addAttribute("totalPage", totalPage);
+        //每页显示数据
+        model.addAttribute("incomeRecordList", paginatinoVo.getDataList());
+        //当前页码
+        model.addAttribute("currentPage", currentPage);
+
+        return "myIncome";
+    }
+
+    @RequestMapping(value = "/loan/myAccount")
+    public String myAccount(HttpServletRequest request, Model model) {
+
+
+        return "myAccount";
     }
 }

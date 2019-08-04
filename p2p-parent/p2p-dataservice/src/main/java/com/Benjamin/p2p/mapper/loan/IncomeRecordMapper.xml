@@ -16,6 +16,34 @@
         <result column="income_money" jdbcType="DOUBLE" property="incomeMoney"/>
         <result column="income_status" jdbcType="INTEGER" property="incomeStatus"/>
     </resultMap>
+    <!-- 收益记录与产品相关联 -->
+    <resultMap id="incomeLoanBaseResultMap" type="com.Benjamin.p2p.model.loan.IncomeRecord">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="loan_id" jdbcType="INTEGER" property="loanId"/>
+        <result column="bid_id" jdbcType="INTEGER" property="bidId"/>
+        <result column="bid_money" jdbcType="DOUBLE" property="bidMoney"/>
+        <result column="income_date" jdbcType="DATE" property="incomeDate"/>
+        <result column="income_money" jdbcType="DOUBLE" property="incomeMoney"/>
+        <result column="income_status" jdbcType="INTEGER" property="incomeStatus"/>
+        <association property="loanInfo" javaType="com.Benjamin.p2p.model.loan.LoanInfo">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+            <result column="rate" jdbcType="DOUBLE" property="rate"/>
+            <result column="cycle" jdbcType="INTEGER" property="cycle"/>
+            <result column="release_time" jdbcType="DATE" property="releaseTime"/>
+            <result column="product_type" jdbcType="INTEGER" property="productType"/>
+            <result column="product_no" jdbcType="VARCHAR" property="productNo"/>
+            <result column="product_money" jdbcType="DOUBLE" property="productMoney"/>
+            <result column="left_product_money" jdbcType="DOUBLE" property="leftProductMoney"/>
+            <result column="bid_min_limit" jdbcType="DOUBLE" property="bidMinLimit"/>
+            <result column="bid_max_limit" jdbcType="DOUBLE" property="bidMaxLimit"/>
+            <result column="product_status" jdbcType="INTEGER" property="productStatus"/>
+            <result column="product_full_time" jdbcType="TIMESTAMP" property="productFullTime"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+            <result column="product_desc" jdbcType="LONGVARCHAR" property="productDesc"/>
+        </association>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--
           WARNING - @mbggenerated
@@ -168,8 +196,36 @@
 
     <!-- 根据收益记录的状态查询所有要进行结算(收益时间到期)的收益记录列表 -->
     <select id="selectIncomeRecordByIncomeStatus" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from b_income_record
         where income_status = #{incomeStatus} and income_date = current_date ()
+    </select>
+
+    <!-- 查询某用户近期投资记录 -->
+    <select id="selectIncomeByUidOrderByTime" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from b_income_record
+        where uid = #{userId}
+        order by income_date desc
+        limit #{currentPage}, #{pageSize}
+    </select>
+
+    <!-- 查询uid为userId的收益记录数 -->
+    <select id="selectTotalByUid" resultType="java.lang.Long">
+        select count(*)
+        from b_income_record
+        where uid = #{userId}
+    </select>
+
+    <!-- 分页查询uid为userId,每页pageSize条数据,第currentPage页的收益记录 -->
+    <select id="selectIncomeByPage" resultMap="incomeLoanBaseResultMap">
+        select i.*, l.*
+        from b_income_record i
+        left join b_loan_info l on l.id = i.loan_id
+        where uid = #{userId}
+        order by release_time
+        limit #{currentPage}, #{pageSize}
     </select>
 </mapper>

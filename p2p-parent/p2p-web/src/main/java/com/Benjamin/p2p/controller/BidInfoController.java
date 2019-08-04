@@ -1,18 +1,24 @@
 package com.Benjamin.p2p.controller;
 
 import com.Benjamin.p2p.common.constant.Constants;
+import com.Benjamin.p2p.model.loan.BidInfo;
+import com.Benjamin.p2p.model.loan.LoanInfo;
 import com.Benjamin.p2p.model.user.User;
+import com.Benjamin.p2p.model.vo.BidUserTop;
+import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.model.vo.ResultObject;
 import com.Benjamin.p2p.service.loan.BidInfoService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -52,4 +58,6 @@ public class BidInfoController {
 
         return retMap;
     }
+
+
 }

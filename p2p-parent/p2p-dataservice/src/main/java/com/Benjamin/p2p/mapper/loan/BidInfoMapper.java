@@ -3,6 +3,7 @@ package com.Benjamin.p2p.mapper.loan;
 import com.Benjamin.p2p.model.loan.BidInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BidInfoMapper {
     int deleteByPrimaryKey(Integer id);
@@ -35,4 +36,26 @@ public interface BidInfoMapper {
      * @return
      */
     List<BidInfo> selectBidInfoByLoanId(Integer loanId);
+
+    /**
+     * 查询某一用户(useId对应)的时间最近的num条投资记录
+     * @param paramMap
+     * @return
+     */
+    List<BidInfo> selectBidInfoListByUidOrderByTime(Map<String, Object> paramMap);
+
+    /**
+     * 查询用户id为userId的所有投资记录
+     * @param paramMap
+     * @return
+     */
+    Long selectTotal(Map<String, Object> paramMap);
+
+    /**
+     * 分页查询用户id为userId
+     * 每页pageSize条数据,第currentPage页的投资记录
+     * @param paramMap
+     * @return
+     */
+    List<BidInfo> selectBidInfoListByPage(Map<String, Object> paramMap);
 }

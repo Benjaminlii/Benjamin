@@ -9,6 +9,7 @@ import com.Benjamin.p2p.mapper.user.FinanceAccountMapper;
 import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.loan.IncomeRecord;
 import com.Benjamin.p2p.model.loan.LoanInfo;
+import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,5 +137,34 @@ public class IncomeRecordServiceImpl implements IncomeRecordService {
         }
 
 
+    }
+
+    @Override
+    public List<IncomeRecord> queryIncomeByUidOrderByTime(Integer userId) {
+
+        //封装参数
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userId", userId);
+        //分页查询每页3条数据,查询第一页
+        paramMap.put("currentPage", 1);
+        paramMap.put("pageSize", 3);
+
+        return incomeRecordMapper.selectIncomeByUidOrderByTime(paramMap);
+    }
+
+    @Override
+    public PaginatinoVo<IncomeRecord> queryIncomeByPage(Map<String, Object> paramMap) {
+        PaginatinoVo<IncomeRecord> paginatinoVo = new PaginatinoVo<>();
+        Integer userId = (Integer) paramMap.get("userId");
+
+        //查询uid为userId的总记录数
+        Long total = incomeRecordMapper.selectTotalByUid(userId);
+        paginatinoVo.setTotal(total);
+
+        //查询数据
+        List<IncomeRecord> incomeRecordList = incomeRecordMapper.selectIncomeByPage(paramMap);
+        paginatinoVo.setDataList(incomeRecordList);
+
+        return paginatinoVo;
     }
 }

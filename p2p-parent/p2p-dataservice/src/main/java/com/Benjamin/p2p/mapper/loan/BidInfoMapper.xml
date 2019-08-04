@@ -16,7 +16,6 @@
     </resultMap>
 
     <!-- 投资记录与用户的一对一映射 -->
-
     <resultMap id="BidUserBaseResultMap" type="com.Benjamin.p2p.model.loan.BidInfo">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="loan_id" jdbcType="INTEGER" property="loanId"/>
@@ -33,6 +32,33 @@
             <result column="add_time" jdbcType="TIMESTAMP" property="addTime"/>
             <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
             <result column="header_image" jdbcType="VARCHAR" property="headerImage"/>
+        </association>
+    </resultMap>
+
+    <!-- 投资记录与产品的一对一映射 -->
+    <resultMap id="BidLoanBaseResultMap" type="com.Benjamin.p2p.model.loan.BidInfo">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="loan_id" jdbcType="INTEGER" property="loanId"/>
+        <result column="uid" jdbcType="INTEGER" property="uid"/>
+        <result column="bid_money" jdbcType="DOUBLE" property="bidMoney"/>
+        <result column="bid_time" jdbcType="TIMESTAMP" property="bidTime"/>
+        <result column="bid_status" jdbcType="INTEGER" property="bidStatus"/>
+        <association property="loanInfo" javaType="com.Benjamin.p2p.model.loan.LoanInfo">
+            <id column="id" jdbcType="INTEGER" property="id"/>
+            <result column="product_name" jdbcType="VARCHAR" property="productName"/>
+            <result column="rate" jdbcType="DOUBLE" property="rate"/>
+            <result column="cycle" jdbcType="INTEGER" property="cycle"/>
+            <result column="release_time" jdbcType="DATE" property="releaseTime"/>
+            <result column="product_type" jdbcType="INTEGER" property="productType"/>
+            <result column="product_no" jdbcType="VARCHAR" property="productNo"/>
+            <result column="product_money" jdbcType="DOUBLE" property="productMoney"/>
+            <result column="left_product_money" jdbcType="DOUBLE" property="leftProductMoney"/>
+            <result column="bid_min_limit" jdbcType="DOUBLE" property="bidMinLimit"/>
+            <result column="bid_max_limit" jdbcType="DOUBLE" property="bidMaxLimit"/>
+            <result column="product_status" jdbcType="INTEGER" property="productStatus"/>
+            <result column="product_full_time" jdbcType="TIMESTAMP" property="productFullTime"/>
+            <result column="version" jdbcType="INTEGER" property="version"/>
+            <result column="product_desc" jdbcType="LONGVARCHAR" property="productDesc"/>
         </association>
     </resultMap>
 
@@ -183,8 +209,36 @@
 
     <!-- 根据产品标识获取该产品的所有投资记录 -->
     <select id="selectBidInfoByLoanId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>
+        select
+        <include refid="Base_Column_List"/>
         from b_bid_info
         where loan_id = #{loanId}
+    </select>
+
+    <!-- 查询某一用户(useId对应)的时间最近的num条投资记录 -->
+    <select id="selectBidInfoListByUidOrderByTime" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from b_bid_info
+        where uid = #{userId}
+        order by bid_time desc
+        limit #{currentPage},#{pageSize}
+    </select>
+
+    <!-- 查询用户id为userId的所有投资记录 -->
+    <select id="selectTotal" resultType="java.lang.Long">
+        select count(*)
+        from b_bid_info
+        where uid = #{userId}
+    </select>
+
+    <!-- 分页查询用户id为userId,每页pageSize条数据,第currentPage页的投资记录 -->
+    <select id="selectBidInfoListByPage" resultMap="BidLoanBaseResultMap">
+        select b.*, l.*
+        from b_bid_info b
+        left join b_loan_info l on b.loan_id = l.id
+        where uid = #{userId}
+        order by bid_time desc
+        limit #{currentPage}, #{pageSize}
     </select>
 </mapper>

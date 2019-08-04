@@ -7,6 +7,7 @@ import com.Benjamin.p2p.mapper.user.FinanceAccountMapper;
 import com.Benjamin.p2p.model.loan.BidInfo;
 import com.Benjamin.p2p.model.loan.LoanInfo;
 import com.Benjamin.p2p.model.vo.BidUserTop;
+import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import com.Benjamin.p2p.model.vo.ResultObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundValueOperations;
@@ -162,6 +163,36 @@ public class BidInfoServiceImpl implements BidInfoService {
         }
 
         return bidUserTops;
+    }
+
+    @Override
+    public List<BidInfo> queryBidListByUidOrderByTime(Integer userId) {
+
+        //封装参数
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userId", userId);
+        //分页查询每页3条数据,查询第一页
+        paramMap.put("currentPage", 1);
+        paramMap.put("pageSize", 3);
+
+        return bidInfoMapper.selectBidInfoListByUidOrderByTime(paramMap);
+    }
+
+    @Override
+    public PaginatinoVo<BidInfo> queryBidInfoByPage(Map<String, Object> paramMap) {
+        PaginatinoVo<BidInfo> paginatinoVo = new PaginatinoVo<>();
+
+        //查询总记录数
+        Long total = bidInfoMapper.selectTotal(paramMap);
+
+        paginatinoVo.setTotal(total);
+
+        //查询当页码数据
+        List<BidInfo> bidInfoList = bidInfoMapper.selectBidInfoListByPage(paramMap);
+
+        paginatinoVo.setDataList(bidInfoList);
+
+        return paginatinoVo;
     }
 }
 

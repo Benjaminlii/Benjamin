@@ -1,5 +1,13 @@
 package com.Benjamin.leetcode;
 
+/**
+ * 完全二叉树的结点数
+ *
+ * 递归求二叉树结点数即可
+ *
+ * author:Benjamin
+ * date:2019.8.4
+ */
 public class LeetCode222 {
     static class TreeNode {
         int val;
