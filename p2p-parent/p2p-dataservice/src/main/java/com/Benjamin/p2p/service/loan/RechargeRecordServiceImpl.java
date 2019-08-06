@@ -1,6 +1,7 @@
 package com.Benjamin.p2p.service.loan;
 
 import com.Benjamin.p2p.mapper.loan.RechargeRecordMapper;
+import com.Benjamin.p2p.mapper.user.FinanceAccountMapper;
 import com.Benjamin.p2p.model.loan.RechargeRecord;
 import com.Benjamin.p2p.model.vo.PaginatinoVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Map;
  */
 @Service
 public class RechargeRecordServiceImpl implements RechargeRecordService {
+
+    @Autowired
+    private FinanceAccountMapper financeAccountMapper;
 
     @Autowired
     private RechargeRecordMapper rechargeRecordMapper;
@@ -46,5 +50,30 @@ public class RechargeRecordServiceImpl implements RechargeRecordService {
         paginatinoVo.setDataList(rechargeRecordList);
 
         return paginatinoVo;
+    }
+
+    @Override
+    public Integer addRechargeRecord(RechargeRecord rechargeRecord) {
+        return rechargeRecordMapper.insertSelective(rechargeRecord);
+    }
+
+    @Override
+    public Integer modifyRechargeRecordByRechargeNo(RechargeRecord updateRechargeRecord) {
+        return rechargeRecordMapper.updateRechargeRecordByRechargeRecordNo(updateRechargeRecord);
+    }
+
+    @Override
+    public Integer recharge(Map<String, Object> paramMap) {
+        //更新账户余额
+        Integer updateCount = financeAccountMapper.updateFinanceAccountByRecharge(paramMap);
+        //TODO
+        //TODO
+        //TODO
+        //TODO
+        //TODO
+
+        //更改充值记录的状态
+
+        return null;
     }
 }

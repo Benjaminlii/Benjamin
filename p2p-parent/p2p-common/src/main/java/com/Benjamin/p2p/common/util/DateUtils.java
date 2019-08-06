@@ -1,5 +1,6 @@
 package com.Benjamin.p2p.common.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -37,5 +38,13 @@ public class DateUtils {
         instance.add(Calendar.MONTH, month);
 
         return instance.getTime();
+    }
+
+    /**
+     * 获取 yyyyMMddHHmmssSSS 形式的时间字符串
+     * @return
+     */
+    public static String getTimeStamp() {
+        return new SimpleDateFormat("yyyyyMMddHHmmssSSS").format(new Date());
     }
 }

@@ -39,4 +39,11 @@ public interface RechargeRecordMapper {
      * @return
      */
     List<RechargeRecord> selectRechargeByPage(Map<String, Object> paramMap);
+
+    /**
+     * 根据充值订单编号更新订单信息
+     * @param updateRechargeRecord
+     * @return
+     */
+    Integer updateRechargeRecordByRechargeRecordNo(RechargeRecord updateRechargeRecord);
 }

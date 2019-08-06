@@ -47,4 +47,10 @@
                      interface="com.Benjamin.p2p.service.loan.RechargeRecordService"
                      version="1.0.0"
                      check="false"/>
+
+    <!-- 唯一数字业务 -->
+    <dubbo:reference id="onlyNumberService"
+                     interface="com.Benjamin.p2p.service.loan.OnlyNumberService"
+                     version="1.0.0"
+                     check="false"/>
 </beans>

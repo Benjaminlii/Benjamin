@@ -65,7 +65,7 @@ public class RecordServiceImpl implements RecordService {
 
         //获取这个月的天数
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date(year, month, 1));
+        calendar.setTime(new Date(year, month-1, 1));
         int numOfDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         //将未统计的月份标为零

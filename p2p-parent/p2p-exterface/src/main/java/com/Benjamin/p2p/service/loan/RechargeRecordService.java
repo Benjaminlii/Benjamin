@@ -26,4 +26,25 @@ public interface RechargeRecordService {
      * @return
      */
     PaginatinoVo<RechargeRecord> queryRechargeByPage(Map<String, Object> paramMap);
+
+    /**
+     * 添加充值记录
+     * @param rechargeRecord
+     * @return
+     */
+    Integer addRechargeRecord(RechargeRecord rechargeRecord);
+
+    /**
+     * 根据唯一的充值订单号更新充值记录
+     * @param updateRechargeRecord
+     * @return
+     */
+    Integer modifyRechargeRecordByRechargeNo(RechargeRecord updateRechargeRecord);
+
+    /**
+     * 给用户充值[更新账户可用余额,更新充值记录状态为1]
+     * @param paramMap
+     * @return
+     */
+    Integer recharge(Map<String, Object> paramMap);
 }

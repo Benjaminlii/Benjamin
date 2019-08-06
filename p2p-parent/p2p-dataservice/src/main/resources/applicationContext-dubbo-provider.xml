@@ -51,4 +51,10 @@
                    version="1.0.0"
                    timeout="15000"/>
 
+    <!-- 唯一数字业务 -->
+    <dubbo:service interface="com.Benjamin.p2p.service.loan.OnlyNumberService"
+                   ref="onlyNumberServiceImpl"
+                   version="1.0.0"
+                   timeout="15000"/>
+
 </beans>

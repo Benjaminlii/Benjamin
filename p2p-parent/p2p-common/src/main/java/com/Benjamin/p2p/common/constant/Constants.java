@@ -72,4 +72,9 @@ public class Constants {
      * 用户投资排行榜
      */
     public static final String INVEST_TOP = "investTop";
+
+    /**
+     * 全局唯一标识
+     */
+    public static final String ONLY_NUMBER = "onlyNumber";
 }
