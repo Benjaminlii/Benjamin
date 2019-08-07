@@ -43,6 +43,9 @@ public interface RechargeRecordService {
 
     /**
      * 给用户充值[更新账户可用余额,更新充值记录状态为1]
+     * userId 用户id
+     * rechargeMoney 新增余额数
+     * rechargeNo 充值订单唯一编号
      * @param paramMap
      * @return
      */

@@ -66,14 +66,20 @@ public class RechargeRecordServiceImpl implements RechargeRecordService {
     public Integer recharge(Map<String, Object> paramMap) {
         //更新账户余额
         Integer updateCount = financeAccountMapper.updateFinanceAccountByRecharge(paramMap);
-        //TODO
-        //TODO
-        //TODO
-        //TODO
-        //TODO
 
-        //更改充值记录的状态
-
-        return null;
+        if (updateCount > 0){
+            //更改充值记录的状态
+            RechargeRecord updateRechargeRecord = new RechargeRecord();
+            updateRechargeRecord.setRechargeNo((String) paramMap.get("rechargeNo"));
+            updateRechargeRecord.setRechargeStatus("1");
+            Integer updateCount2 = rechargeRecordMapper.updateRechargeRecordByRechargeRecordNo(updateRechargeRecord);
+            if (updateCount2 > 0){
+                return 1;
+            }else {
+                return 0;
+            }
+        }else{
+            return 0;
+        }
     }
 }

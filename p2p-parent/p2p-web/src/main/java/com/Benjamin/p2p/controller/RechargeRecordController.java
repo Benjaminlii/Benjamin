@@ -55,8 +55,8 @@ public class RechargeRecordController {
         if (addCount > 0) {
             //向pay工程的支付方法传递参数
             model.addAttribute("p2p_alipay_pay_url", "http://localhost:8082/pay/api/alipay");
-            model.addAttribute("rechargeNo", rechargeNo);
-            model.addAttribute("rechargeMoney", rechargeMoney);
+            model.addAttribute("out_trade_no", rechargeNo);
+            model.addAttribute("total_amount", rechargeMoney);
             model.addAttribute("subject", "支付宝充值");
         } else {
             model.addAttribute("trade_msg", "系统繁忙,清朝后再试.");
@@ -121,21 +121,12 @@ public class RechargeRecordController {
                     paramMap.put("rechargeMoney", total_amount);
                     Integer rechargeCount = rechargeRecordService.recharge(paramMap);
 
-                    if(rechargeCount < 0){
+                    if(rechargeCount <= 0){
                         model.addAttribute("trade_msg", "充值人数过多,请稍后再试.");
                         return "toRechargeBack";
                     }
 
                 }
-                if(StringUtils.equals(tradeStatus, "TRADE_CLOSED")){
-                    //更新充值记录为2,标识充值失败
-
-                }
-                if(StringUtils.equals(tradeStatus, "TRADE_CLOSED")){
-                    //更新充值记录为2,标识充值失败
-
-                }
-
             }else{
                 //通信失败
                 model.addAttribute("trade_msg", "通信失败请稍后再试");
@@ -148,7 +139,7 @@ public class RechargeRecordController {
 
         }
 
-        return "toRechargeBack";
+        return "redirect:/loan/myCenter";
     }
 
     @RequestMapping(value = "/loan/toWxpayRecharge")

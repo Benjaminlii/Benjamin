@@ -183,7 +183,7 @@
     </select>
 
     <!-- 根据充值订单编号更新订单信息 -->
-    <select id="updateRechargeRecordByRechargeRecordNo">
+    <update id="updateRechargeRecordByRechargeRecordNo">
         update b_recharge_record
         <set>
             <if test="rechargeStatus != null">
@@ -200,5 +200,5 @@
             </if>
         </set>
         where recharge_no = #{rechargeNo}
-    </select>
+    </update>
 </mapper>

@@ -38,4 +38,13 @@ public interface FinanceAccountMapper {
      * @return
      */
     Integer updateFinanceAccountByIncomeBack(Map<String, Object> paramMap);
+
+    /**
+     * 用户充值时,更新账户可用余额
+     * userId 用户id
+     * rechargeMoney 新增余额数
+     * @param paramMap
+     * @return
+     */
+    Integer updateFinanceAccountByRecharge(Map<String, Object> paramMap);
 }

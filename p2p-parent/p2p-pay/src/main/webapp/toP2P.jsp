@@ -7,7 +7,7 @@
     <title>加载中....</title>
 </head>
 <body>
-<form action="${pay_p2p_alipay_back_url}" method="post">
+<form action="${pay_p2p_return_url}" method="post">
     <input type="hidden" name="signVerified" value="${signVerified}"/>
     <c:forEach items="${params}" var="paramMap">
         <input type="hidden" name="${paramMap.key}" value="${paramMap.value}"/>

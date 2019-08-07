@@ -22,7 +22,7 @@
     <!-- 导入sprint mvc配置 -->
     <import resource="applicationContext-mvc.xml"/>
 
-    <bean class="com.Benjamin.p2p.pay.config.AlipayConfig">
+    <bean id="alipayConfig" class="com.Benjamin.p2p.pay.config.AlipayConfig">
         <property name="alipayAppid" value="${alipayAppid}"/>
         <property name="alipayGetwayUrl" value="${alipayGetwayUrl}"/>
         <property name="alipayMerchantPrivateKey" value="${alipayMerchantPrivateKey}"/>
