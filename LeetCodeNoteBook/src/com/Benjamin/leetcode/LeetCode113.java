@@ -43,16 +43,22 @@ public class LeetCode113 {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
         List<List<Integer>> rtn = new ArrayList<>();
         List<Integer> list = new ArrayList<>();
-        return path(root, sum, list, rtn);
+        path(root, sum, list, rtn);
+        return rtn;
     }
 
-    public List<List<Integer>> path(TreeNode root, int sum, List<Integer> list, List<List<Integer>> rtn){
+    /**
+     * @param list 保存当前路径,向下递归一层时将当前结点放入,退出当前函数时讲当前结点取出
+     * @param rtn 总结果
+     */
+    public void path(TreeNode root, int sum, List<Integer> list, List<List<Integer>> rtn){
         if (root == null){
-            return rtn;
+            return ;
         }
 
         list.add(root.val);
 
+        //sum减当前结点的值判断是否为零
         if(root.left == null && root.right == null && sum - root.val == 0) {
             rtn.add(new ArrayList<>(list));
         }
@@ -61,8 +67,6 @@ public class LeetCode113 {
         path(root.right, sum-root.val, list, rtn);
 
         list.remove(list.size()-1);
-
-        return rtn;
     }
 
 }
