@@ -35,7 +35,7 @@ public class CustomerController {
                                            @RequestParam(value = "customerSex", required = true) Byte customerSex,
                                            @RequestParam(value = "customerAge", required = true) Byte customerAge,
                                            @RequestParam(value = "phone", required = true) String phone,
-                                           @RequestParam(value = "image", required = true) File image) {
+                                           @RequestParam(value = "image", required = false) File image) {
         Map<String, String> retMap = new HashMap<>();
 
         Boolean isOk = customerService.AddCustomer(customerName, customerSex, customerAge, phone, image);
