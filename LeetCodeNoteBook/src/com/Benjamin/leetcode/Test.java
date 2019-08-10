@@ -1,8 +1,9 @@
 package com.Benjamin.leetcode;
 
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * ClassName:Test
@@ -15,65 +16,51 @@ import java.util.List;
  */
 public class Test {
     public static void main(String[] args) {
-        System.out.println(getMaxNum("TTTYYYTTTTTTTTTTTTTTTTTTTTTTTTTYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"));
-        System.out.println(getNumBetweenAAndB(-23, -23));
+        List<Integer> nums = new ArrayList<>();
+//        nums.add(1);
+//        nums.add(4);
+//        nums.add(3);
+//        nums.add(2);
+//        nums.add(5);
+        nums.add(1);
+        nums.add(2);
+        nums.add(2);
+        nums.add(1);
+        nums.add(1);
+        nums.add(1);
+
+        System.out.println(demo(nums));
     }
 
-    public static int getMaxNum(String ty) {
-        int rtn = 0;
-        List<String> tyList = new ArrayList<>(Arrays.asList(ty.split("")));
-        int length = tyList.size();
-        int flag[][] = new int[length][2];
-        for (int[] ints : flag) {
-            ints[0] = 0;
-            ints[1] = 0;
-        }
-        for (int i = 0; i < length; i++) {
-            for (int j = 0; j <= i; j++) {
-                if ("T".equals(tyList.get(i))) {
-                    flag[j][1]++;
-                } else if ("Y".equals(tyList.get(i))) {
-                    flag[j][0]++;
-                }
-                if (flag[j][0] == flag[j][1]) {
-                    int num = flag[j][0] + flag[j][1];
-                    if (num > rtn) {
-                        rtn = num;
-                    }
-                }
+    public static int demo(List<Integer> nums) {
+        int count = 0;
+        int i = 0, j = nums.size() - 1;
+
+        while (i < j) {
+            while (nums.get(i + 1) > nums.get(i)) {
+                i++;
+            }
+            while (nums.get(j) < nums.get(j - 1)) {
+                j--;
+            }
+
+            if (i == j) {
+                break;
+            }
+
+            int num1 = nums.get(i) + 1 - nums.get(i + 1);
+            int num2 = nums.get(j) + 1 - nums.get(j - 1);
+            if (num1 < num2) {
+                nums.set(i + 1, nums.get(i) + 1);
+                count += num1;
+                i++;
+            } else {
+                nums.set(j - 1, nums.get(j) + 1);
+                count += num2;
+                j--;
             }
         }
-        return rtn;
+
+        return count;
     }
-
-    public static String getNumBetweenAAndB(int a, int b) {
-        int rtn = 0;
-
-        String lastNumA = (a + "").charAt((a + "").length() - 1) + "";
-
-        String lastNumB = (b + "").charAt((b + "").length() - 1) + "";
-
-        if ("0".equals(lastNumA) || "4".equals(lastNumA) ||
-                "0".equals(lastNumB) || "4".equals(lastNumB)) {
-            return "illegal input";
-        }
-        if (a > b) {
-            int tmp = a;
-            a = b;
-            b = tmp;
-        }
-
-        for (int i = a + 1; i <= b; i++) {
-            String numString = i + "";
-            String lastNum = numString.charAt(numString.length() - 1) + "";
-            if ("0".equals(lastNum) || "4".equals(lastNum)) {
-                continue;
-            }
-            rtn++;
-        }
-
-        return rtn + "";
-    }
-
-
 }

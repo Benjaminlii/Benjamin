@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="p2p-common" />
         <module name="p2p-pay" />
+        <module name="spring-boot" />
         <module name="p2p-exterface" />
         <module name="mybatisGenerator" />
         <module name="theMall" />
@@ -27,8 +28,16 @@
       <module name="p2p-pay" target="1.8" />
       <module name="p2p-timer" target="1.8" />
       <module name="p2p-web" target="1.8" />
+      <module name="spring-boot" target="1.8" />
+      <module name="springBoot" target="1.8" />
       <module name="ssm-crud" target="1.7" />
       <module name="theMall" target="1.8" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spring-boot" options="-parameters" />
+      <module name="springBoot" options="-parameters" />
+    </option>
   </component>
 </project>
