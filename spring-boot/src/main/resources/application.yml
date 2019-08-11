@@ -1,0 +1,17 @@
+server:
+  port: 8089
+
+person:
+  name: Benjamin
+  age: 20
+  aBoolean: true
+  birth: 1999/7/17
+  map:
+    k1: v1
+    k2: v2
+  list:
+    - l1
+    - l2
+  dog:
+    name: aaa
+    age: 2
