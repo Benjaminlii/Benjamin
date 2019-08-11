@@ -24,43 +24,43 @@ public class LeetCode155 {
 
     }
 
-}
+    static class MinStack {
 
-class MinStack {
+        private int data;
+        private MinStack next = null;
 
-    private int data;
-    private MinStack next = null;
-
-    /**
-     * initialize your data structure here.
-     */
-    public MinStack() {
-    }
-
-    public void push(int x) {
-        MinStack minStack = new MinStack();
-        minStack.data = x;
-        minStack.next = this.next;
-        this.next = minStack;
-    }
-
-    public void pop() {
-        this.next = this.next.next;
-    }
-
-    public int top() {
-        return this.next.data;
-    }
-
-    public int getMin() {
-        MinStack minStack = this.next;
-        int minNum = minStack.data;
-        while(minStack != null){
-            if (minNum > minStack.data){
-                minNum = minStack.data;
-            }
-            minStack = minStack.next;
+        /**
+         * initialize your data structure here.
+         */
+        public MinStack() {
         }
-        return minNum;
+
+        public void push(int x) {
+            MinStack minStack = new MinStack();
+            minStack.data = x;
+            minStack.next = this.next;
+            this.next = minStack;
+        }
+
+        public void pop() {
+            this.next = this.next.next;
+        }
+
+        public int top() {
+            return this.next.data;
+        }
+
+        public int getMin() {
+            MinStack minStack = this.next;
+            int minNum = minStack.data;
+            while(minStack != null){
+                if (minNum > minStack.data){
+                    minNum = minStack.data;
+                }
+                minStack = minStack.next;
+            }
+            return minNum;
+        }
     }
 }
+
