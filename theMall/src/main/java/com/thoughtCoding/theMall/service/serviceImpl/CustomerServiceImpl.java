@@ -61,9 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
         paramMap.put(Constants.SIGN, sign);
 
         paramMap.put("image", image);
-        //发送请求 TODO
-//        String result = HttpClientUtils.doPost(Constants.SHENMU_URL, paramMap);
-        String result = "{code:1000}";
+        //发送请求
+        String result = HttpClientUtils.doPost(Constants.SHENMU_URL, paramMap);
+//        String result = "{code:1000}";
         JSONObject jsonObject = JSONObject.parseObject(result);
 
         if(jsonObject.getInteger("code") != 1000){

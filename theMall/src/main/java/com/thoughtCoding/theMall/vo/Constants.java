@@ -41,16 +41,14 @@ public class Constants {
     public static final String ACTION = "action";
 
     /**
-     * TODO
      * 公司id
      */
-    public static final String COMPANY_ID = "xxxxxxxxxx";
+    public static final String COMPANY_ID = "59";
 
     /**
-     * TODO
      * 访问秘钥
      */
-    public static final String ACCESS_KEY = "xxxxxxxxxxxxxxxx";
+    public static final String ACCESS_KEY = "3c61f53f63cd29a73d7ce822f4ee68cf";
 
     /**
      * 安全签名
