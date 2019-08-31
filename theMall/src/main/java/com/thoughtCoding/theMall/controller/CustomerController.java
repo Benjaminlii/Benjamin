@@ -58,6 +58,9 @@ public class CustomerController {
                                            @RequestParam(value = "frame_url", required = true) String frame_url,//帧图url,可能为空串
                                            @RequestParam(value = "timestamp", required = true) Long timestamp//捕捉到脸的时间戳
     ) {
+        Map<String, String[]> map = request.getParameterMap();
+
+
         Map<String, Object> retMap = new HashMap<>();
         Map<String, Object> goToAndroid = new HashMap<>();
 
