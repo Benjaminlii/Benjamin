@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>开启服务</title>
+</head>
+<body>
+<h3><a name="header-n17" class="md-header-anchor md-print-anchor" href="af://n17"> </a><span>开启服务</span></h3>
+<h4><a name="header-n18" class="md-header-anchor md-print-anchor" href="af://n18"> </a><span>mysql开启安全服务(自启动)</span>
+</h4>
+<p><span>/usr/bin/mysqld_safe &amp; </span></p>
+<h4><a name="header-n20" class="md-header-anchor md-print-anchor" href="af://n20"> </a><span>Redis</span></h4>
+<p><span>redis-server /usr/local/redis/redis-5.0.5/redis.conf</span></p>
+<h4><a name="header-n22" class="md-header-anchor md-print-anchor" href="af://n22"> </a><span>zookeeper</span></h4>
+<p><span>sudo /usr/local/zookeeper/bin/zkServer.sh start</span></p>
+<h3><a name="header-n24" class="md-header-anchor md-print-anchor" href="af://n24"> </a><span>mosquitto(默认端口1883)</span>
+</h3>
+<p><span>用户:Benjamin----litao.   发布订阅</span></p>
+<p><span>thoughtCoding----tc123123   订阅</span></p>
+<p><span>sudo mosquitto -c /etc/mosquitto/mosquitto.conf -d</span></p>
+<h4><a name="header-n28" class="md-header-anchor md-print-anchor" href="af://n28"> </a><span>订阅hello:</span></h4>
+<p><span>mosquitto_sub -t hello</span></p>
+<h4><a name="header-n30" class="md-header-anchor md-print-anchor" href="af://n30"> </a><span>hello主题发消息:</span></h4>
+<p><span>mosquitto_pub -t hello -h localhost -m &quot;hello world!&quot;</span></p>
+<p>&nbsp;</p>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Linux的文件权限与目录设置</title>
+</head>
+<body>
+<h1><a name="header-n136" class="md-header-anchor md-print-anchor" href="af://n136"> </a><span>二.Linux的文件权限与目录设置</span></h1>
+<h2><a name="header-n137" class="md-header-anchor md-print-anchor" href="af://n137"> </a><span>1.用户与用户组</span></h2>
+<p><span>同一个用户组的用户成员可以共享满足当前用户组权限的文件.</span></p>
+<p><span>每个账号都可以有多个用户组的支持.</span></p>
+<p><span>root用户拥有所有文件的权限.</span></p>
+<h2><a name="header-n141" class="md-header-anchor md-print-anchor" href="af://n141"> </a><span>2.Linux文件权限概念</span></h2>
+<h3><a name="header-n142" class="md-header-anchor md-print-anchor" href="af://n142"> </a><span>(1).Linux文件属性</span></h3>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565938167871.png' alt='1565938167871' referrerPolicy='no-referrer' /></p>
+<p><span>文件类型权限 链接数 文件所有者 所属用户组 文件大小 上次修改时间 文件名</span></p>
+<p><span>文件类型有十个字符:</span></p>
+<ul>
+    <li><span>第一个字符代表这个文件的类型,为目录(d),文件(-),链接(|),存储设备文件(b)和穿行端口设备(c)</span></li>
+    <li><span>后面的九位分为3x3,分别代表拥有者权限,所属用户组权限,其他权限</span></li>
+    <li><span>每三位为rwx,分别为读权限,写权限和可执行权限.</span></li>
+
+</ul>
+<p><span>文件名前如果有 [ . ],那么这个文件是隐藏文件,使用ls命令展示文件列表是要附加选项 -a 才能展示.</span></p>
+<p><span>Linux文件权限的重要性:</span></p>
+<ul>
+    <li><span>保护系统,系统中的一些文件不能随便暴露,否则密码等重要信息会被窃取.</span></li>
+    <li><span>团队开发软件或数据共享功能</span></li>
+
+</ul>
+<h3><a name="header-n160" class="md-header-anchor md-print-anchor" href="af://n160"> </a><span>(2).如何修改文件的属性与权限</span></h3>
+<blockquote><p><span>chgrp: 修改文件所属用户组</span></p>
+    <p><span>chown: 修改文件拥有者</span></p>
+    <p><span>chmod: 修改文件的权限</span></p>
+</blockquote>
+<h4><a name="header-n165" class="md-header-anchor md-print-anchor" href="af://n165"> </a><span>1).修改所属用户组</span></h4>
+<blockquote><p><span>chgrp  [选项].. 用户组名 文件名</span></p>
+    <p><span>选项与参数:</span></p>
+    <p>	<span>-R:递归修改用户组</span></p>
+</blockquote>
+<p><span>要修改的用户组名必须要在/etc/group文件中存在</span></p>
+<h4><a name="header-n171" class="md-header-anchor md-print-anchor" href="af://n171"> </a><span>2).修改文件拥有者</span></h4>
+<blockquote><p><span>chown [选项]... </span><span>[</span><span>所有者</span><span>]</span><span>[</span><span>:</span><span>[</span><span>组</span><span>]</span><span>]</span><span> 文件...</span></p>
+    <p><span>选项与参数:fuhao</span></p>
+    <p>	<span>-R: 递归...</span></p>
+</blockquote>
+<p><span>用户必须是已经存在于系统中的账号</span></p>
+<p><span>省略所有者也可以用来修改所属用户组</span></p>
+<h4><a name="header-n178" class="md-header-anchor md-print-anchor" href="af://n178"> </a><span>3).修改权限</span></h4>
+<p><strong><span>数字设置权限:</span></strong></p>
+<blockquote><p><span>chmod [选项]... 八进制模式 文件..</span></p>
+</blockquote>
+<p><span>八进制模式: 将rwx分别换成421,再转换为八进制数字就可以代表一种用户的权限,那么三位八进制就可以全面的描述当前文件的权限.</span></p>
+<p><span>775:可运行.sh文件的常用权限</span></p>
+<p><span>740:同组可读权限</span></p>
+<p><span>符号设置权限:</span></p>
+<blockquote><p><span>chmod u=rws,go-w 文件名</span></p>
+</blockquote>
+<figure><table>
+    <thead>
+    <tr><th><span>命令名</span></th><th><span>身份</span></th><th><span>动作</span></th><th><span>权限</span></th><th><span>文件名</span></th></tr></thead>
+    <tbody><tr><td><span>chmod</span></td><td><span>u (user)</span></td><td><span>+ (添加权限)</span></td><td><span>r</span></td><td><span>..........</span></td></tr><tr><td>&nbsp;</td><td><span>g (group)</span></td><td><span>- (移除权限)</span></td><td><span>w</span></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td><span>o (othor)</span></td><td><span>= (设置权限)</span></td><td><span>x</span></td><td>&nbsp;</td></tr><tr><td>&nbsp;</td><td><span>a (all)</span></td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr></tbody>
+</table></figure>
+<h3><a name="header-n219" class="md-header-anchor md-print-anchor" href="af://n219"> </a><span>(3).目录以文件的权限意义</span></h3>
+<h4><a name="header-n220" class="md-header-anchor md-print-anchor" href="af://n220"> </a><span>1).权限对文件的重要性</span></h4>
+<p><span>文件是否能够执行取决于文件的可执行权限,而在windows中这一任务由文件的后缀完成.</span></p>
+<p><span>文件的删除权限并不在文件的权限管理中,文件的权限管理的都是文件的内容的权限,与文件的存在与否没有关系.也就是说,w权限只有写入,编辑,新增,修改内容的权限,并不能删除文件.</span></p>
+<h4><a name="header-n223" class="md-header-anchor md-print-anchor" href="af://n223"> </a><span>2).权限对目录的重要性</span></h4>
+<p><span>r权限:表示具有读取目录结构列表的权限,可以查询该目录下的文件名数据.</span></p>
+<p><span>w权限:表示拥有改动改目录结构的权限,包括新建文件或目录,删除已存在的文件与目录(不论权限是什么),对文件或目录进行更名,移动文件或目录的位置.</span></p>
+<p><span>x权限:表示用户能进入该目录使之成为工作目录</span></p>
+<h2><a name="header-n227" class="md-header-anchor md-print-anchor" href="af://n227"> </a><span>3.Linux目录配置</span></h2>
+<h3><a name="header-n228" class="md-header-anchor md-print-anchor" href="af://n228"> </a><span>(1).FHS</span></h3>
+<p><span>FHS(filesystem hierarchy standard),是一套Linux目录配置的标准</span></p>
+<p><span>FHS根据文件系统使用的频繁与否和是否允许用户随意更改讲目录定义成为四中交互作用的形态:</span></p>
+<figure><table>
+    <thead>
+    <tr><th>&nbsp;</th><th><span>可分享</span></th><th><span>不可分享</span></th></tr></thead>
+    <tbody><tr><td><span>不可变</span></td><td><span>/usr (软件)</span></td><td><span>/etc (配置文件)</span></td></tr><tr><td>&nbsp;</td><td><span>/opt (第三方辅助软件)</span></td><td><span>/boot (启动与内核文件)</span></td></tr><tr><td><span>可变</span></td><td><span>/var/mail (用户邮箱)</span></td><td><span>/var/run (程序相关)</span></td></tr><tr><td>&nbsp;</td><td><span>/var/spool/news (新闻组)</span></td><td><span>/var/lock (程序相关)</span></td></tr></tbody>
+</table></figure>
+<ul>
+    <li><span>可分享:可以分享给网络上其他系统挂载使用的目录,包括可执行文件与用户邮箱等数据,</span></li>
+    <li><span>不可分享:自己机器上面运行的设备文件或与程序有关的socket文件,仅限与自身机器有关.</span></li>
+    <li><span>不变:不经常变动的数据,例如函数库,文件说明,主机配置文件等</span></li>
+    <li><span>可变动;经常修改的数据,例如日志文件.</span></li>
+
+</ul>
+<p><span>大意同以下配置:</span></p>
+<ul>
+    <li><span>/ (root,根目录):以启动系统有关</span></li>
+    <li><span>/usr (Unix software resource):与软件安装和执行有关</span></li>
+    <li><span>/vat (vatiable): 系统运行过程有关</span></li>
+
+</ul>
+<h4><a name="header-n269" class="md-header-anchor md-print-anchor" href="af://n269"> </a><span>1).根目录的意义与内容</span></h4>
+<p>&nbsp;</p>
+
+</body>
+</html>

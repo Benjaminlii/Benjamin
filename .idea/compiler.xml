@@ -6,21 +6,22 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="p2p-common" />
         <module name="p2p-pay" />
-        <module name="spring-boot" />
-        <module name="p2p-exterface" />
-        <module name="mybatisGenerator" />
+        <module name="noteBook" />
+        <module name="p2p-common" />
+        <module name="ssm-crud" />
         <module name="theMall" />
         <module name="p2p-web" />
         <module name="p2p-timer" />
+        <module name="p2p-exterface" />
         <module name="p2p-dataservice" />
-        <module name="ssm-crud" />
+        <module name="spring-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="museum" target="1.7" />
       <module name="mybatisGenerator" target="1.7" />
+      <module name="noteBook" target="1.7" />
       <module name="p2p-common" target="1.8" />
       <module name="p2p-dataservice" target="1.8" />
       <module name="p2p-exterface" target="1.8" />

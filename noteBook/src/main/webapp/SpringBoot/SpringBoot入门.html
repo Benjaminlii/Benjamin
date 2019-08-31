@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringBoot入门</title>
+</head>
+<body>
+<h1><a name="header-n74" class="md-header-anchor md-print-anchor" href="af://n74"> </a><span>一.Spring Boot入门</span></h1>
+<h2><a name="header-n75" class="md-header-anchor md-print-anchor" href="af://n75"> </a><span>1.Spring Boot简介</span></h2>
+<blockquote><p><span>Spring Boot是简化Spring应用开发的一个框架;</span></p>
+    <p><span>是整合Spring技术栈的一个整合;</span></p>
+    <p><span>可以一站式的解决J2EE开发.</span></p>
+</blockquote>
+<h2><a name="header-n80" class="md-header-anchor md-print-anchor" href="af://n80"> </a><span>2.微服务</span></h2>
+<p><span>微服务是一种架构风格.指的是每一个应用都应该是一组小型服务,可以通过HTML的方式进行通信.</span></p>
+<p><span>每一个功能元素都是一个可以独立替换和升级的软件单元.</span></p>
+<p><span>这样以来,每个微服务的部署就会带来非常大的工作量,Spring Boot极大地减少了项目创建,部署上的工作量,解决了该问题.</span></p>
+<h2><a name="header-n84" class="md-header-anchor md-print-anchor"
+       href="af://n84"> </a><span>3.Spring Boot HelloWord</span></h2>
+<h3><a name="header-n85" class="md-header-anchor md-print-anchor" href="af://n85"> </a><span>1).创建一个maven工程</span></h3>
+<h3><a name="header-n86" class="md-header-anchor md-print-anchor"
+       href="af://n86"> </a><span>2).导入Spring Boot相关的依赖</span></h3>
+<pre><code class='language-xml' lang='xml'>&lt;!-- Inherit defaults from Spring Boot --&gt;
+&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;2.1.7.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
+
+&lt;!-- Add typical dependencies for a web application --&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<h3><a name="header-n88" class="md-header-anchor md-print-anchor" href="af://n88"> </a><span>3).编写一个主程序</span></h3>
+<pre><code class='language-java' lang='java'>//@SpringBootApplication 用来标注一个主程序类,说明这是一个spring boot应用
+@SpringBootApplication
+public class HelloWorldMainApplication {
+    public static void main(String[] args) {
+        //启动spring应用
+        SpringApplication.run(HelloWorldMainApplication.class);
+    }
+}
+</code></pre>
+<h3><a name="header-n90" class="md-header-anchor md-print-anchor" href="af://n90"> </a><span>4)编写相关业务</span></h3>
+<pre><code class='language-java' lang='java'>@Controller
+public class HelloWorldController {
+
+    @ResponseBody
+    @RequestMapping(value = &quot;/hello&quot;)
+    public Object hello(){
+        return &quot;world!&quot;;
+    }
+
+}
+</code></pre>
+<h3><a name="header-n92" class="md-header-anchor md-print-anchor" href="af://n92"> </a><span>5).启动之前编写 的主程序</span></h3>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565405436701.png' alt='1565405436701'
+        referrerPolicy='no-referrer'/></p>
+<p><span>就已经启动了web服务</span></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565405531882.png' alt='1565405531882'
+        referrerPolicy='no-referrer'/></p>
+<h3><a name="header-n96" class="md-header-anchor md-print-anchor" href="af://n96"> </a><span>6). 简化部署</span></h3>
+<p><span>在pom.xml文件中添加以下插件,可以将spring Boot程序打成可运行的jar包.</span></p>
+<pre><code class='language-xml' lang='xml'>&lt;plugin&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+&lt;/plugin&gt;
+</code></pre>
+<p><span>使用maven的package指令打包即可</span></p>
+<p><span>使用java -jar 命令就能启动spring Boot web服务</span></p>
+<h2><a name="header-n101" class="md-header-anchor md-print-anchor" href="af://n101"> </a><span>4.HelloWorld探究</span>
+</h2>
+<h3><a name="header-n102" class="md-header-anchor md-print-anchor" href="af://n102"> </a><span>1).pom.xml文件</span></h3>
+<h4><a name="header-n103" class="md-header-anchor md-print-anchor" href="af://n103"> </a><span>(1).父项目</span></h4>
+<pre><code class='language-xml' lang='xml'>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;2.1.7.RELEASE&lt;/version&gt;
+&lt;/parent&gt;
+
+父项目:
+&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;
+    &lt;version&gt;2.1.7.RELEASE&lt;/version&gt;
+    &lt;relativePath&gt;../../spring-boot-dependencies&lt;/relativePath&gt;
+&lt;/parent&gt;
+这个父项目内部设置了spring boot使用的所有依赖的版本
+</code></pre>
+<p><span>spring boot 的版本控制中心</span></p>
+<p><span>之后使用spring boot进行开发是不需要进行依赖的版本号管理的,当然使用了额外的jar是需要声明版本号的</span></p>
+<h4><a name="header-n107" class="md-header-anchor md-print-anchor" href="af://n107"> </a><span>(2).导入的依赖</span></h4>
+<pre><code class='language-xml' lang='xml'>&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p><span>spring-boot-starter-web:是spring boot的场景启动器,导入了web模块正常运行所依赖的所有组件.</span></p>
+<p><span>spring boot将所有的功能场景都抽取出来,做成了一个个启动器,只需要在项目中引入启动器,相关场景的所有依赖都会被导入进来.需要什么功能,导入相关的启动器即可.</span></p>
+<h3><a name="header-n111" class="md-header-anchor md-print-anchor" href="af://n111"> </a><span>2).主程序类</span></h3>
+<pre><code class='language-java' lang='java'>//@SpringBootApplication 用来标注一个主程序类,说明这是一个spring boot应用
+@SpringBootApplication
+public class HelloWorldMainApplication {
+
+    public static void main(String[] args) {
+        //启动spring应用
+        SpringApplication.run(HelloWorldMainApplication.class);
+    }
+}
+</code></pre>
+<p><span>@SpringBootApplication: spring boot应用标注在某个类上说明这个类是spring boot的主配置类,spring boot启动是应该运行这个类的main方法.</span></p>
+<p><span>@SpringBootApplication由以下注解组成</span></p>
+<pre><code class='language-java' lang='java'>@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan(
+    excludeFilters = {@Filter(
+    type = FilterType.CUSTOM,
+    classes = {TypeExcludeFilter.class}
+), @Filter(
+    type = FilterType.CUSTOM,
+    classes = {AutoConfigurationExcludeFilter.class}
+)}
+)
+public @interface SpringBootApplication {
+</code></pre>
+<p><span>@SpringBootConfiguration: spring boot的配置类:</span></p>
+<p><span>标注在某个类上,表示这是一个spring boot的配置类</span></p>
+<p><span>@Configuration: 配置类上标注这个注解</span></p>
+<p><span>配置类  &lt;===&gt; 配置文件,也是springboot容器中的一个组件@Component</span></p>
+<p><span>@EnableAutoConfiguration:开启自动配置功能</span></p>
+<pre><code class='language-java' lang='java'>@AutoConfigurationPackage
+@Import({AutoConfigurationImportSelector.class})
+public @interface EnableAutoConfiguration {
+
+</code></pre>
+<p><span>@AutoConfigurationPackage:自动配置包,将主配置类所在包以及所有子包里面的所有组件都扫描进spring容器中.</span></p>
+<p><span>@Import: spring底层注解,给容器中导入一个组件:AutoConfigurationImportSelector: 导入组件的选择器,讲所有需要导入的组件以全类名的形式返回,从而添加到spring容器中.会给容器中导入非常多的自动配置类</span>
+</p>
+<p><span>spring boot在启动是会从类路径下的META-INF/spring.factories中获取EnableAutoConfiguration指定的值,并将这些值以自动配置类的全类名的方式加载到spring容器中,这写自动配置类就会生效,进行自动配置工作.</span>
+</p>
+<p><span>J2EE的整体整合方案和自动配置都在spring-boot-autoconfigure.jar中.</span></p>
+<h2><a name="header-n126" class="md-header-anchor md-print-anchor" href="af://n126"> </a><span>5).使用Spring initializer快速创建Spring Boot项目</span>
+</h2>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565421714987.png' alt='1565421714987'
+        referrerPolicy='no-referrer'/></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565409218538.png' alt='1565409218538'
+        referrerPolicy='no-referrer'/></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565423173134.png' alt='1565423173134'
+        referrerPolicy='no-referrer'/></p>
+<p><span>选择需要的模块(这里只选择了web模块)</span></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565424233903.png' alt='1565424233903'
+        referrerPolicy='no-referrer'/></p>
+<p><span>默认生成的Spring Boot项目:</span></p>
+<ul>
+    <li><p><span>自动生成了主程序,只需要编写逻辑.</span></p>
+    </li>
+    <li><p><span>resources文件夹中目录结构</span></p>
+        <ul>
+            <li><span>static: 保存所有的静态资源,js,html,css等</span></li>
+            <li>
+                <span>templates: 保存所有的模板页面(Spring Boot默认jar包使用的是嵌入式的Tomcat,不支持JSP页面),可以使用模板引擎(freemarker, thymeleaf)</span>
+            </li>
+            <li><span>application.properties: Spring Boot应用的配置文件.(更改默认配置)</span></li>
+
+        </ul>
+    </li>
+
+</ul>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565424501500.png' alt='1565424501500'
+        referrerPolicy='no-referrer'/></p>
+<p><span>上图更改了端口</span></p>
+
+</body>
+</html>

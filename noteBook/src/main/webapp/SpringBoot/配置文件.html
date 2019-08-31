@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>配置文件</title>
+</head>
+<body>
+<h1><a name="header-n73" class="md-header-anchor md-print-anchor" href="af://n73"> </a><span>二.配置文件</span></h1>
+<h2><a name="header-n74" class="md-header-anchor md-print-anchor" href="af://n74"> </a><span>1.配置文件</span></h2>
+<p><span>Spring Boot使用一个全局的配置文件,名称固定</span></p>
+<p><span>application.properties 或者 application.yml</span></p>
+<p><span>配置文件的作用:修改Spring Boot自动配置的默认值</span></p>
+<h3><a name="header-n78" class="md-header-anchor md-print-anchor" href="af://n78"> </a><span>1).YML(YAML)配置文件</span>
+</h3>
+<p><span>YAML(YAML Ain&#39;t Markup Language)</span></p>
+<p><span>以前的配置文件大多使用xxxx.xml文件.而YAML文件以数据为中心,更适合做配置文件.实例:</span></p>
+<pre><code class='language-yaml' lang='yaml'>server:
+  port: 8089
+</code></pre>
+<h3><a name="header-n82" class="md-header-anchor md-print-anchor" href="af://n82"> </a><span>2).YAML语法</span></h3>
+<h4><a name="header-n83" class="md-header-anchor md-print-anchor" href="af://n83"> </a><span>(1).基本语法</span></h4>
+<p><span>K:(空格)Y   表示一对键值对(空格不可省略)</span></p>
+<p><span>以锁紧来控制层级关系,左侧对齐的一列数据都属于一个层级.</span></p>
+<p><span>属性和值都是大小敏感的.</span></p>
+<h4><a name="header-n87" class="md-header-anchor md-print-anchor" href="af://n87"> </a><span>(2).值的写法</span></h4>
+<p><span>字面量: 普通的值(数字, 字符串, 布尔):</span></p>
+<p><span>K: V   直接写</span></p>
+<p><span>字符串不需要加上单引号和双引号</span></p>
+<p><span>&quot;&quot;: 双引号不会转义特殊字符</span></p>
+<p><span>&#39;&#39;:单引号会转义</span></p>
+<pre><code class='language-yaml' lang='yaml'>name: Benjamin
+</code></pre>
+<p>&nbsp;</p>
+<p><span>对象和Map(属性和值): </span></p>
+<p><span>K: V</span></p>
+<p><span>对象还是K:V的方式</span></p>
+<pre><code class='language-yaml' lang='yaml'>people:
+	name: Benjamin
+	age: 20
+
+行内写法:
+people: {name: Benjamin,age: 20}
+</code></pre>
+<p>&nbsp;</p>
+<p><span>数组(List, Set):</span></p>
+<p><span>用 -V 表示数组中的一个元素</span></p>
+<pre><code class='language-yaml' lang='yaml'>people:
+	-Benjamin
+	-Blue
+
+行内写法:
+people: [Benjamin,Blue]
+</code></pre>
+<h4><a name="header-n103" class="md-header-anchor md-print-anchor" href="af://n103"> </a><span>(3).从配置文件中获取值</span></h4>
+<pre><code class='language-xml' lang='xml'>&lt;!-- 配置文件处理器 --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565429408816.png' alt='1565429408816'
+        referrerPolicy='no-referrer'/></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565428160605.png' alt='1565428160605'
+        referrerPolicy='no-referrer'/></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565427757182.png' alt='1565427757182'
+        referrerPolicy='no-referrer'/></p>
+<blockquote><p><span>@ConfigurationProperties(prefix = &quot;persen&quot;)</span></p>
+    <p><span>将配置文件中的person下的配置与本类中的属性进行绑定</span></p>
+    <p><span>这个类需要被放入spring容器</span></p>
+</blockquote>
+<p><span>测试:</span></p>
+<p><img src='file:///home/benjamin/.config/Typora/typora-user-images/1565428210297.png' alt='1565428210297'
+        referrerPolicy='no-referrer'/></p>
+<p><span>结果:</span></p>
+<pre><code class='language-java' lang='java'>Persen{name=&#39;Benjamin&#39;, age=20, aBoolean=true, birth=Sat Jul 17 00:00:00 CST 1999, map={k1=v1, k2=v2}, list=[l1, l2], dog=Dog{name=&#39;aaa&#39;, age=2}}
+</code></pre>
+<p><strong><span>也可以使用@Value(&quot;SpEL表达式&quot;)进行单个属性的注入</span></strong></p>
+<h4><a name="header-n117" class="md-header-anchor md-print-anchor" href="af://n117"> </a><span>(4).两种注入方式的区别</span></h4>
+<figure>
+    <table>
+        <thead>
+        <tr>
+            <th>&nbsp;</th>
+            <th><span>@ConfigurationProperties</span></th>
+            <th><span>@Value</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><span>功能</span></td>
+            <td><span>批量进行属性的注入</span></td>
+            <td><span>单个注入属性</span></td>
+        </tr>
+        <tr>
+            <td><span>松散绑定</span></td>
+            <td><span>支持</span></td>
+            <td><span>不支持</span></td>
+        </tr>
+        <tr>
+            <td><span>SpEL</span></td>
+            <td><span>不支持</span></td>
+            <td><span>支持</span></td>
+        </tr>
+        <tr>
+            <td><span>JSR303校验</span></td>
+            <td><span>支持</span></td>
+            <td><span>需要@Validated注解支持</span></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        </tbody>
+    </table>
+</figure>
+<blockquote><p><span>松散绑定是指,属性名例如personName可以被person-name,person_name,personName等类似命名方式匹配</span></p>
+</blockquote>
+
+</body>
+</html>
