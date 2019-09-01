@@ -1,12 +1,15 @@
 package com.thoughtCoding.theMall.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.thoughtCoding.theMall.model.Customer;
 import com.thoughtCoding.theMall.service.CustomerService;
 import com.thoughtCoding.theMall.service.RecordService;
 import com.thoughtCoding.theMall.utils.ImageUtil;
 import com.thoughtCoding.theMall.utils.MQTTUtil;
 import com.thoughtCoding.theMall.vo.Constants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,8 @@ public class CustomerController {
 
     @Autowired
     private MQTTUtil mqttUtil;
+
+    private Logger logger = LogManager.getLogger(CustomerController.class);
 
     @RequestMapping(value = "/addCustomer")
     @ResponseBody
@@ -57,15 +62,31 @@ public class CustomerController {
     @RequestMapping(value = "/captureFace")
     @ResponseBody
     public Map<String, Object> captureFace(HttpServletRequest request,
-                                           @RequestParam(value = "action", required = true) String action,//固定值,visitor
-                                           @RequestParam(value = "vip_name", required = true) String customerName,//捕捉到的顾客的姓名
-                                           @RequestParam(value = "vip_num", required = true) Integer customerId,//顾客id
-                                           @RequestParam(value = "face_url", required = true) String face_url,//人脸图片url
-                                           @RequestParam(value = "frame_url", required = true) String frame_url,//帧图url,可能为空串
-                                           @RequestParam(value = "timestamp", required = true) Long timestamp//捕捉到脸的时间戳
+                                           @RequestParam(value = "msg", required = true) String msg//参数
     ) {
         Map<String, String[]> map = request.getParameterMap();
 
+        JSONObject jsonObject = JSONObject.parseObject(msg);
+
+        String action = jsonObject.getString("action");//固定值,visitor
+        String customerName = jsonObject.getString("customerName");//捕捉到的顾客的姓名
+        Integer customerId = jsonObject.getInteger("customerId");//顾客id
+        String face_url = jsonObject.getString("face_url");//人脸图片url
+        String frame_url = jsonObject.getString("frame_url");//帧图url,可能为空串
+        Long timestamp = jsonObject.getLong("timestamp");//捕捉到脸的时间戳
+
+        logger.info(">>>>>>>>>>>>(captureFace) customerName = "
+                + customerName
+                + ", customerId = "
+                + customerId
+                + "face_url = "
+                + face_url
+                + "frame_url = "
+                + frame_url
+                + "timestamp = "
+                + timestamp
+                + "msg = "
+                + msg);
 
         Map<String, Object> retMap = new HashMap<>();
         Map<String, Object> goToAndroid = new HashMap<>();
@@ -75,7 +96,7 @@ public class CustomerController {
         Customer customer = customerService.captureCustomer(customerId, customerName);
 
 
-        if(customer != null){
+        if (customer != null) {
             //反馈的顾客信息与数据库中一致,推送至安卓端
 
             //查询该顾客历史购买记录中最喜欢的商品
@@ -93,7 +114,7 @@ public class CustomerController {
             mqttUtil.send("theMall/clerk", json);
 
             //如果是黑名单,也推送至店长端
-            if(1 == customer.getCustomerIsBlack()){
+            if (1 == customer.getCustomerIsBlack()) {
                 mqttUtil.send("theMall/manager", json);
             }
         }
