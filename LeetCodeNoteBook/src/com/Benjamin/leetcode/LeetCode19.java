@@ -45,7 +45,7 @@ public class LeetCode19 {
         }
     }
 
-    static class ListNode {
+    private static class ListNode {
         private int val;
         ListNode next;
 

@@ -41,7 +41,7 @@ public class LeetCode381 {
                 "\np10 = " + param_10);
     }
 
-    static class RandomizedCollection {
+    private static class RandomizedCollection {
 
         private Map<Integer, List<Integer>> map;
         private List<Integer> list;

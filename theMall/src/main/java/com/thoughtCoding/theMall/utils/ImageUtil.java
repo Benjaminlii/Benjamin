@@ -1,5 +1,6 @@
 package com.thoughtCoding.theMall.utils;
 
+import com.thoughtCoding.theMall.vo.Constants;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -21,6 +22,7 @@ public class ImageUtil {
      */
     public static boolean stringToImage(String imgStr, String filename) {
 
+        filename = Constants.IMAGE_PATH + filename;
         if (imgStr == null) {
             return false;
         }
@@ -53,6 +55,7 @@ public class ImageUtil {
      * @return
      */
     public static String imageToString(String filePath) {
+        filePath = Constants.IMAGE_PATH + filePath;
         InputStream inputStream = null;
         byte[] data = null;
         try {

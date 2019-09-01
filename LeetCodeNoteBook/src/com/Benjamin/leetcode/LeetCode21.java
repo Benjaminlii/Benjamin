@@ -56,7 +56,7 @@ public class LeetCode21 {
         return rtn.next;
     }
 
-    static class ListNode {
+    private static class ListNode {
         int val;
         ListNode next;
 

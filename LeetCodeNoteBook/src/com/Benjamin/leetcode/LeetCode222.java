@@ -9,7 +9,7 @@ package com.Benjamin.leetcode;
  * date:2019.8.4
  */
 public class LeetCode222 {
-    static class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

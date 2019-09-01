@@ -52,7 +52,7 @@ public class LeetCode872 {
         getLeaf(treeNode.right, list);
     }
 
-    static class TreeNode {
+    private static class TreeNode {
         int val;
         TreeNode left;
         TreeNode right;

@@ -55,6 +55,11 @@ public class Constants {
      */
     public static final String SIGN = "sign";
 
+    /**
+     * 用户头像的暂存地址文件目录
+     */
+    public static final String IMAGE_PATH = "/tmp/theMall/";
+
     static {
         USER_TYPE.add((byte) 0);
         USER_TYPE.add((byte) 1);

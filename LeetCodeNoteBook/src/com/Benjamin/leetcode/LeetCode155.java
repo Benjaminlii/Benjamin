@@ -24,7 +24,7 @@ public class LeetCode155 {
 
     }
 
-    static class MinStack {
+    private static class MinStack {
 
         private int data;
         private MinStack next = null;

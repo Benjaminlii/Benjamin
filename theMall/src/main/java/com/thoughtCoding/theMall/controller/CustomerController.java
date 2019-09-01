@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.thoughtCoding.theMall.model.Customer;
 import com.thoughtCoding.theMall.service.CustomerService;
 import com.thoughtCoding.theMall.service.RecordService;
+import com.thoughtCoding.theMall.utils.ImageUtil;
 import com.thoughtCoding.theMall.utils.MQTTUtil;
 import com.thoughtCoding.theMall.vo.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +36,11 @@ public class CustomerController {
                                            @RequestParam(value = "customerSex", required = true) Byte customerSex,
                                            @RequestParam(value = "customerAge", required = true) Byte customerAge,
                                            @RequestParam(value = "phone", required = true) String phone,
-                                           @RequestParam(value = "image", required = false) File image) {
+                                           @RequestParam(value = "image", required = true) String imageString) {
         Map<String, String> retMap = new HashMap<>();
+
+        ImageUtil.stringToImage(imageString, phone);
+        File image = new File(Constants.IMAGE_PATH + phone);
 
         Boolean isOk = customerService.AddCustomer(customerName, customerSex, customerAge, phone, image);
         if (isOk) {
@@ -44,6 +48,8 @@ public class CustomerController {
         } else {
             retMap.put(Constants.ERROR_MESSAGE, "服务器繁忙,请稍后再试.");
         }
+
+        image.delete();
 
         return retMap;
     }
