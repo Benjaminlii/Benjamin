@@ -1,6 +1,7 @@
 package com.thoughtCoding.theMall.service.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.thoughtCoding.theMall.controller.CustomerController;
 import com.thoughtCoding.theMall.mapper.CustomerMapper;
 import com.thoughtCoding.theMall.model.Customer;
 import com.thoughtCoding.theMall.service.CustomerService;
@@ -9,6 +10,9 @@ import com.thoughtCoding.theMall.utils.SignUtil;
 import com.thoughtCoding.theMall.vo.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.File;
 import java.util.Date;
@@ -24,6 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerMapper customerMapper;
+
+    private Logger logger = LogManager.getLogger(CustomerServiceImpl.class);
 
     @Override
     public Boolean AddCustomer(String customerName, Byte customerSex, Byte customerAge, String phone, File image) {
@@ -66,8 +72,10 @@ public class CustomerServiceImpl implements CustomerService {
 //        String result = "{code:1000}";
         JSONObject jsonObject = JSONObject.parseObject(result);
 
-        if(jsonObject.getInteger("code") != 1000){
+        if (jsonObject.getInteger("code") != 1000) {
+            logger.error("请求添加人脸失败,message:" + jsonObject.getString("message"));
             //请求失败
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;
         }
 
@@ -80,12 +88,12 @@ public class CustomerServiceImpl implements CustomerService {
 
         //查询对应id的customer
         customer = customerMapper.selectByPrimaryKey(customerId);
-        if(customerName.equals(customer.getCustomerName())){
+        if (customerName.equals(customer.getCustomerName())) {
             //姓名匹配,判断并更新时间
             Date lastTime = customer.getCustomerLastTime();
 
             //判断上次到店的时间
-            if(new Date().getTime() - lastTime.getTime() > (1000*60*60*24)){
+            if (new Date().getTime() - lastTime.getTime() > (1000 * 60 * 60 * 24)) {
                 //距离上次到店超过一天
                 Customer updateCustomer = new Customer();
                 updateCustomer.setCustomerId(customerId);
@@ -93,7 +101,7 @@ public class CustomerServiceImpl implements CustomerService {
 
                 customerMapper.updateByPrimaryKeySelective(updateCustomer);
             }
-        }else{
+        } else {
             //姓名不匹配
             customer = null;
         }

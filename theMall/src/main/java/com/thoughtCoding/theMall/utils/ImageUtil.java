@@ -8,11 +8,11 @@ import java.io.*;
 
 public class ImageUtil {
 
-//    public static void main(String[] args) {
-//        String img = imageToString("/home/benjamin/IdeaProjects/Benjamin/theMall/src/main/java/com.thoughtCoding.theMall.utils/lion.jpg");
-//        System.out.println(img);
+    public static void main(String[] args) {
+        String img = imageToString("121.png");
+        System.out.println(img);
 //        stringToImage(img, "/home/benjamin/IdeaProjects/Benjamin/theMall/src/main/java/com.thoughtCoding.theMall.utils/lion1.jpg");
-//    }
+    }
     /**
      * 字符串转图片
      *
