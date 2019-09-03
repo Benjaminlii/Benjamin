@@ -57,10 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
         paramMap.put("access_key", Constants.ACCESS_KEY);
         paramMap.put("company_id", Constants.COMPANY_ID);
         paramMap.put(Constants.ACTION, "add");
-        paramMap.put("gender", customerSex);
+        paramMap.put("gender", customerSex == 1 ? "M" : "F");
         paramMap.put("name", customerName);
-        paramMap.put("num", customer.getCustomerId());
-        paramMap.put("timestamp", new Date().getTime());
+        paramMap.put("num", customer.getCustomerId() + "");
+        paramMap.put("timestamp", new Date().getTime() + "");
+        paramMap.put("vip_group_title", "theMall");
 
         //安全签名算法
         String sign = SignUtil.getSign(paramMap);
@@ -68,12 +69,12 @@ public class CustomerServiceImpl implements CustomerService {
 
         paramMap.put("image", image);
         //发送请求
-        String result = HttpClientUtils.doPost(Constants.SHENMU_URL, paramMap);
+        String result = HttpClientUtils.addCustomer(Constants.SHENMU_URL, paramMap);
+        logger.info("发送http请求,result:" + result);
 //        String result = "{code:1000}";
         JSONObject jsonObject = JSONObject.parseObject(result);
 
         if (jsonObject.getInteger("code") != 1000) {
-            logger.error("请求添加人脸失败,message:" + jsonObject.getString("message"));
             //请求失败
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return false;

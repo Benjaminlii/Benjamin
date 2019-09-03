@@ -1,5 +1,7 @@
 package com.thoughtCoding.theMall.utils;
 
+import com.thoughtCoding.theMall.vo.Constants;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -8,12 +10,17 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class HttpClientUtils {
@@ -125,5 +132,53 @@ public class HttpClientUtils {
             }
         }
         return result;
+    }
+
+    public static String addCustomer(String url, Map<String, Object> paramMap) {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        CloseableHttpResponse httpResponse = null;
+        RequestConfig requestConfig = RequestConfig.custom().setConnectTimeout(200000).setSocketTimeout(200000000).build();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setConfig(requestConfig);
+        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+
+        multipartEntityBuilder.addBinaryBody("image", (File) paramMap.get("image"));
+        multipartEntityBuilder.addTextBody("access_key", (String) paramMap.get("access_key"));
+        multipartEntityBuilder.addTextBody("company_id", (String) paramMap.get("company_id"));
+        multipartEntityBuilder.addTextBody(Constants.ACTION, (String) paramMap.get(Constants.ACTION));
+        multipartEntityBuilder.addTextBody("gender", (String) paramMap.get("gender"));
+        multipartEntityBuilder.addTextBody("name", (String) paramMap.get("name"));
+        multipartEntityBuilder.addTextBody("num", (String) paramMap.get("num"));
+        multipartEntityBuilder.addTextBody("timestamp", (String) paramMap.get("timestamp"));
+        multipartEntityBuilder.addTextBody("vip_group_title", "theMall");
+        multipartEntityBuilder.addTextBody(Constants.SIGN, (String) paramMap.get(Constants.SIGN));
+        HttpEntity httpEntity = multipartEntityBuilder.build();
+        httpPost.setEntity(httpEntity);
+
+        StringBuffer buffer = null;
+
+        try {
+            httpResponse = httpClient.execute(httpPost);
+            HttpEntity responseEntity = httpResponse.getEntity();
+            int statusCode = httpResponse.getStatusLine().getStatusCode();
+            if (statusCode == 200) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(responseEntity.getContent()));
+                buffer = new StringBuffer();
+                String str = "";
+                while (!StringUtils.isEmpty(str = reader.readLine())) {
+                    buffer.append(str);
+                }
+
+                System.out.println(buffer.toString());
+            }
+
+            httpClient.close();
+            if (httpResponse != null) {
+                httpResponse.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer.toString();
     }
 }

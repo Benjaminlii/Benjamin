@@ -8,9 +8,12 @@ import java.io.*;
 
 public class ImageUtil {
 
-    public static void main(String[] args) {
-        String img = imageToString("121.png");
+    public static void main(String[] args) throws IOException {
+        String img = imageToString("123.jpg");
         System.out.println(img);
+        File file = new File(Constants.IMAGE_PATH + "123.txt");
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        fileOutputStream.write(img.getBytes());
 //        stringToImage(img, "/home/benjamin/IdeaProjects/Benjamin/theMall/src/main/java/com.thoughtCoding.theMall.utils/lion1.jpg");
     }
     /**

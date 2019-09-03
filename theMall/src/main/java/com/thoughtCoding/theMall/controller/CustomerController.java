@@ -44,8 +44,10 @@ public class CustomerController {
                                            @RequestParam(value = "image", required = true) String imageString) {
         Map<String, String> retMap = new HashMap<>();
 
-        ImageUtil.stringToImage(imageString, phone);
-        File image = new File(Constants.IMAGE_PATH + phone);
+        ImageUtil.stringToImage(imageString, phone + ".jpg");
+        File image = new File(Constants.IMAGE_PATH + phone + ".jpg");
+
+        logger.info("创建文件:" + image.getAbsolutePath() + ", 大小:" + image.length() + "bytes.");
 
         Boolean isOk = customerService.AddCustomer(customerName, customerSex, customerAge, phone, image);
         if (isOk) {
@@ -54,7 +56,7 @@ public class CustomerController {
             retMap.put(Constants.ERROR_MESSAGE, "服务器繁忙,请稍后再试.");
         }
 
-        image.delete();
+//        image.delete();
 
         return retMap;
     }
