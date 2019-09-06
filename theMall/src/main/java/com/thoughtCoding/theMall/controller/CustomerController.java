@@ -71,8 +71,8 @@ public class CustomerController {
         JSONObject jsonObject = JSONObject.parseObject(msg);
 
         String action = jsonObject.getString("action");//固定值,visitor
-        String customerName = jsonObject.getString("customerName");//捕捉到的顾客的姓名
-        Integer customerId = jsonObject.getInteger("customerId");//顾客id
+        String customerName = jsonObject.getString("vip_name");//捕捉到的顾客的姓名
+        Integer customerId = jsonObject.getInteger("vip_num");//顾客id
         String face_url = jsonObject.getString("face_url");//人脸图片url
         String frame_url = jsonObject.getString("frame_url");//帧图url,可能为空串
         Long timestamp = jsonObject.getLong("timestamp");//捕捉到脸的时间戳
