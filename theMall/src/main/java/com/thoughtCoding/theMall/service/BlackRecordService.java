@@ -23,4 +23,11 @@ public interface BlackRecordService {
      * @return 里面的Map为BlackRecord + 对应的customer
      */
     List<BlackRecord> queryBlackRecordByTimestamp(Date timeStamp);
+
+    /**
+     * 插入黑名单的出现记录
+     * @param paraMap
+     * @return
+     */
+    Boolean addBlackRecord(Map<String, Object> paraMap);
 }

@@ -57,8 +57,8 @@ public interface BlackRecordMapper {
 
     /**
      * 通过时间戳查询当天的所有黑名单出现记录
-     * @param timeStamp
+     * @param paraMap
      * @return 记录list,其中添加customer属性为customer对象
      */
-    List<BlackRecord> selectBlackRecordWithCustomerByTimestamp(Date timeStamp);
+    List<BlackRecord> selectBlackRecordWithCustomerByTimestamp(Map<String, String> paraMap);
 }

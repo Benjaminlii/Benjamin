@@ -147,13 +147,13 @@
         where record_id = #{recordId,jdbcType=INTEGER}
     </update>
 
-    <select id="selectBlackRecordWithCustomerByTimestamp" parameterType="java.util.Date" resultMap="BaseBlackCustomer">
+    <select id="selectBlackRecordWithCustomerByTimestamp" resultMap="BaseBlackCustomer">
         select *
         from t_black_record
             left join t_customer
             on t_black_record.customer_id = t_customer.customer_id
-        where day(timestamp) = day('2019-1-1')
-            and month(timestamp) = month('2019-1-1')
-            and year(timestamp) = year('2019-1-1')
+        where day(timestamp) = ${day}
+            and month(timestamp) = ${month}
+            and year(timestamp) = ${year}
     </select>
 </mapper>

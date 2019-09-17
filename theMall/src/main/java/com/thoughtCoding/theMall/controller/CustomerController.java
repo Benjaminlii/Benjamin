@@ -3,6 +3,7 @@ package com.thoughtCoding.theMall.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.thoughtCoding.theMall.model.Customer;
+import com.thoughtCoding.theMall.service.BlackRecordService;
 import com.thoughtCoding.theMall.service.CustomerService;
 import com.thoughtCoding.theMall.service.RecordService;
 import com.thoughtCoding.theMall.utils.ImageUtil;
@@ -28,6 +29,9 @@ public class CustomerController {
 
     @Autowired
     private RecordService recordService;
+
+    @Autowired
+    private BlackRecordService blackRecordService;
 
     @Autowired
     private MQTTUtil mqttUtil;
@@ -117,6 +121,7 @@ public class CustomerController {
 
             //如果是黑名单,也推送至店长端
             if (1 == customer.getCustomerIsBlack()) {
+                blackRecordService.addBlackRecord(goToAndroid);
                 mqttUtil.send("theMall/manager", json);
             }
         }
