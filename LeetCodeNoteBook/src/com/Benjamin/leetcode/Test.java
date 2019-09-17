@@ -1,6 +1,8 @@
 package com.Benjamin.leetcode;
 
 
+import java.util.Date;
+
 /**
  * ClassName:Test
  * Package:com.Benjamin.leetcode
@@ -12,6 +14,7 @@ package com.Benjamin.leetcode;
  */
 public class Test {
     public static void main(String[] args) {
+        System.out.println(new Date().getTime());
         System.out.println("hello world, ha?");
     }
 }
