@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * ClassName:LexicalAnalysis
+ * ClassName:Lexer
  * Package:com.Benjamin.leetcode
  * <p>
  * Description:
@@ -13,12 +13,9 @@ import java.io.IOException;
  * @author: Benjamin
  * @date: 19-10-8 下午7:39
  */
-public class LexicalAnalysis {
+public class Lexer {
     public static String buffer = null;//存储读取出来的字符串
     public static int typenum = 0;
-
-    public static String[] type = //0表示无种类，1代表关键字，2代表算术符号，3代表关系运算符，4代表分隔符，5代表常数，6代表标识符
-            {"无", "关键字", "算术符号", "关系运算符", "分隔符", "常数", "标识符"};
 
     public static String[] reservedword = //保留字(1-10)
             {"begin", "end", "if", "else", "do", "while", "then", "var", "Integer", "procedure"};
@@ -29,76 +26,59 @@ public class LexicalAnalysis {
     public static String[] relationword = //关系符号(15-21)
             {">", "<", "<=", ">=", "<>", "=", ":"};
 
-    public static String[] limiterword = //分隔符(22-27)
-            {":=", ",", ".", ";", "(", ")"};
+    public static String[] limiterword = //分隔符(22-29)
+            {":=", ",", ".", ";", "(", ")", "[", "]"};
 
-    //读取文件
+    // 读取文件
     public static void read(String path) {
-        try {//异常处理
+        try {
             FileReader filepath = new FileReader(path);
 
             BufferedReader bufferedreader = new BufferedReader(filepath);
             String str;
             StringBuffer ans = new StringBuffer();
-            while ((str = bufferedreader.readLine()) != null) {//按行读取
+            while ((str = bufferedreader.readLine()) != null) {
                 ans.append(str).append("\n");
             }
             bufferedreader.close();
             buffer = ans.toString();
-        } catch (IOException e) {//异常处理
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    //判断是否为保留字,是，则返回种别码;不是，则返回0.
+    public static int findString(String s, String[] ss, int start){
+        int flag = 0;
+        for (int j = 0; j < ss.length; j++) {
+            if (ss[j].equals(s)) {
+                flag = j + start;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    // 是否为保留字
     public static int isReservedWord(String s) {
-        int flag = 0;
-        for (int j = 0; j < reservedword.length; j++) {
-            if (reservedword[j].equals(s)) {
-                flag = j + 1;
-                break;
-            }
-        }
-        return flag;
+        return findString(s, reservedword, 1);
     }
 
-    //判断是否为算术符号,是，则返回种别码;不是，则返回0.
+    // 是否为算术符号
     public static int isOperateWord(String s) {
-        int flag = 0;
-        for (int j = 0; j < operateword.length; j++) {
-            if (operateword[j].equals(s)) {
-                flag = 11 + j;
-                break;
-            }
-        }
-        return flag;
+        return findString(s, operateword, 11);
     }
 
-    //判断是否为关系符号,是，则返回种别码;不是，则返回0.
+    // 是否为关系符号
     public static int isRelationWord(String s) {
-        int flag = 0;
-        for (int j = 0; j < relationword.length; j++) {
-            if (relationword[j].equals(s)) {
-                flag = 15 + j;
-                break;
-            }
-        }
-        return flag;
+        return findString(s, relationword, 15);
     }
 
-    //判断是否为分隔符,是，则返回种别码;不是，则返回0.
+    // 是否为分隔符
     public static int isLimiterWord(String s) {
-        int flag = 0;
-        for (int j = 0; j < limiterword.length; j++) {
-            if (limiterword[j].equals(s)) {
-                flag = 22 + j;
-                break;
-            }
-        }
-        return flag;
+        return findString(s, limiterword, 12);
     }
 
-    //对字符串进行分析(排除了界符，关系符，算术符号)
+    // 对字符串进行分析
     public static int analysis(String s) {
         int sign = 0;
         boolean flag = false;//标志变量，用来判断是否为数字
@@ -129,6 +109,7 @@ public class LexicalAnalysis {
     public static void main(String[] args) {
         String path = "/media/benjamin/Data/编译原理/词法分析器/Text.txt";//文件存储路径
         read(path);//读取文件
+        System.out.println("InPut:\n" + buffer + "\n\nOutPut:");
         String Str1 = null;
         int p = 0, typenum1 = 0;
         int sign = 0, num = 0;
