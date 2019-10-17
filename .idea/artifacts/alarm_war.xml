@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="alarm:war">
+    <output-path>$PROJECT_DIR$/alarm/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>alarm</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="alarm-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="alarm:war exploded" />
+    </root>
+  </artifact>
+</component>

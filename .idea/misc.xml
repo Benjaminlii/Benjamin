@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/alarm" />
     <file type="web" url="file://$PROJECT_DIR$/hello" />
     <file type="web" url="file://$PROJECT_DIR$/Museum" />
     <file type="web" url="file://$PROJECT_DIR$/noteBook" />
@@ -22,6 +23,7 @@
         <option value="$PROJECT_DIR$/mybatisGenerator/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot/pom.xml" />
         <option value="$PROJECT_DIR$/hello/pom.xml" />
+        <option value="$PROJECT_DIR$/alarm/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
