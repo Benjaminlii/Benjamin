@@ -1,6 +1,5 @@
 package com.Benjamin.p2p.common.constant;
 
-import org.omg.PortableInterceptor.SUCCESSFUL;
 
 public class Constants {
     /**
