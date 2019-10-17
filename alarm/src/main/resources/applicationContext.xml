@@ -15,17 +15,23 @@
              http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 加载系统配置文件 -->
-    <context:property-placeholder location="classpath:config.properties" />
+    <context:property-placeholder location="classpath:config.properties"/>
 
     <!-- 导入sprint mvc配置 -->
     <import resource="applicationContext-mvc.xml"/>
 
     <!-- 导入mybatis相关配置 -->
-    <import resource="applicationContext-mybatis.xml" />
+    <import resource="applicationContext-mybatis.xml"/>
 
     <!-- 扫描注解 -->
-    <context:component-scan base-package="com.thoughtCoding.alarm.service" />
-    <context:component-scan base-package="com.thoughtCoding.alarm.utils" />
+    <context:component-scan base-package="com.thoughtCoding.alarm.service"/>
+    <context:component-scan base-package="com.thoughtCoding.alarm.utils"/>
+
+    <!-- 调用短信接口的隐私性参数类 -->
+    <bean class="com.thoughtCoding.alarm.model.SMSConfig">
+        <property name="secretId" value="${SMS.secretId}"/>
+        <property name="secretKey" value="${SMS.secretKey}"/>
+    </bean>
 
     <!-- 事务相关控制 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
