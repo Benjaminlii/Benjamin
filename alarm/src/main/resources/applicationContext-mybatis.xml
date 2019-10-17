@@ -22,7 +22,7 @@
 
     <!-- scan for mappers and let them be autowired -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.thoughtCoding.theMall.mapper"/>
+        <property name="basePackage" value="com.thoughtCoding.alarm.mapper"/>
         <!-- 这里有一个大坑!!! -->
         <!-- https://www.cnblogs.com/ssjifm/p/7652502.html -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
