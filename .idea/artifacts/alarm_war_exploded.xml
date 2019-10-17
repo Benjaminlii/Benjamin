@@ -48,6 +48,10 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.7.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.7.3" />
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.36" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.3" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.6" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.5.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">
