@@ -1,5 +1,7 @@
 package com.thoughtCoding.alarm.model;
 
+import org.springframework.stereotype.Component;
+
 /**
  * ClassName:SMSConfig
  * Package:com.thoughtCoding.alarm.model
@@ -10,6 +12,7 @@ package com.thoughtCoding.alarm.model;
  * @author: Benjamin
  * @date: 19-10-17 下午9:37
  */
+@Component
 public class SMSConfig {
     private String secretId;
 

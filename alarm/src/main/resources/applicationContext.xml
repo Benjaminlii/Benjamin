@@ -28,7 +28,7 @@
     <context:component-scan base-package="com.thoughtCoding.alarm.utils"/>
 
     <!-- 调用短信接口的隐私性参数类 -->
-    <bean class="com.thoughtCoding.alarm.model.SMSConfig">
+    <bean id="smsConfig" class="com.thoughtCoding.alarm.model.SMSConfig">
         <property name="secretId" value="${SMS.secretId}"/>
         <property name="secretKey" value="${SMS.secretKey}"/>
     </bean>

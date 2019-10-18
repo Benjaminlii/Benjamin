@@ -25,4 +25,29 @@ public class Constant {
      * 当前登录用户
      */
     public static final String USER = "user";
+
+    /**
+     * 短信调用接口url
+     */
+    public static final String SMS_URL = "https://service-r6vq2kpa-1259648947.gz.apigw.tencentcs.com/release/send/code";
+
+    /**
+     * 验证码短信的模板
+     */
+    public static final String VERCODE_SSM = "【TC科技小组】alarm-您的验证码是%s，手机号码为%s的账号申请你成为紧急联系人.";
+
+    /**
+     * 报警短信的模板
+     */
+    public static final String ALARM_SSM = "【TC科技小组】alarm-手机号码为%s的用户目前不安全,位置:%s,请尝试联系或报警.";
+
+    /**
+     * 全局保存当前用户调用接口发送的短信验证码
+     */
+    public static final String UID_VERCODE_CALL_PHONE = "vercode";
+
+    /**
+     * 向安卓端看对信息的数据字段
+     */
+    public static final String DATA = "data";
 }
