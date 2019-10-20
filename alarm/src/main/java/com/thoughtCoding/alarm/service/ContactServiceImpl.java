@@ -14,7 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * ClassName:ContactServiceImpl
@@ -66,24 +65,19 @@ public class ContactServiceImpl implements ContactService {
         String result = null;
         JSONObject resultJson = null;
 
-        for (int i = 0; i < 5; i++) {
-            for (Contact contact : contactList) {
-                // 每循环一次,发送一个短信
-                callSMSMobile = contact.getCallPhone();
-                paraMap.put("mobile", callSMSMobile);
-                try {
-                    result = smsUtil.sms(Constant.SMS_URL, paraMap);
-                } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-                resultJson = JSONObject.parseObject(result);
-                if (resultJson.getInteger("status") == 1){
-                    // 调用成功
-                    numOfSMS++;
-                }
+        for (Contact contact : contactList) {
+            // 每循环一次,发送一个短信
+            callSMSMobile = contact.getCallPhone();
+            paraMap.put("mobile", callSMSMobile);
+            try {
+                result = smsUtil.sms(Constant.SMS_URL, paraMap);
+            } catch (UnsupportedEncodingException | InvalidKeyException | NoSuchAlgorithmException e) {
+                e.printStackTrace();
             }
-            if (i < 4){
-                LockSupport.parkNanos(100*100*60);
+            resultJson = JSONObject.parseObject(result);
+            if (resultJson.getInteger("status") == 1) {
+                // 调用成功
+                numOfSMS++;
             }
         }
 

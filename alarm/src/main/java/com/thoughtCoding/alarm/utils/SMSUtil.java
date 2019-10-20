@@ -61,10 +61,9 @@ public class SMSUtil {
         Map<String, String> bodyParams = new HashMap<String, String>();
 
         if (!paramMap.isEmpty()) {
-            url += "?" + urlCode(paramMap);
-            System.out.println(urlCode(paramMap));
+            url += "?" + urlencode(paramMap);
         }
-
+        System.out.println(url);
         BufferedReader in = null;
         try {
             URL realUrl = new URL(url);
@@ -84,12 +83,11 @@ public class SMSUtil {
             methods.put("PUT", true);
             methods.put("PATCH", true);
             Boolean hasBody = methods.get(method);
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             if (hasBody != null) {
-                conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
                 conn.setDoOutput(true);
                 DataOutputStream out = new DataOutputStream(conn.getOutputStream());
-                out.writeBytes(urlCode(bodyParams));
+                out.writeBytes(urlencode(bodyParams));
                 out.flush();
                 out.close();
             }
@@ -97,7 +95,6 @@ public class SMSUtil {
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
-
             while ((line = in.readLine()) != null) {
                 result += line;
             }
@@ -131,7 +128,7 @@ public class SMSUtil {
         return auth;
     }
 
-    public static String urlCode(Map<?, ?> map) throws UnsupportedEncodingException {
+    public static String urlencode(Map<?, ?> map) throws UnsupportedEncodingException {
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<?, ?> entry : map.entrySet()) {
             if (sb.length() > 0) {

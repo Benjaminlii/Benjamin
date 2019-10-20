@@ -117,7 +117,7 @@
     </select>
 
     <!-- 删除uid对应用户的某个紧急联系人 -->
-    <delete id="deleteByUidAndCallPhone" parameterType="BaseResultMap">
+    <delete id="deleteByUidAndCallPhone">
         delete
         from contact
         where user_id = #{uid} and call_phone = #{callPhone};

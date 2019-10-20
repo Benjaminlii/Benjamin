@@ -66,10 +66,11 @@ public class ContactController {
         request.getSession().setAttribute(Constant.UID_VERCODE_CALL_PHONE, uid + "-" + verCode + "-" + callPhone);
 
         // 当前用户的手机号,测试使用默认手机号
-        String phone = ((User) request.getSession().getAttribute(Constant.USER)).getPhone();
+        User user = (User) request.getSession().getAttribute(Constant.USER);
+        String phone = user!=null?user.getPhone():"15991075603";
         if (phone == null) phone = "15991075603";
 
-        paraMap.put("content", String.format(Constant.VERCODE_SSM, verCode, phone));
+        paraMap.put("content", String.format(Constant.ADD_CONTACT_VERCODE_SSM, verCode, phone));
         paraMap.put("mobile", callPhone);
         try {
             httpRtn = smsUtil.sms(Constant.SMS_URL, paraMap);
@@ -198,12 +199,7 @@ public class ContactController {
             uid = ((User) request.getSession().getAttribute(Constant.USER)).getUserId();
         }
 
-        if (phone == null) {
-            rtn.put("code", Constant.ERROR);
-            rtn.put("errorMessage", "当前无登录状态!");
-            return rtn;
-        }
-        if (uid == null) {
+        if (phone == null || uid == null) {
             rtn.put("code", Constant.ERROR);
             rtn.put("errorMessage", "当前无登录状态!");
             return rtn;
@@ -211,7 +207,7 @@ public class ContactController {
 
         List<Contact> contactList = contactService.findAllContactsByUid(uid);
         int numOfSMS = contactService.alarmAllCallPhone(phone, address, contactList);
-        if (numOfSMS!=contactList.size()) {
+        if (numOfSMS != contactList.size()) {
             rtn.put("code", Constant.ERROR);
             rtn.put("errorMessage", "部分发送信息");
             rtn.put("numOfSMS", numOfSMS);
