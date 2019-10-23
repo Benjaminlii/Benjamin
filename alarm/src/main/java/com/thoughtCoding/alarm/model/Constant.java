@@ -32,7 +32,7 @@ public class Constant {
     public static final String SMS_URL = "https://service-r6vq2kpa-1259648947.gz.apigw.tencentcs.com/release/send/code";
 
     /**
-     * 添加联系人验证码短信的模板
+     * 注册验证码短信的模板
      */
     public static final String RESIGER_VERCODE_SSM = "【TC科技小组】alarm-您的验证码是%s。请不要把验证码泄露给别人。如非本人操作，请忽略此短信。";
 
