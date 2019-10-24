@@ -37,7 +37,9 @@ public class UserServiceImpl implements UserService{
             User user = new User();
             user.setPhone(phone);
             user.setPassword(password);
-            return userMapper.insertSelective(user) > 0;
+            boolean rtn = userMapper.insertSelective(user) > 0;
+            System.out.println(rtn);
+            return rtn;
 
         }
 

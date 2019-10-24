@@ -62,7 +62,7 @@ public class ContactController {
         // 手机号正确,也取到了uid
         // 发送内容
         Map<String, Object> paraMap = new HashMap<>();
-        String verCode = new Random(new Date().getTime()).nextInt(100000) + "";
+        String verCode = new Random(new Date().getTime()).nextInt(1000000) + "";
         request.getSession().setAttribute(Constant.UID_VERCODE_CALL_PHONE, uid + "-" + verCode + "-" + callPhone);
 
         // 当前用户的手机号,测试使用默认手机号

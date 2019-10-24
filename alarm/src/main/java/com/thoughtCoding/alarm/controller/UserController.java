@@ -70,8 +70,8 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/sendRegisterSSM")
-    public Object sendRegisterSSM(@RequestParam(value = "phone", required = true) String phone,
+    @RequestMapping(value = "/sendRegisterSMS")
+    public Object sendRegisterSMS(@RequestParam(value = "phone", required = true) String phone,
                                   HttpServletRequest request) {
         Map<String, String> rtn = new HashMap<>();
         String httpRtn = null;
@@ -118,7 +118,9 @@ public class UserController {
             rtn.put("errorMessage", "密码格式不正确");
             return rtn;
         }
-        if (!verCode.equals(request.getSession().getAttribute(Constant.PHONE_VERCODE))) {
+        String pv = (String) request.getSession().getAttribute(Constant.PHONE_VERCODE);
+        if (!pv.equals(phone + "-" + verCode)) {
+            System.out.println();
             rtn.put("code", Constant.ERROR);
             rtn.put("errorMessage", "验证码不正确");
             return rtn;
@@ -127,7 +129,9 @@ public class UserController {
         if (!userService.addUser(phone, password)) {
             rtn.put("code", Constant.ERROR);
             rtn.put("errorMessage", "手机号重复");
+            return rtn;
         }
+
         rtn.put("code", Constant.SUCCESS);
 
         return rtn;
