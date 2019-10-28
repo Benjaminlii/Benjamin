@@ -6,7 +6,7 @@
          id="WebApp_ID" version="3.0">
 
     <!-- 应用名 -->
-    <display-name>theMall</display-name>
+    <display-name>alarm</display-name>
 
     <!-- 字符过滤器，字符编码UTF-8 -->
     <filter>

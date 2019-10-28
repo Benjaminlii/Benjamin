@@ -19,10 +19,10 @@
       <list>
         <option value="$PROJECT_DIR$/ssm-crud/pom.xml" />
         <option value="$PROJECT_DIR$/p2p-parent/pom.xml" />
-        <option value="$PROJECT_DIR$/theMall/pom.xml" />
         <option value="$PROJECT_DIR$/mybatisGenerator/pom.xml" />
         <option value="$PROJECT_DIR$/spring-boot/pom.xml" />
         <option value="$PROJECT_DIR$/hello/pom.xml" />
+        <option value="$PROJECT_DIR$/theMall/pom.xml" />
         <option value="$PROJECT_DIR$/alarm/pom.xml" />
       </list>
     </option>
