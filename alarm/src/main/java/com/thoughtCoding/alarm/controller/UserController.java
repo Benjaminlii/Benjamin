@@ -54,6 +54,8 @@ public class UserController {
     public Object login(@RequestParam(value = "phone", required = true) String phone,
                         @RequestParam(value = "password", required = true) String password,
                         HttpServletRequest request) {
+        System.out.println("sessionId:" + request.getSession().getId());
+
         Map<String, String> rtn = new HashMap<>();
 
         User user;

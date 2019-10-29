@@ -190,6 +190,7 @@ public class ContactController {
                         @RequestParam(value = "uid", required = false) Short uid,
                         @RequestParam(value = "address", required = true) String address,
                         HttpServletRequest request) {
+        System.out.println("sessionId:" + request.getSession().getId());
         Map<String, Object> rtn = new HashMap<>();
         // 如果没有传入uid参数(postman测试),从session中获取uid
         if (phone == null) {
