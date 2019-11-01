@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class CustomerController {
             retMap.put(Constants.ERROR_MESSAGE, "服务器繁忙,请稍后再试.");
         }
 
-//        image.delete();
+        image.delete();
 
         return retMap;
     }
@@ -112,7 +113,7 @@ public class CustomerController {
             goToAndroid.put("customer", customer);
             goToAndroid.put("face_url", face_url);
             goToAndroid.put("frame_url", frame_url);
-            goToAndroid.put("timestamp", timestamp);
+            goToAndroid.put("timestamp", new Date().getTime());
             goToAndroid.put("favorite", favorite);
             String json = JSON.toJSONString(goToAndroid);
 

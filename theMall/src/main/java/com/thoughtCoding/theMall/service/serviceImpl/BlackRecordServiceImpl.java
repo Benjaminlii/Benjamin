@@ -41,7 +41,7 @@ public class BlackRecordServiceImpl implements BlackRecordService {
         blackRecord.setCustomerId(((Customer) paraMap.get("customer")).getCustomerId());
         blackRecord.setFaceUrl((String) paraMap.get("face_url"));
         blackRecord.setFrameUrl((String) paraMap.get("frame_url"));
-        blackRecord.setTimestamp(new Date(Long.valueOf((Long) paraMap.get("timestamp"))));
+        blackRecord.setTimestamp(new Date((Long) paraMap.get("timestamp")));
 
         return blackRecordMapper.insertSelective(blackRecord) > 0;
     }
