@@ -10,7 +10,7 @@
 
 ### (3). UQ - Unique index 
 
-​		不能重复
+​		唯一索引
 
 ### (4). BIN - Is binary column 
 
