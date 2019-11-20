@@ -92,7 +92,6 @@ public class Offer4 {
         TreeNode.print_in(root);
         System.out.println();
         TreeNode.print_hou(root);
-
     }
 
 
