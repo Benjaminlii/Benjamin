@@ -8,7 +8,7 @@
 
 ## 1. HashMap
 
-### (1). 常量和构造方法
+### (1). 常量和构造方法shi
 
 ```java
 //这两个是限定值 当节点数大于8时会转为红黑树存储
@@ -42,7 +42,7 @@ public HashMap() {
 }
 //指定容量大小
 public HashMap(int initialCapacity) {
-    this(initialCapacity, DEFAULT_LOAD_FACTOR);
+    this(initialCapacity, DEFAULT_LOAD_FACTOR);DEFAULT_LOAD_FACTOR
 }
 //指定容量大小和负载因子大小
 public HashMap(int initialCapacity, float loadFactor) {
@@ -223,7 +223,7 @@ final Node<K,V> getNode(int hash, Object key) {
                 1.  当循环到链表尾时,说明链表内部没有能够进行匹配的key,那么就是该key没有在HashMap中插入过
     1.  返回null
 
-    ### (5). 扩容
+### (5). resize()方法
 
 ```java
 // 重新设置table大小/扩容 并返回扩容的Node数组即HashMap的最新数据
@@ -255,7 +255,7 @@ final Node<K,V>[] resize() {
         newCap = oldThr;  // 将oldThr赋予控制新表大小的newCap
     else { // 若其他情况(无参构造的初始化,两个属性都为0,为初始化,是编译期自动加上的0)则将获取初始默认大小
         newCap = DEFAULT_INITIAL_CAPACITY;
-        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAULT_INITIAL_CAPACITY);
+        newThr = (int)(DEFAULT_LOAD_FACTOR * DEFAUDEFAULT_LOAD_FACTORLT_INITIAL_CAPACITY);
     }
     // 前面的逻辑中没有对新表的扩容进行设置
     // 即当前为带参数构造的初始化操作
@@ -273,25 +273,50 @@ final Node<K,V>[] resize() {
     // 申请新容量大小的内存
     Node<K,V>[] newTab = (Node<K,V>[])new Node[newCap];
     table = newTab; // 将当前表赋予table
-    if (oldTab != null) { // 若oldTab中有值需要通过循环将oldTab中的值保存到新表中
+    // 原表不为空的话进行数据的迁移,原表为空则直接使用空的新表
+    if (oldTab != null) {
         for (int j = 0; j < oldCap; ++j) {
             Node<K,V> e;
-            if ((e = oldTab[j]) != null) {// 获取老表中第j个元素 赋予e
-                oldTab[j] = null; // 并将老表中的元素数据置Null
-                if (e.next == null) // 若此判定成立 则代表e的下面没有节点了
-                    newTab[e.hash & (newCap - 1)] = e; // 将e直接存于新表的指定位置
-                else if (e instanceof TreeNode)  // 若e是TreeNode类型
-                    // 分割树，将新表和旧表分割成两个树，并判断索引处节点的长度是否需要转换成红黑树放入新表存储
+            // 当前遍历到的数组不为空,空位不需要迁移
+            if ((e = oldTab[j]) != null) {
+                // 将原数组中的元素移除到刚刚的e中
+                // 再判断三种情况
+                oldTab[j] = null;
+                
+                // 第一种情况,单个元素
+                if (e.next == null)
+                    newTab[e.hash & (newCap - 1)] = e;
+                
+                // 第二种情况,该元素为红黑树的根节点
+                else if (e instanceof TreeNode)
+                    // 分割树，把这颗树打散成两颗树插入到新桶中去
+                    // 内部的树实现的
                     ((TreeNode<K,V>)e).split(this, newTab, j, oldCap);
-                else { // preserve order
-                    Node<K,V> loHead = null, loTail = null; // 存储与旧索引的相同的节点
-                    Node<K,V> hiHead = null, hiTail = null; // 存储与新索引相同的节点
+                
+                // 剩下的一种情况,该节点是链表的头节点
+                else {
+                    // 构造两条链表
+                    // 原链表中有一部分需要向后移动n位(n是扩容的容积变化量,也是扩容前的容积)
+					// 如果n = 2^x
+                    // 那么一个数组元素中的链表上的元素的hash值后x位全部都是一样的
+                    // 因为从hash值到数组下表是通过对n取余(也就是对n-1进行按位与)获得的
+                    // 所以后n位是一致的
+                    // 那么倒数的第x位只有0和1之分
+                    // 如果为0,那么以为这它对(n+1)和对n的取余是相同的
+                    // 为1相反
+                    // 所以倒数第x+1位如果为0,扩容后不需要移动
+                    // 为1,向后移动x位
+                    // 这里就是找出这种为1的元素,将其抽出成另一个链表,放到当前下标+n的数组位置上
+                    Node<K,V> loHead = null, loTail = null;// 0 --> low
+                    Node<K,V> hiHead = null, hiTail = null;// 1 --> high
                     Node<K,V> next;
                     // 通过Do循环 获取新旧索引的节点
                     do {
                         next = e.next;
+                        // 提取倒数第n+1位进行判断
                         if ((e.hash & oldCap) == 0) {
                             if (loTail == null)
+                                // 第一次插入
                                 loHead = e;
                             else
                                 loTail.next = e;
@@ -305,7 +330,8 @@ final Node<K,V>[] resize() {
                             hiTail = e;
                         }
                     } while ((e = next) != null);
-                    // 通过判定将旧数据和新数据存储到新表指定的位置
+                    // 尾节点next指向null
+                    // 将两个链表放入响应位置
                     if (loTail != null) {
                         loTail.next = null;
                         newTab[j] = loHead;
