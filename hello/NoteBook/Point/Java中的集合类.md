@@ -260,8 +260,7 @@ final Node<K,V>[] resize() {
     // 前面的逻辑中没有对新表的扩容进行设置
     // 即当前为带参数构造的初始化操作
     if (newThr == 0) {  
-        float ft = (float)newCalse if (oldThr > 0)
-        newCap = oldTp * loadFactor;  // 通过新表大小*负载因子获取
+        float ft = (float)newCap * loadFactor;  // 通过新表大小*负载因子获取
         // 如果新表的更新大小超过了极限,并且当前计算的阀值小于极限,那么将其设置为极限
         // 意味着不需要进行在进行扩容了
         // 注意float和int转换时的范围,不能超过极限值
@@ -466,4 +465,3 @@ private static int hugeCapacity(int minCapacity) {
     MAX_ARRAY_SIZE;
 }
 ```
-
