@@ -356,6 +356,8 @@ final Node<K,V>[] resize() {
 
 ## 2. ArrayList
 
+​		ArrayList使用数组实现
+
 ### (1). 常量和构造方法
 
 ```java
@@ -408,6 +410,31 @@ public ArrayList(int initialCapacity) {
     }
 }
 ```
+
+### (2). add()方法
+
+```java
+// 在尾部添加一个元素
+public boolean add(E e) {
+    // 判断是否需要扩容
+    ensureCapacityInternal(size + 1);
+    // 在第一个空位上放置元素
+    elementData[size++] = e;
+    return true;
+}
+
+// 指定位置添加元素
+public void add(int index, E element) {
+    rangeCheckForAdd(index);
+
+    ensureCapacityInternal(size + 1);
+    System.arraycopy(elementData, index, elementData, index + 1, size - index);
+    elementData[index] = element;
+    size++;
+}
+```
+
+
 
 ### (2). 扩容
 
