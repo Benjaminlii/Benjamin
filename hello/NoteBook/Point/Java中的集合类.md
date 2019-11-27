@@ -376,7 +376,7 @@ transient Object[] elementData;
 // list的长度
 private int size;
 
-// 构造一个空列表。默认的初始容量grow时为10并不是在初始时就创建，而是在需要空间时初始化
+// 构造一个空列表。默认的初始容量grow时为10并不是在初始时就创建，而是dao在需要空间时初始化
 public ArrayList() {
     this.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
 }
@@ -416,7 +416,7 @@ public ArrayList(int initialCapacity) {
 ```java
 // 在尾部添加一个元素
 public boolean add(E e) {
-    // 判断是否需要扩容
+    // 判断是否需要扩容,如果需要则进行扩容
     ensureCapacityInternal(size + 1);
     // 在第一个空位上放置元素
     elementData[size++] = e;
@@ -425,31 +425,64 @@ public boolean add(E e) {
 
 // 指定位置添加元素
 public void add(int index, E element) {
+    // 检查插入位置是否合理
     rangeCheckForAdd(index);
-
+    // 判断是否进行扩容......
     ensureCapacityInternal(size + 1);
+    // 将指定位置后面的元素向后移动一个格子
     System.arraycopy(elementData, index, elementData, index + 1, size - index);
     elementData[index] = element;
     size++;
 }
+private void rangeCheckForAdd(int index) {
+    // 插入的位置肯定不能大于size或者小于0
+    if (index > size || index < 0)
+        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+}
 ```
 
+### (3). get()方法
 
+```java
+public E get(int index) {
+    // 检验索引是否合法
+    rangeCheck(index);
+    return elementData(index);
+}
+// ArrayList中元素全部存储在前面,中间不会出现空闲元素
+// 所以检查的时候判断下标和size的大小即可
+private void rangeCheck(int index) {
+    if (index >= size)
+        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+}
+```
+
+### (4). remove()方法
+
+```java
+// remove函数用户移除指定下标的元素，此时会把指定下标到数组末尾的元素向前移动一个单位，并且会把数组最后一个元素设置为null
+public E remove(int index) {
+    rangeCheck(index);//检查index的合理性
+
+    modCount++;//这个作用很多，比如用来检测快速失败的一种标志。
+    E oldValue = elementData(index);//通过索引直接找到该元素
+
+    int numMoved = size - index - 1;//计算要移动的数组长度
+    if (numMoved > 0)
+        //这个方法也已经解释过了，就是用来移动元素的。
+        System.arraycopy(elementData, index+1, elementData, index,
+                         numMoved);
+    //将--size上的位置赋值为null，让gc(垃圾回收机制)更快的回收它。
+    elementData[--size] = null; // clear to let GC do its work
+    //返回删除的元素。
+    return oldValue;
+}
+```
 
 ### (2). 扩容
 
 ```java
-// 如果指定的容量比默认的方案大，就设置为指定容量扩容。
-public void ensureCapacity(int minCapacity) {
-    // 默认空的list实例最小扩容为10，否则就为0。elementData设置为非DEFAULTCAPACITY_EMPTY_ELEMENTDATA表示用户指定了容量或collection构造arrayList
-    int minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)
-        ? 0 : DEFAULT_CAPACITY;
-
-    if (minCapacity > minExpand) {
-        ensureExplicitCapacity(minCapacity);
-    }
-}
-// 在指定容量和默认容量间选择更大的扩容容量
+// 在使用默认List实例的情况下,保证至少扩容到默认初始化长度10
 private void ensureCapacityInternal(int minCapacity) {
     // 如果是默认大小的list实例，最小容量应该比默认容量10要大，否则使用默认容量
     if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
@@ -458,7 +491,7 @@ private void ensureCapacityInternal(int minCapacity) {
     ensureExplicitCapacity(minCapacity);
 }
 
-// 如果指定的容量大于数组长度elementData.length就调用grow()扩大数组
+// ArrayList元素数+1,判断是否需要扩容
 private void ensureExplicitCapacity(int minCapacity) {
     modCount++;
     // overflow-conscious code
@@ -467,16 +500,17 @@ private void ensureExplicitCapacity(int minCapacity) {
         grow(minCapacity);
 }
 
-// 扩大数组容量为1.5倍旧容量或更大的指定容量
+// 对扩容大小进行判断和选择
+// 然后创建相应大小的数组,并使用Arrays.copyOf进行元素的移动
 private void grow(int minCapacity) {
     // overflow-conscious code
     int oldCapacity = elementData.length;
     // 新容量为旧容量的1.5倍
     int newCapacity = oldCapacity + (oldCapacity >> 1);
-    // 如果指定容量大于1.5倍旧容量就取指定容量
+    // 至少应该扩容到原容量的1.5倍
     if (newCapacity - minCapacity < 0)
         newCapacity = minCapacity;
-    // 如果新容量超过数组最大容量
+    // 如果新数组大小超出极限,那么使用极限大小作为新数组长度
     if (newCapacity - MAX_ARRAY_SIZE > 0)
         newCapacity = hugeCapacity(minCapacity);
     // minCapacity is usually close to size, so this is a win:
@@ -492,3 +526,238 @@ private static int hugeCapacity(int minCapacity) {
     MAX_ARRAY_SIZE;
 }
 ```
+
+## 3. HashSet
+
+​		内部使用HashMap实现,使用HashMap的key存储元素,所以不可能出现重复(value为一个静态常量Object).
+
+## 4. Hashtable
+
+​		内部与HashMap实现类似,略有不同.
+
+​		t就是小写的,在Java驼峰命名法出现之前,Hashtable就存在了.
+
+### (1). 与HashMap区别
+
+|          | Hashtable                                                    | HashMap                                                      |
+| -------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| null值   | 不允许null值                                                 | 可以有一个null值的key(null的hash结果为0)                     |
+| 线程安全 | 线程安全(synchronized实现)                                   | 线程不安全(扩容时体现)                                       |
+| 初始大小 | 11或者传入参数值(构造方法执行完就会有空间)                   | 默认16或者参数的下一个2次幂(要拥有空间必须要进行一次put操作) |
+| 扩容     | 二倍加一扩容                                                 | 二倍扩容                                                     |
+| 扩容机制 | 全部元素再次hash一遍                                         | 判断key的hash结果的倒数第n位的值为0或者1                     |
+| hash函数 | (hash & 0x7FFFFFFF) % tab.length (与操作去掉符号位,直接取余) | 与高16位按位异或后取余                                       |
+|          |                                                              |                                                              |
+|          |                                                              |                                                              |
+
+### (2). 构造方法
+
+```java
+// 默认初始化大小为11,负载因子为0.75
+public Hashtable() {
+    this(11, 0.75f);
+}
+public Hashtable(int initialCapacity) {
+    this(initialCapacity, 0.75f);
+}
+public Hashtable(int initialCapacity, float loadFactor) {
+    // 对初始容量进行判断,不能为负数
+    if (initialCapacity < 0)
+        throw new IllegalArgumentException("Illegal Capacity: "+ initialCapacity);
+    // 加载因子不能小于等于零,且不能为空
+    if (loadFactor <= 0 || Float.isNaN(loadFactor))
+        throw new IllegalArgumentException("Illegal Load: "+loadFactor);
+    // 至少要有一个大小的空间
+    if (initialCapacity==0)
+        initialCapacity = 1;
+    this.loadFactor = loadFactor;
+    // 在初始化时就会拥有容量
+    table = new Entry<?,?>[initialCapacity];
+    threshold = (int)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+}
+```
+
+### (3). put()方法
+
+```java
+// 线程安全
+public synchronized V put(K key, V value) {
+    // 不允许插入value为null的元素
+    if (value == null) {
+        throw new NullPointerException();
+    }
+
+    Entry<?,?> tab[] = table;
+    int hash = key.hashCode();
+    // hash函数为 去掉符号位取余
+    int index = (hash & 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings("unchecked")
+    Entry<K,V> entry = (Entry<K,V>)tab[index];
+    // 循环判断能否在数组中对应的链表中找到覆盖元素
+    for(; entry != null ; entry = entry.next) {
+        if ((entry.hash == hash) && entry.key.equals(key)) {
+            V old = entry.value;
+            entry.value = value;
+            return old;
+        }
+    }
+    // 找不到覆盖的元素,那么插入到链表前,这里是头插法
+    addEntry(hash, key, value, index);
+    return null;
+}
+private void addEntry(int hash, K key, V value, int index) {
+    modCount++;
+
+    Entry<?,?> tab[] = table;
+    if (count >= threshold) {
+        // 如果容量大于阈值,扩容
+        rehash();
+		// 扩容后重新hash
+        tab = table;
+        hash = key.hashCode();
+        index = (hash & 0x7FFFFFFF) % tab.length;
+    }
+	
+    // 头插法
+    @SuppressWarnings("unchecked")
+    Entry<K,V> e = (Entry<K,V>) tab[index];
+    // 将链表e传入,链接到新节点的后继,然后放入数组中
+    tab[index] = new Entry<>(hash, key, value, e);
+    count++;
+}
+```
+
+(4). rehash()方法
+
+```java
+// 扩容方法fangfa
+protected void rehash() {
+    int oldCapacity = table.length;
+    Entry<?,?>[] oldMap = table;
+
+    // 二倍加一扩容
+    int newCapacity = (oldCapacity << 1) + 1;
+    // 对扩容后的大小进行合法性判断
+    if (newCapacity - MAX_ARRAY_SIZE > 0) {
+        if (oldCapacity == MAX_ARRAY_SIZE)
+            return;
+        newCapacity = MAX_ARRAY_SIZE;
+    }
+    // 分配新空间
+    Entry<?,?>[] newMap = new Entry<?,?>[newCapacity];
+
+    modCount++;
+    // 计算新的阈值,不能超过极限大小
+    threshold = (int)Math.min(newCapacity * loadFactor, MAX_ARRAY_SIZE + 1);
+    table = newMap;
+	// 放置原数组中的元素
+    // 遍历原数组中的单元格
+    for (int i = oldCapacity ; i-- > 0 ;) {
+        // 遍历每一个单元格的链表
+        for (Entry<K,V> old = (Entry<K,V>)oldMap[i] ; old != null ; ) {
+            Entry<K,V> e = old;
+            old = old.next;
+			// 重新hash,插入元素到新的位置(还是头插法)
+            int index = (e.hash & 0x7FFFFFFF) % newCapacity;
+            e.next = (Entry<K,V>)newMap[index];
+            newMap[index] = e;
+        }
+    }
+}
+```
+
+### (4). remove()方法
+
+```java
+public synchronized V remove(Object key) {
+    Entry<?,?> tab[] = table;
+    // 通过hash函数计算出下标
+    int hash = key.hashCode();
+    int index = (hash & 0x7FFFFFFF) % tab.length;
+    @SuppressWarnings("unchecked")
+    Entry<K,V> e = (Entry<K,V>)tab[index];
+    // 遍历这个下标对应的链表
+    for(Entry<K,V> prev = null ; e != null ; prev = e, e = e.next) {
+        // 寻找匹配key的元素
+        if ((e.hash == hash) && e.key.equals(key)) {
+            modCount++;
+            // 判断前继节点,也就是匹配的这个元素不是链表头结点
+            // 删除节点
+            if (prev != null) {
+                prev.next = e.next;
+            } else {
+                tab[index] = e.next;
+            }
+            // 返回原值
+            count--;
+            V oldValue = e.value;
+            e.value = null;
+            return oldValue;
+        }
+    }
+    return null;
+}
+```
+
+### (5). get()方法
+
+```java
+public synchronized V get(Object key) {
+    Entry<?,?> tab[] = table;
+    int hash = key.hashCode();
+    int index = (hash & 0x7FFFFFFF) % tab.length;
+	// 遍历对应下标处的链表
+    for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
+        if ((e.hash == hash) && e.key.equals(key)) {
+            return (V)e.value;
+        }
+    }
+    return null;
+}
+```
+
+## 5. LinkedList
+
+​		使用链表实现的list
+
+​		会保存头结点和尾节点,内部是双向链表.
+
+​		随机读取效率底下,get(int index)方法判断index的大小,然后从头或者尾进行遍历
+
+​		插入效率相对较高,省去数组实现时元素的移动.
+
+## 6. ConcurrentHashMap
+
+​		线程安全的HashMap,内部使用锁分段技术,将内部数据分为一段一段,每一段配一把锁,当其中一个端被访问时,其他段也能被访问.
+
+​		有些方法是需要跨段的,如size()和containsValue().
+
+​		初始化数组使用CAS乐观锁实现
+
+## 7. Vactor
+
+​		类似于ArrayList,但是Vactor是线程安全的
+
+​		Vactor二倍扩容
+
+​		Vactor性能差一些,因为内部使用了synchronized方法
+
+## 8. TreeMap
+
+​		带顺序的Map,内部使用红黑树实现
+
+​		要保证顺序就使得程序运行效率贬低了,树中的插入,保持平衡等因素
+
+## 9. 集合的优点
+
+​		复用性
+
+​		降低维护成本
+
+## 10. 集合的层次结构
+
+​		Collection		map
+
+​		set和list
+
+​		
