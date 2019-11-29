@@ -128,10 +128,16 @@ VALUE
 
 ## 5. Redis分布式锁
 
-setnx(key, value)：“set if not exits”，若该key-value不存在，则成功加入缓存并且返回1，否则返回0。
+-   setnx(key, value)
+    -   “set if not exits”
+    -   若该key-value不存在，则成功加入缓存并且返回1，否则返回0。
+    -   相当于获取锁,如果key已经存在了,返回0
+-   getset(key, value)
+    -   先进行get获取原值,再设置新的值(用于解决死锁)
+-   expire(key, seconds)
+    -   设置key-value的有效期为seconds秒。
 
-get(key)：获得key对应的value值，若不存在则返回nil。
-
-getset(key, value)：先获取key对应的value值，若不存在则返回nil，然后将旧的value更新为新的value。
-
-expire(key, seconds)：设置key-value的有效期为seconds秒。
+>    setnx和expire中间出现故障的解决办法:
+>
+>   1.  当前时间戳作为value存入此锁中，通过当前时间戳和Redis中的时间戳进行对比，如果超过一定差值，认为锁已经时效，防止锁无限期的锁下去
+>   1.  合并命令
