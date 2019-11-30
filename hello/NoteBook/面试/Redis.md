@@ -132,12 +132,45 @@ VALUE
     -   “set if not exits”
     -   若该key-value不存在，则成功加入缓存并且返回1，否则返回0。
     -   相当于获取锁,如果key已经存在了,返回0
--   getset(key, value)
-    -   先进行get获取原值,再设置新的值(用于解决死锁)
 -   expire(key, seconds)
     -   设置key-value的有效期为seconds秒。
+-   getset(key, value)
+    -   先进行get获取原值,再设置新的值(用于解决死锁)
 
->    setnx和expire中间出现故障的解决办法:
->
->   1.  当前时间戳作为value存入此锁中，通过当前时间戳和Redis中的时间戳进行对比，如果超过一定差值，认为锁已经时效，防止锁无限期的锁下去
->   1.  合并命令
+setnx和expire中间出现故障的解决办法:
+
+   1.  放弃使用expire命令.将当前时间戳作为value存入此锁中，通过当前时间戳和Redis中的时间戳进行对比，如果超过一定差值，认为锁已经时效，防止锁无限期的锁下去.如果两个线程同时发现锁超时,可能会同时获取到锁.这个问题通过getset()解决,通过getset原子操作保证只能有
+
+       ```java
+       while(jedis.setnx(lock, now+超时时间)==0）{
+           if(now>jedis.get(lock) && now>jedis.getset(lock, now+超时时间)){
+               // 这里先判断锁是否过期
+               // 然后如果锁过期了,尝试竞争锁,只有一个线程能成功正确的返回之前的过期时间
+               // 这时多个线程中的其他线程都会返回新的超时时间
+               // 这个超时时间被更改并不重要,主要就是用于防止永久锁,问题不大
+               break;
+           }else{
+               Thread.sleep(300);
+           }
+       }
+       // 执行业务代码;
+       jedis.del(lock);
+       ```
+
+   2.  合并命令
+
+       ```redis
+       // redis6.2后可将上述两步合并起来
+       set key value seconds milliseconds nx|xx
+       
+       // seconds:秒
+       // milliseconds：毫秒
+       // nx：只有键不存在时，才对键进行设置操作
+       // xx：只有键存在时，才对键进行设置操作
+       // set操作成功完成时，返回ok，否则返回nil
+       ```
+
+       
+
+
+
