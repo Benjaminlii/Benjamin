@@ -161,7 +161,9 @@ public MyClass{
 
 ​		Monitor相当于许可证,拿到Monitor可以进行操作,没拿到需要等待.
 
-Monitor中有几个关键属性:
+​		在Java虚拟机中,monitor是由ObjectMonitor实现的.
+
+ObjectMonitor中有几个关键属性:
 
 -   _owner:指向持有Monitor对象的线程
 -   _WaitSet:存放在该Monitor上处于wait状态的线程队列(obj.wait())
@@ -196,4 +198,139 @@ Monitor中有几个关键属性:
 
 #### 1). 重量级锁
 
-​		synchronized本质依赖监视器锁monitor实现,而monitor的本质是依赖于底层操作系统的Mutex Lock实现,要进行线程之间的切换需要从用户态转换成内核态,成本非常高.
+​		synchronized本质依赖监视器锁monitor实现,而monitor的本质是依赖于底层操作系统的Mutex Lock实现,监视器锁可以认为直接对应底层操作系统中的互斥量（mutex）,要进行线程之间的切换需要从用户态转换成内核态,成本非常高.
+
+​		JDK 6之后对synchronized锁进行优化,新增了轻量级锁和偏向锁.
+
+#### 2). 偏向锁
+
+​		“偏向”的意思是，偏向锁假定将来只有第一个申请锁的线程会使用锁（不会有任何线程再来申请锁），因此，只需要在Mark Word中CAS记录owner（本质上也是更新，但初始值为空），如果记录成功，则偏向锁获取成功，记录锁状态为偏向锁，以后当前线程等于owner就可以零成本的直接获得锁；否则，说明有其他线程竞争，膨胀为轻量级锁。
+
+#### 3). 轻量级锁
+
+​		使用轻量级锁时，不需要申请互斥量，仅仅将Mark Word中的部分字节CAS更新指向线程栈中的Lock Record，如果更新成功，则轻量级锁获取成功，记录锁状态为轻量级锁；否则，说明已经有线程获得了轻量级锁，目前发生了锁竞争（允许短时间的锁竞争,使用自旋锁优化），接下来膨胀为重量级锁。
+
+1.  在代码进入同步块的时候，如果同步对象锁状态为无锁状态（锁标志位为“01”状态，是否为偏向锁为“0”），虚拟机首先将==在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间==，用于存储锁对象目前的Mark Word的拷贝
+1.  拷贝对象头中的==Mark Word复制到锁记录==（Lock Record）中
+1.  线程尝试==使用CAS将对象头中的Mark Word替换为指向锁记录的指针==，成功则代表获得锁，失败表示其他线程竞争锁，当前线程尝试使用自旋操作来获取锁。
+1.  自旋多次后仍然没有获取到锁,该锁升级为重量级锁,使用mutex阻塞当前线程
+
+#### 4). 自旋锁
+
+-   当前线程竞争锁失败时，打算阻塞自己
+-   不直接阻塞自己，而是自旋（空等待，比如一个空的有限for循环）一会
+-   在自旋的同时重新竞争锁
+-   如果自旋结束前获得了锁，那么锁获取成功；否则，自旋结束后阻塞自己
+
+## 5. 深拷贝和浅拷贝
+
+​		Object对象有个clone()方法，实现了对象中各个属性的复制，但它的可见范围是protected的，所以实体类使用克隆的前提是：
+
+1.  实现Cloneable接口，这是一个标记接口，自身没有方法。 
+1.  覆盖clone()方法，可见性提升为public。
+
+​		调用Object的clone()方法可以返回一个与当前对象完全一样的拷贝对象.
+
+​		浅拷贝：创建一个新对象，然后将当前对象的非静态字段复制到该新对象，如果字段是值类型的，那么对该字段执行复制；如果该字段是引用类型的话，则复制引用但不复制引用的对象。
+
+​		深拷贝：创建一个新对象，然后将当前对象的非静态字段复制到该新对象，无论该字段是值类型的还是引用类型，都复制独立的一份。当你修改其中一个对象的任何内容时，都不会影响另一个对象的内容。
+
+​		深拷贝和浅拷贝的区别在于:==对对象内部的引用是直接复制还是递归的进行拷贝.==
+
+## 6. 线程池
+
+### (1). 为什么需要线程池
+
+​		减少线程的创建和销毁操作,增加复用
+
+### (2). 线程池参数
+
+```java
+public ThreadPoolExecutor(int corePoolSize,
+                              int maximumPoolSize,
+                              long keepAliveTime,
+                              TimeUnit unit,
+                              BlockingQueue<Runnable> workQueue,
+                              ThreadFactory threadFactory,
+                              RejectedExecutionHandler handler)
+```
+
+-   corePoolSize:核心线程数,线程池中至少存活的线程,不会进行销毁.(关于超时时间可以进行设置是否进行销毁)
+-   maxumumPoolSize:所有线程总数上限(核心线程+临时线程)
+-   keepAliveTime:线程最大空闲时间,线程闲置的时间到达这个时间会被销毁(默认不使用于核心线程)
+-   unit:超时时间的单位
+-   workQueue:任务队列,如果线程池的核心线程没有空闲,此时出现了新的任务,新任务会被放入这个队列
+    -   有界队列:超出队列的上限后会创建临时线程
+    -   无界队列:永远不会创建临时线程
+-   threadFactory:一个接口对象,用于定义生成线程的方式,如线程名格式
+-   handler:当任务队列满了,出现新任务时的拒绝策略
+    -   ThreadPoolExecutor.AbortPolicy：直接抛出异常，这是==默认策略==
+    -   ThreadPoolExecutor.DiscardPolicy：直接丢弃任务，但是不抛出异常。
+    -   ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后将新来的任务加入等待队列
+    -   ThreadPoolExecutor.CallerRunsPolicy：由线程池所在的线程处理该任务，比如在 main 函数中创建线程池，如果执行此策略，将有 main 线程来执行该任务
+
+### (3). 几种封装好的线程池实现(不推荐使用,但是很重要)
+
+>   以下各种实现都有包含ThreadFactory的构造,下面没有列举
+
+#### 1). newFixedThreadPool
+
+```java
+public static ExecutorService newFixedThreadPool(int nThreads) {
+    return new ThreadPoolExecutor(nThreads, nThreads,
+                                  0L, TimeUnit.MILLISECONDS,
+                                  new LinkedBlockingQueue<Runnable>());
+}
+```
+
+​		一个==线程数量固定==的线程池，规定的最大线程数量，超过这个数量之后进来的任务，会放到等待队列中，如果有空闲线程，则在等待队列中获取，遵循先进先出原则。
+
+​		核心线程数和最大线程数一致
+
+​		默认使用的是 LinkedBlockingQueue(无界队列) 作为等待队列
+
+#### 2). newSingleThreadExecutor
+
+```java
+public static ExecutorService newSingleThreadExecutor() {
+    return new FinalizableDelegatedExecutorService
+        (new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,
+                                new LinkedBlockingQueue<Runnable>()));
+}
+```
+
+​		==只有一个线程==的线程池,其他任务进来,会在等待队列中排队.
+
+​		使用LinkedBlockingQueue(无界队列) 作为等待队列,可能会无限长
+
+#### 3). newCachedThreadPool
+
+```java
+public static ExecutorService newCachedThreadPool() {
+    return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                  60L, TimeUnit.SECONDS,
+                                  new SynchronousQueue<Runnable>());
+}
+```
+
+​		缓存型线程池,全部都是临时线程.
+
+​		==队列中不保存等待任务==,当前没有空闲线程直接创建新的临时线程.临时线程的空闲时间很短.
+
+​		关键在于使用SynchronousQueue作为等待队列,它不会保留任务.
+
+#### 4). newScheduledThreadPool
+
+```java
+public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize) {
+    return new ScheduledThreadPoolExecutor(corePoolSize);
+}
+public ScheduledThreadPoolExecutor(int corePoolSize) {
+    super(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS,
+          new DelayedWorkQueue());
+}
+```
+
+​		计划型线程池,可以设置固定时间的延时或者定期执行任务.
+
+​		使用DelayedWorkQueue 作为等待队列,保证队列中的任务只有到了指定的延时时间，才会执行任务。
