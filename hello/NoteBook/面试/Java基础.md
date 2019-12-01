@@ -111,4 +111,89 @@
 >
 >   finally代码块中的代码执行在这两个过程之间.也就是说,如果finally代码块中没有出现return语句,是不会影响方法的返回值的.如果有,那么操作数栈顶的值会被替换,会改变方法的返回值.
 
-​		
+## 4. Synchronized详解
+
+### (1). Synchronized使用
+
+#### 1). 对象锁(同步代码块)
+
+```java
+synchronized (object) {
+	// 临界区代码
+}
+```
+
+​		不同线程访问同一个对象的对象锁,只能有一个线程成功进入,其他线程阻塞在代码块外面.当该线程退出代码块时,其他的线程进行CPU的竞争(就绪态),成功竞争到CPU的线程获取锁.
+
+#### 2). 方法锁(同步方法)
+
+```java
+public synchronized method(){
+    // 整个方法内部都是临界区
+}
+```
+
+​		不同线程不能同时进入此方法,锁对象为this,所以多个线程调用==同一个对象的不同同步方法==也会进行同步
+
+#### 3). 类锁
+
+```java
+public MyClass{
+    public synchronized static void method(){}
+}
+```
+
+​		不同的线程不能同时进入这个类的这个静态方法.使用当前类的类对象==MyClass.class为锁==,所以其他线程只要调用这个类其中的任意一个静态同步方法,都会被阻塞.
+
+### (2). Synchronized原理
+
+#### 1). Java对象模型
+
+​		每一个Java类在被JVM加载的时候,JVM都会给这个类创建一个instanceKlass保存在方法区,在JVM层用来表示该Java类.使用new创建一个对象的时候,JVM会创建一个instanceOopDesc对象,这个对象中包含了对象头和实例数据(还会有填充数据来保证每个对象的内存都是8字节的整数倍)
+
+​		对象头包含两部分:Mark Word(运行时数据,哈希码,GC分代年龄,锁状态标志,等等)和Klass Point(只想的是对象所属类的instanceKlass).
+
+​		对象的实例（instantOopDesc)保存在堆上，对象的元数据（instantKlass）保存在方法区，对象的引用保存在栈上。
+
+#### 2). 监视锁Monitor
+
+​		每一个Object对象中都内置了一个Monitor对象.(对象头中Mark Word中的LockWord指向的是Monitor对象的起始地址)
+
+​		Monitor相当于许可证,拿到Monitor可以进行操作,没拿到需要等待.
+
+Monitor中有几个关键属性:
+
+-   _owner:指向持有Monitor对象的线程
+-   _WaitSet:存放在该Monitor上处于wait状态的线程队列(obj.wait())
+-   _EntryList:存放处于等待锁block状态的线程队列
+-   _recursions:锁的可重入次数
+-   _count:用来记录当前占有锁的线程的重入次数
+
+一些操作:
+
+-   线程T等待获取锁(同步代码块外等待):_EntryList中加入T
+-   线程T获取对象锁(进入代码块):\_EntryList移除T,\_Owner置为T,计数器\_count+1
+-   线程T获取对象锁之后调用了wait()方法:在之前的基础上给\_WaitSet中加入T
+
+#### 3). Synchronized底层
+
+##### 1>. 同步代码块
+
+-   monitorenter指令插入到同步代码块的开始位置
+-   monitorexit指令插入到同步代码块的结束位置
+
+​		JVM保证这两个指令是一一对应的.
+
+​		当线程执行到monitorenter时,会尝试获取该对象所对应的monitor的所有权.
+
+##### 2>. 同步(静态)方法
+
+​		synchronized方法则会被翻译成普通的方法调用和返回指令如:invokevirtual、areturn指令.
+
+​		在VM字节码层面并没有任何特别的指令来实现被synchronized修饰的方法，而是在==Class文件的方法表中将该方法的access_flags字段中的synchronized标志置为1==，表示该方法是同步方法并==使用调用该方法的对象或该方法所属的Class在JVM的内部对象表示Klass做为锁对象==。
+
+### (3). 锁优化
+
+#### 1). 重量级锁
+
+​		synchronized本质依赖监视器锁monitor实现,而monitor的本质是依赖于底层操作系统的Mutex Lock实现,要进行线程之间的切换需要从用户态转换成内核态,成本非常高.
