@@ -10,7 +10,7 @@
 
 ### (1). 封装
 
-​		核心思想就是“隐藏细节”、“数据安全”：将对象不需要让外界访问的成员变量和方法私有化，只提供符合开发者意愿的公有方法来访问这些数据和逻辑，保证了数据的安全和程序的稳定。
+​		核心思想就是“隐藏细节”、“数据安全”、”重用”、”不必关心具体的实现”：将对象不需要让外界访问的成员变量和方法私有化，只提供符合开发者意愿的公有方法来访问这些数据和逻辑，保证了数据的安全和程序的稳定。
 
 ​		使用 `private` 修饰符把成员变量设置为私有，防止外部程序直接随意调用或修改成员变量，然后对外提供 `public` 的 `set` 和 `get` 方法按照开发者的意愿（可以编写一些业务逻辑代码，虽然很少这样做）设置和获取成员变量的值。
 
@@ -334,3 +334,44 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 ​		计划型线程池,可以设置固定时间的延时或者定期执行任务.
 
 ​		使用DelayedWorkQueue 作为等待队列,保证队列中的任务只有到了指定的延时时间，才会执行任务。
+
+## 7. 反射
+
+与反射机制相关的类:
+
+-   Class类:类在内存中的实体
+-   Field类:类的成员变量
+-   Method类:类的方法
+-   Constructor类:类的构造方法
+
+### (1). 获取Class对象
+
+-   Class.forName(className)
+
+### (2). 获取构造方法
+
+-   Class.getDeclaredConstructors()获取所有构造方法的数组.(不加Declared不能获取私有构造)
+-   Class.getDeclaredConstructors(参数类型数组也就是Class[])获取指定参数的构造.(要try-catch,可能找不到)
+
+### (3). 调用构造方法
+
+-   Constructor.newInstance(参数1, 参数2)调用相应构造方法
+    -   如果是私有构造,需要进行设置setAccessible(true)
+
+### (4). 获取方法
+
+​		与获取构造方法类似
+
+-   Class.getDeclaredMethod(String methodName, Class[] paraTypeArray)获取指定名称,参数的方法
+-   Class.getDeclaredMethods()获取全部的方法数组
+
+### (5). 调用方法
+
+-   Method.invoke(参数1,参数2,参数3.......)返回Object
+    -   私有方法setAccessible(true)
+
+### (5). 获取属性
+
+-   Class.getDeclaredField(String fieldName)根据属性名获取属性对象
+-   Class.getDeclaredFields()获取所有属性数组
+    -   通过set设置属性,私有setAccessible(true)
