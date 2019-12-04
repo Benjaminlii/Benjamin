@@ -375,3 +375,17 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 -   Class.getDeclaredField(String fieldName)根据属性名获取属性对象
 -   Class.getDeclaredFields()获取所有属性数组
     -   通过set设置属性,私有setAccessible(true)
+
+## 8. 抽象类和接口的区别
+
+### (1). 组成
+
+-   抽象类可以有实现了的方法,接口不可以有
+-   抽象类可以有各种访问级别的成员变量,接口只能有public static final的变量
+-   抽象类可以有构造器(用于子类中调用以构造父类部分的属性),接口不能
+-   抽象类中不能有private的方法,接口中只能有public
+
+### (2). 用途
+
+-   抽象类用于表示不可实例化的类,本质上还是类,而接口只是方法的集合,并不是类
+-   抽象类只能单继承,而接口可以实现多个
