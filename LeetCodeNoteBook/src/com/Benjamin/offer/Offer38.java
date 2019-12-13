@@ -27,7 +27,6 @@ public class Offer38 {
             this.val = val;
 
         }
-
     }
 
     /**
