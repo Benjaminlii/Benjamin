@@ -8,15 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hello" />
         <module name="p2p-pay" />
+        <module name="spring-boot" />
         <module name="p2p-common" />
-        <module name="ssm-crud" />
         <module name="theMall" />
         <module name="p2p-web" />
         <module name="alarm" />
         <module name="p2p-timer" />
         <module name="p2p-exterface" />
         <module name="p2p-dataservice" />
-        <module name="spring-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
