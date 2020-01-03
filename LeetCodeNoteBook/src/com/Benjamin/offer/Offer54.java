@@ -8,6 +8,17 @@ import java.util.HashMap;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 题目描述
+ * 请实现一个函数用来找出字符流中第一个只出现一次的字符。
+ * 例如，当从字符流中只读出前两个字符"go"时，第一个只出现一次的字符是"g"。
+ * 当从该字符流中读出前六个字符“google"时，第一个只出现一次的字符是"l"。
+ * 输出描述:
+ * 如果当前字符流没有存在出现一次的字符，返回#字符。
+ *
+ * 思路:
+ * 输入字符使用arrayList存储,字符出现的次数使用hashMap存储.
+ * 输入是给arrayList后面添加元素,并判断当前标记输出的元素是否打破只出现一次的条件或者当前没有元素可以输出
+ * 那么更新这个值,从ansSub往后寻找第一个只出现一次的元素,将其下表记录在ansSub中
  *
  * @author: Benjamin
  * @date: 20-1-3 下午4:59
@@ -32,7 +43,7 @@ public class Offer54 {
         }
         hashMap.put(ch, times);
 
-        // 判断是否是当前认定为返回值的字符,或者当前没有可返回的字符,这时需要更新ansSub
+        // 判断是否这时输出字符已经重复,或者当前没有可返回的字符,这时需要更新ansSub
         if ((ansSub == -1) || (hashMap.get(arrayList.get(ansSub)) > 1)) {
             int sub = -1;
             for (int i = ansSub + 1; i < arrayList.size(); i++) {
