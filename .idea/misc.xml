@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="EclipseCodeFormatter">
-    <option name="defaultSettings" value="true" />
-    <option name="eclipseVersion" value="ECLIPSE_44" />
-    <option name="formatter" value="ECLIPSE" />
-    <option name="id" value="1488800577919" />
-    <option name="importOrdering" value="ECLIPSE_44" />
-    <option name="name" value="default" />
-    <option name="optimizeImports" value="false" />
-    <option name="pathToConfigFileJava" value="$USER_HOME$/Downloads/vip_code_formatter.xml" />
-    <option name="selectedJavaProfile" value="VipStyle" />
-    <option name="useOldEclipseJavaFormatter" value="true" />
-  </component>
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/alarm" />
     <file type="web" url="file://$PROJECT_DIR$/hello" />
