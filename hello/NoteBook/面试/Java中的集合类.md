@@ -77,17 +77,7 @@ public HashMap(Map<? extends K, ? extends V> m) {
 
 ​		指定负载因子的话不能为0或者null.
 
-​		制定了容量的话,会直接根据设置的值获取下一个2的幂数,作为下一次扩容的目标容积(使用threshold存储第一次初始化前的体积,这个值本来用来存放阀值的真实值).当前map不进行插入操作的话是一致没有容积的,等待第一次插入,会将容积扩展至threshold的大小,然后更新loadFactor为新的容积,更新threshold为容积的阀值倍.
-
-```java
-// 下面的代码运行都是输出0,意味着只要没有进行插入操作,HashMap是没有容积的.
-// HashMap的容积只能来自扩容
-HashMap hashMap = new HashMap();
-System.out.println(hashMap.size());
-
-HashMap hashMap = new HashMap(5);
-System.out.println(hashMap.size());
-```
+​		制定了容量的话,会直接根据设置的值获取下一个2的幂数,作为下一次扩容的目标容积(使用threshold存储第一次初始化前的体积,这个值本来用来存放阀值的真实值).==当前map不进行插入操作的话是一直没有容积的==,等待第一次插入,会将容积扩展至threshold的大小,然后更新loadFactor为新的容积,更新threshold为容积的阀值倍.
 
 ### (2). hash函数
 
@@ -128,7 +118,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
         if (p.hash == hash &&
             ((k = p.key) == key || (key != null && key.equals(k))))
             e = p;
-        else if (p instanceof TreeNode) // 如果数组中德这个元素P是TreeNode类型
+        else if (p instanceof TreeNode) // 如果数组中的这个元素P是TreeNode类型
             // 判定成功则在红黑树中查找符合的条件的节点并返回此节点
             e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
         else { // 若以上条件均判断失败，则执行以下代码
@@ -214,7 +204,7 @@ final Node<K,V> getNode(int hash, Object key) {
 
 1.  先进行一次函数调用,传入hash值,返回node对象,为了防止空指针,用三目运算符处理(一层判断)
 
-    1.  判断三个条件:node数组不为null,数组长度大于0(即数组已经被初始化),和下表处有元素存在
+    1.  判断三个条件:node数组不为null,数组长度大于0(即数组已经被初始化),和下标处有元素存在
         1.  如果key和数组该空间处的元素匹配,那么直接返回
         1.  如果不匹配,判断是否有后继
             1.  有后继的情况下判断是树还是链表

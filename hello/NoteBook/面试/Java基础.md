@@ -393,3 +393,19 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 
 -   抽象类用于表示不可实例化的类,本质上还是类,而接口只是方法的集合,并不是类
 -   抽象类只能单继承,而接口可以实现多个
+
+## 8. 关于Object.hashcode()方法
+
+​		hashCode返回的并不一定是对象的（虚拟）内存地址，具体取决于运行时库和JVM的具体实现。
+
+​		Object.hashCode是一个native方法，看不到源码。
+
+​		Object.hashCode()在JRE中应该遵循的一些契约:
+
+-   一致性，在程序的一次执行过程中，对==同一个对象必须一致地返回同一个整数==。
+
+-   如果两个对象通过==equals(Object)==比较，==结果相等==，那么对这两个对象分别调用==hashCode方法应该产生相同的整数结果==。
+
+-   如果两个对象通过java.lang.Object.equals(java.lang.Ojbect)比较，==结果不相等，不必保证对这两个对象分别调用hashCode也返回两个不相同的整数。==
+
+    
