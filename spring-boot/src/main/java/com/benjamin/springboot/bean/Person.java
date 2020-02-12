@@ -1,6 +1,7 @@
 package com.benjamin.springboot.bean;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,15 +14,22 @@ import java.util.Map;
  * <p>
  * Description:
  *
+ * @ConfigurationProperties(prefix = "persen")
+ * 将全局配置文件中的person下的配置与本类中的属性进行绑定
+ * 这个类需要被放入spring容器
+ *
+ * 如果将所有的配置全部放在一个全局配置文件中
+ * 难免造成配置文件过于臃肿的结果
+ * 那么,可以自定义更多的配置文件
+ * 并且使用@PropertySource(value = "classpath:xxx.property")注解进行非全局配置文件的绑定
+ *
+ *
  * @author: Benjamin
  * @date: 19-8-10 下午4:40
  */
 
-//@ConfigurationProperties(prefix = "persen")
-//将配置文件中的person下的配置与本类中的属性进行绑定
-//这个类需要被放入spring容器
-@Component
-@ConfigurationProperties(prefix = "person")
+//@Component
+//@ConfigurationProperties(prefix = "person")
 public class Person {
     private String name;
     private Integer age;

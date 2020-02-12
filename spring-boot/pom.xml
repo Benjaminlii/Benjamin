@@ -40,6 +40,7 @@
 
     <build>
         <plugins>
+            <!-- 打jar包的插件-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

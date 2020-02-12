@@ -8,7 +8,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="hello" />
         <module name="p2p-pay" />
-        <module name="spring-boot" />
         <module name="p2p-common" />
         <module name="theMall" />
         <module name="p2p-web" />
@@ -16,13 +15,14 @@
         <module name="p2p-timer" />
         <module name="p2p-exterface" />
         <module name="p2p-dataservice" />
+        <module name="spring-boot" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="alarm" target="1.8" />
-      <module name="hello" target="1.7" />
+      <module name="hello" target="1.8" />
       <module name="museum" target="1.7" />
-      <module name="mybatisGenerator" target="1.7" />
+      <module name="mybatisGenerator" target="1.8" />
       <module name="noteBook" target="1.7" />
       <module name="p2p-common" target="1.8" />
       <module name="p2p-dataservice" target="1.8" />
