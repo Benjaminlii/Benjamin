@@ -163,7 +163,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
     1.  如果应该进行的是覆盖操作,进行元素的替换,直接返回,不进行之后的容量判断操作
     1.  容量加一
     1.  判断扩容,调用resize()进行扩容
-    1.  走到这里说明是在链表尾插入,进行响应的操作
+    1.  走到这里说明是在链表尾插入,进行相应的操作
 
 ### (4). get()方法
 
@@ -469,7 +469,7 @@ public E remove(int index) {
 }
 ```
 
-### (2). 扩容
+### (5). 扩容
 
 ```java
 // 在使用默认List实例的情况下,保证至少扩容到默认初始化长度10
@@ -617,7 +617,7 @@ private void addEntry(int hash, K key, V value, int index) {
 }
 ```
 
-(4). rehash()方法
+### (4). rehash()方法
 
 ```java
 // 扩容方法fangfa
@@ -656,7 +656,7 @@ protected void rehash() {
 }
 ```
 
-### (4). remove()方法
+### (5). remove()方法
 
 ```java
 public synchronized V remove(Object key) {
@@ -689,7 +689,7 @@ public synchronized V remove(Object key) {
 }
 ```
 
-### (5). get()方法
+### (6). get()方法
 
 ```java
 public synchronized V get(Object key) {
