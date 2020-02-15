@@ -334,7 +334,25 @@ final Node<K,V>[] resize() {
             }
         }
     }
-    //返回新表
+    //返回新表do {
+                        next = e.next;
+                        // 提取倒数第n+1位进行判断
+                        if ((e.hash & oldCap) == 0) {
+                            if (loTail == null)
+                                // 第一次插入
+                                loHead = e;
+                            else
+                                loTail.next = e;
+                            loTail = e;
+                        }
+                        else {
+                            if (hiTail == null)
+                                hiHead = e;
+                            else
+                                hiTail.next = e;
+                            hiTail = e;
+                        }
+                    } while ((e = next) != null);
     return newTab;
 }
 ```
@@ -540,6 +558,12 @@ private static int hugeCapacity(int minCapacity) {
 |          |                                                              |                                                              |
 |          |                                                              |                                                              |
 
+>   关于扩容机制:
+>
+>   创建时，如果给定了容量初始值，那么Hashtable会直接使用你给定的大小，而HashMap会将其扩充为2的幂次方大小。也就是说Hashtable会尽量使用素数、奇数。而HashMap则总是使用2的幂作为哈希表的大小。
+>
+>   之所以会有这样的不同，是因为Hashtable和HashMap设计时的侧重点不同。Hashtable的侧重点是哈希的结果更加均匀，使得哈希冲突减少。当哈希表的大小为素数时，简单的取模哈希的结果会更加均匀。而HashMap则更加关注hash的计算效率问题。在取模计算时，如果模数是2的幂，那么我们可以直接使用位运算来得到结果，效率要大大高于做除法。HashMap为了加快hash的速度，将哈希表的大小固定为了2的幂。当然这引入了哈希分布不均匀的问题，所以HashMap为解决这问题，又对hash算法做了一些改动。这从而导致了Hashtable和HashMap的计算hash值的方法不同
+
 ### (2). 构造方法
 
 ```java
@@ -620,7 +644,7 @@ private void addEntry(int hash, K key, V value, int index) {
 ### (4). rehash()方法
 
 ```java
-// 扩容方法fangfa
+// 扩容方法
 protected void rehash() {
     int oldCapacity = table.length;
     Entry<?,?>[] oldMap = table;
@@ -706,17 +730,52 @@ public synchronized V get(Object key) {
 }
 ```
 
-## 5. LinkedList
+## 5. 各种集合类的总结
 
-​		使用链表实现的list
+### (1). HashMap
 
-​		会保存头结点和尾节点,内部是双向链表.
+1.  默认容量为16,或者传入参数的下一个2次幂大小(目的是保证容量为2次幂大小,因为内部散列方法和resize都是利用了这个特性进行的)
+1.  底层为数组+链表组成,链地址法解决哈希冲突
+1.  扩容时对于链表,按照key.hash & oldSize的结果进行判断进入那一条链表(一前一后)
+1.  线程不安全(put时造成覆盖,rehash时出现循环链表)
+    1.  关于rehash,JDK7中会出现这样的问题,在JDK8中改为尾插法,这个问题得到了改善,但还是会出现数据覆盖的问题
+    1.  JDK7中,使用的是头插法,那么就有e.next = newTable[i]的操作,如果e在A线程中标记为某个元素,而在B线程中,已经经历了多次头插法,这个元素已经不是头结点了.那么切换回A线程时,执行这一条语句就会将链表中间某个元素的next节点设置为链表头结点,就构成了循环链表
+    1.  [漫画：高并发下的HashMa](https://mp.weixin.qq.com/s?__biz=MzI2NjA3NTc4Ng==&mid=2652079766&idx=1&sn=879783e0b0ebf11bf1a5767933d4e61f&chksm=f1748d73c6030465fe6b9b3fa7fc816d4704c91bfe46cb287aefccee459153d3287172d91d23&scene=21#wechat_redirect)
+1.  哈希方法:key的hashcode和其无符号右移16为的结果进行按位异或
+1.  散列方法:对数组长度-1进行按位与(length总为2^n^,那么length-1换为二进制表示就是0b00..111111111这样的,按位与就可以达到快速取余的效果,另一方面这样可以最大限度的保证散列的更均匀,因为hash值的后n位都参与了散列)
+1.  链表的长度大于8时会进行调用树化的方法,转化为红黑树(在树化的方法内部,会判断数组长度是否小于64,如果满足,那么转为扩容,不进行树化)
+1.  元素总数大于数组长度和阈(yu,四声)值的乘积会进行扩容
+1.  可以有一个null的key,位于数组的0号位置
 
-​		随机读取效率底下,get(int index)方法判断index的大小,然后从头或者尾进行遍历
+### (2). Hashtable
 
-​		插入效率相对较高,省去数组实现时元素的移动.
+1.  名字中的t是小写
+1.  线程安全,内部使用sync保证,效率很低
+1.  初始容量为11, 2n+1扩容,这样保证容量都是奇数,并且尽可能是素数.从而保证足够散列,HashMap追求计算的速度,所以使用位运算进行散列,为了避免哈希不均匀,又加入了二次哈希(第一次为去hashcode,第二次为hash()方法)
+1.  没有树化操作
+1.  哈希方法:去掉符号位,对数组长度进行取余
+1.  扩容时因为没有HashMap的特性,所以进行的是全部元素rehash
+1.  不允许null值,会抛异常
 
-## 6. ConcurrentHashMap
+### (3). ArrayList
+
+1.  初始长度10, 1.5倍扩容
+1.  底层使用数组存储数据
+1.  内部元素是整齐的,每次中间插入或者删除时都会整体移动元素
+1.  扩容时创建新的数组,然后将原数据整体复制过去
+
+### (4). LinkedList
+
+1.  使用链表实现的list
+
+1.  会保存头结点和尾节点,内部是双向链表.
+
+1.  随机读取效率底下,get(int index)方法判断index的大小,然后选择从头或者尾进行遍历
+
+1.  插入效率相对较高,省去数组实现时元素的移动.
+1.  不需要扩容
+
+### (5). ConcurrentHashMap
 
 ​		线程安全的HashMap,内部使用锁分段技术,将内部数据分为一段一段,每一段配一把锁,当其中一个端被访问时,其他段也能被访问.
 
@@ -724,7 +783,7 @@ public synchronized V get(Object key) {
 
 ​		初始化数组使用CAS乐观锁实现
 
-## 7. Vactor
+### (6). Vactor
 
 ​		类似于ArrayList,但是Vactor是线程安全的
 
@@ -732,22 +791,20 @@ public synchronized V get(Object key) {
 
 ​		Vactor性能差一些,因为内部使用了synchronized方法
 
-## 8. TreeMap
+### (7). TreeMap
 
 ​		带顺序的Map,内部使用红黑树实现
 
 ​		要保证顺序就使得程序运行效率贬低了,树中的插入,保持平衡等因素
 
-## 9. 集合的优点
+## 6. 集合的优点
 
 ​		复用性
 
 ​		降低维护成本
 
-## 10. 集合的层次结构
+## 7. 集合的层次结构
 
 ​		Collection		map
 
 ​		set和list
-
-​		

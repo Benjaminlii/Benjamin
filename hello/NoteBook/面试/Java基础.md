@@ -341,6 +341,12 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 
 ​		使用DelayedWorkQueue 作为等待队列,保证队列中的任务只有到了指定的延时时间，才会执行任务。
 
+### (4). 线程池工作原理
+
+1.  当提交一个新任务到线程池时，线程池判断corePoolSize线程池是否都在执行任务，如果有空闲线程，则创建一个新的工作线程来执行任务，直到当前线程数等于corePoolSize；
+1.  如果当前线程数为corePoolSize，继续提交的任务被保存到阻塞队列中，等待被执行；
+1.  如果阻塞队列满了，那就创建新的线程执行当前任务，直到线程池中的线程数达到maxPoolSize，这时再有任务来，由饱和策略来处理提交的任务
+
 ## 7. 反射
 
 与反射机制相关的类:
