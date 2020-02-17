@@ -745,7 +745,7 @@ public synchronized V get(Object key) {
 1.  散列方法:对数组长度-1进行按位与(length总为2^n^,那么length-1换为二进制表示就是0b00..111111111这样的,按位与就可以达到快速取余的效果,另一方面这样可以最大限度的保证散列的更均匀,因为hash值的后n位都参与了散列)
 1.  链表的长度大于8时会进行调用树化的方法,转化为红黑树(在树化的方法内部,会判断数组长度是否小于64,如果满足,那么转为扩容,不进行树化),红黑树的元素数小于6时会退化为链表.(如果这两个值设置为一样的,那么有可能会碰见同一个元素的重复插入删除,就有可能频繁的进行树化和逆树化.并且根据泊松分布,链表长度超过8的坑那行很小,所以选择8作为判定条件,treenodes的大小大约是常规节点的两倍，因此我们仅在容器包含足够的节点以保证使用时才使用它们)
 1.  元素总数大于数组长度和阈(yu,四声)值的乘积会进行扩容
-1.  可以有一个null的key,位于数组的0号位置
+1.  可以有一个null的key,位于数组的0号位置(hash方法中对null值进行了直接返回0的设置)
 1.  JDK1.7和JDK1.8中的区别:JDK1.7中链表使用头插法,可能会在扩容时造成循环链表,JDK8中改为尾插法,解决了这个问题.JDK1.8中的HashMap增加了红黑树,提升了性能,尾插法也是考虑到这一点.
 
 ### (2). Hashtable
@@ -760,10 +760,12 @@ public synchronized V get(Object key) {
 
 ### (3). ArrayList
 
-1.  初始长度10, 1.5倍扩容
+1.  初始长度10(长度的获得和HashMap一样,都是第一次add时进行扩容获得初始长度), 1.5倍扩容
 1.  底层使用数组存储数据
 1.  内部元素是整齐的,每次中间插入或者删除时都会整体移动元素
 1.  扩容时创建新的数组,然后将原数据整体复制过去
+1.  内部允许存储null,在indexOf(Object obj)方法中,先对obj进行空值的判断,如果不是空值,后面遍历数组,使用equals方法判断相等,否则世界使用==判断是否为null.防止空指针
+1.  线程不安全
 
 ### (4). LinkedList
 
@@ -779,6 +781,8 @@ public synchronized V get(Object key) {
 ### (5). ConcurrentHashMap
 
 [HashMap？ConcurrentHashMap？相信看完这篇没人能难住你！](https://blog.csdn.net/weixin_44460333/article/details/86770169)
+
+[《吊打面试官》系列-ConcurrentHashMap & HashTable](https://www.jianshu.com/p/3a2333b2f960)
 
 #### 1). JDK1.7中:
 
@@ -798,7 +802,7 @@ public synchronized V get(Object key) {
 
 ​		在JDK1.7中已经满足n(默认16)的并发量,但当数据量上去之后,并发性能还是不够好.就抛弃了分段锁的设计.转而使用CAS+sync的加锁方式
 
-​		put操作中,如果桶中不需要初始化,桶中无元素或者扩容(也就是桶中存储的是node,这个node包括很多种,可以是单个元素,可以使链表,也可以是红黑树,这个红黑树是和JDK1.8中的红黑树一起引入的,所以JDK1.7中的ConcurrentHashMap是没有红黑树的),加sync锁进行元素的插入
+​		put操作中,如果桶中不需要初始化,桶中无元素(这时使用CAS进行原子性的插入,竞争失败的线程自旋,进入其他逻辑.这里CAS,考虑一下[经典的ABA问题与解决方法](https://blog.csdn.net/qq_42576040/article/details/88240595))或者扩容(也就是桶中存储的是node,这个node包括很多种,可以是单个元素,可以使链表,也可以是红黑树,这个红黑树是和JDK1.8中的红黑树一起引入的,所以JDK1.7中的ConcurrentHashMap是没有红黑树的),加sync锁进行元素的插入
 
 ​		get操作还是不加锁
 
@@ -818,6 +822,14 @@ public synchronized V get(Object key) {
 
 ​		要保证顺序就使得程序运行效率贬低了,树中的插入,保持平衡等因素
 
+### (8). Collections.synchronizedMap(Map)创建线程安全的map集合
+
+​		这也是实现线程安全的Map的一种方式,传入一个普通Map,返回一个线程安全的Map.
+
+​		返回的线程安全的Map中的方法实际上是调用传入的这个Map的各个方法,每个方法内部都使用sync代码块进行了同步.
+
+​		mutex是锁对象,可以由构造方法传入,默认为this
+
 ## 6. 集合的优点
 
 ​		复用性
@@ -829,3 +841,23 @@ public synchronized V get(Object key) {
 ​		Collection		map
 
 ​		set和list
+
+## 8. 迭代器
+
+​		HashMap 中的 Iterator 迭代器是 fail-fast 的，而 Hashtable 的 Enumerator 不是 fail-fast 的。
+
+​		所以，当其他线程改变了HashMap 的结构，如：增加、删除元素，将会抛出ConcurrentModificationException 异常，而 Hashtable 则不会。
+
+>   fail-fast是啥？
+
+
+
+**快速失败（fail—fast）**是java集合中的一种机制， 在用迭代器遍历一个集合对象时，如果遍历过程中对集合对象的内容进行了修改（增加、删除、修改），则会抛出Concurrent Modification Exception。
+
+>   他的原理是啥？
+
+迭代器在遍历时直接访问集合中的内容，并且在遍历过程中使用一个 modCount 变量。
+
+集合在被遍历期间如果内容发生变化，就会改变modCount的值。
+
+每当迭代器使用hashNext()/next()遍历下一个元素之前，都会检测modCount变量是否为expectedmodCount值，是的话就返回遍历；否则抛出异常，终止遍历。
