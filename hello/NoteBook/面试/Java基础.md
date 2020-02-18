@@ -491,7 +491,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
     1.  int 4字节
     1.  long 8字节
 1.  字符型
-    1.  char 2字节(ASCII码和UFT-8)
+    1.  char 2字节(ASCII码和UFT-8,默认为'\0')
 1.  浮点型
     1.  float 4字节
     1.  double 8字节
