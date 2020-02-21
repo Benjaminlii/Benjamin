@@ -93,9 +93,13 @@ struct sdshdr{
 
 ##### 1>. 压缩链表
 
+![image-20200221163321598](/home/benjamin/.config/Typora/typora-user-images/image-20200221163321598.png)
+
 　　![img](https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528215852732-1088896020.png)
 
 　　压缩列表的每个节点构成如下：
+
+![image-20200221163350308](/home/benjamin/.config/Typora/typora-user-images/image-20200221163350308.png)
 
 　　![img](https://images2018.cnblogs.com/blog/1120165/201805/1120165-20180528223605060-899108663.png)
 
