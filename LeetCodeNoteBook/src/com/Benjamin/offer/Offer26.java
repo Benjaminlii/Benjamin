@@ -67,6 +67,29 @@ public class Offer26 {
         return head;
     }
 
+    // 递归解法
+    private static TreeNode head,node;
+    public TreeNode Convert_(TreeNode pRootOfTree) {
+        muthod(pRootOfTree);
+        node.right = null;
+        return head;
+    }
+    private static void muthod(TreeNode root){
+        if (root == null){
+            return ;
+        }
+        muthod(root.left);
+        if (node!=null){
+            node.right = root;
+            root.left = node;
+        }else{
+            head = root;
+            root.left = node;
+        }
+        node = root;
+        muthod(root.right);
+    }
+
     public static void main(String[] args) {
         TreeNode root1 = new TreeNode(5);
         root1.left = new TreeNode(2);
@@ -78,6 +101,6 @@ public class Offer26 {
         root1.right.left.right = new TreeNode(7);
         root1.right.right = new TreeNode(9);
 
-        System.out.println(new Offer26().Convert(root1));
+        System.out.println(new Offer26().Convert_(root1));
     }
 }
