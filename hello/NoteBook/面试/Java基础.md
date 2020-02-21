@@ -87,7 +87,7 @@
 
 ### (1). 异常体系
 
-![img](https://upload-images.jianshu.io/upload_images/5982616-4ab25f2cfc5ca7b8.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/600/format/webp)
+![image-20200221133732048](http://benjaminlee.cn:8989/hello/images/image-20200221133732048.png)
 
 -   Throwable:所有错误或者异常的超类,这个类或者其子类才能被throw抛出,才能作为catch中的参数类型
     -   Error:不应该捕获的严重类型,出现就应该退出程序
