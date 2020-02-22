@@ -6,7 +6,7 @@ package com.Benjamin.offer;
  * <p>
  * Description:
  * 求1+2+3+...+n，要求不能使用乘除法、for、while、if、else、switch、case等关键字及条件判断语句（A?B:C）。
- *
+ * <p>
  * 思路:
  * 明摆着用递归
  *
@@ -15,11 +15,10 @@ package com.Benjamin.offer;
  */
 public class Offer47 {
     public int Sum_Solution(int n) {
-        if (n > 1){
-            return n + Sum_Solution(n-1);
-        }else{
-            return 1;
-        }
+        int sum = n;
+        //n=1时直接返回1
+        boolean flag = (sum > 0) && ((sum += Sum_Solution(n - 1)) > 0);
+        return sum;
     }
 
     public static void main(String[] args) {
