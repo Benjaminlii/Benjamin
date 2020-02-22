@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 public class Offer50 {
     public boolean duplicate(int numbers[], int length, int[] duplication) {
-        if(numbers == null || numbers.length == 0){
+        if (numbers == null || numbers.length == 0) {
             return false;
         }
         for (int i = 0; i < numbers.length; i++) {
@@ -37,5 +37,6 @@ public class Offer50 {
     public static void main(String[] args) {
         int[] array = new int[1];
         System.out.println(new Offer50().duplicate(new int[]{2, 0, 3, 1, 4}, 5, array) + " + " + Arrays.toString(array));
+        System.out.println(new Offer50().duplicate(new int[]{2, 0, 3, 1, 4, 3, 1}, 5, array) + " + " + Arrays.toString(array));
     }
 }
