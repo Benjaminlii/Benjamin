@@ -9,6 +9,8 @@ import java.util.Stack;
  * Description:
  * 输入两个链表，找出它们的第一个公共结点。
  *
+ * 有公共节点,说明两条链表是Y字型的,那么两边同时入栈,倒着判断,元素不等时,找到了交界处
+ *
  * @author: Benjamin
  * @date: 19-12-8 下午3:41
  */
@@ -32,26 +34,26 @@ public class Offer36 {
     }
 
     public ListNode FindFirstCommonNode(ListNode pHead1, ListNode pHead2) {
-        Stack<ListNode> node1 = new Stack<>();
-        Stack<ListNode> node2 = new Stack<>();
+        Stack<ListNode> sta1 = new Stack<>();
+        Stack<ListNode> sta2 = new Stack<>();
         ListNode node = null;
-        ListNode node_ = null;
+        ListNode ans = null;
         while (pHead1 != null) {
-            node1.push(pHead1);
+            sta1.push(pHead1);
             pHead1 = pHead1.next;
         }
         while (pHead2 != null) {
-            node2.push(pHead2);
+            sta2.push(pHead2);
             pHead2 = pHead2.next;
         }
         while (true) {
-            if (!node1.empty() && !node2.empty() && (node = node1.pop()) == node2.pop()) {
-                node_ = node;
+            if (!sta1.empty() && !sta2.empty() && (node = sta1.pop()) == sta2.pop()) {
+                ans = node;
             }else {
                 break;
             }
         }
-        return node_;
+        return ans;
     }
 
     public static void main(String[] args) {
