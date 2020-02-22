@@ -170,7 +170,7 @@ public class Sort {
      */
     public static int[] quickSort(int[] array) {
         // end应该是数组的闭区间边界
-        return quickSort(array, 0, array.length-1);
+        return quickSort(array, 0, array.length - 1);
     }
 
     private static int[] quickSort(int[] array, int start, int end) {
@@ -336,7 +336,7 @@ public class Sort {
      * <p>
      * 就是先按照个位进行排序,然后十位,然后百位这样
      * 地位排过序之后,再按照高位进行排序,排序的结果也是按照低位有序的
-     *
+     * <p>
      * 时间复杂度:O(n*k)
      * 稳定性:稳定
      */
@@ -382,7 +382,7 @@ public class Sort {
     }
 
     public static void main(String[] args) {
-        int[] array = new int[]{6, 5, 7, 3, 1, 8, 2, 4,23,45,87,11,105,1123,653,999,12,53,13,9};
+        int[] array = new int[]{6, 5, 7, 3, 1, 8, 2, 4, 23, 45, 87, 11, 105, 1123, 653, 999, 12, 53, 13, 9};
         radixSort(array);
         System.out.println(Arrays.toString(array));
     }
