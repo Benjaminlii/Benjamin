@@ -171,7 +171,7 @@ public MyClass{
 
 #### 2). 监视锁Monitor
 
-​		每一个Object对象中都内置了一个Monitor对象.(对象头中Mark Word中的LockWord指向的是Monitor对象的起始地址)
+​		每一个Object对象中都内置了一个Monitor.(对象头中Mark Word中的LockWord指向的是Monitor的起始地址)
 
 ​		Monitor相当于许可证,拿到Monitor可以进行操作,没拿到需要等待.
 
