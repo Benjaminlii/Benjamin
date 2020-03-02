@@ -47,13 +47,14 @@ public class Offer15 {
         }
         return headNext;
     }
+
     // 递归解法
     public ListNode ReverseList_(ListNode head) {
         if (head == null || head.next==null){
             return head;
         }
         ListNode headNext = ReverseList_(head.next);
-        // 这是状态类似  1 -> 2 -> 3 -> 4 -> 5 -> head -> 7 <- 8 <- 9
+        // 这时状态类似  1 -> 2 -> 3 -> 4 -> 5 -> head -> 7 <- 8 <- 9
         // head.next就是下层递归中的尾节点
         // 将尾节点的next链接到这一层递归的头结点,就构成了倒置
         head.next.next = head;
