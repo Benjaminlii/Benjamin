@@ -254,7 +254,8 @@ public class Sort {
         // 上面这种说法是错误的
         // 可能会导致一个元素下沉到不合适的位置,然后就跳过这个元素了
         // 从最后一个非叶子节点建立堆
-        for (int i = (array.length / 2 - 1); i >= 0; i--) {
+        // 下标从0开始的堆,第一个非叶子节点应该是length/2
+        for (int i = array.length / 2; i >= 0; i--) {
             adjustHeap(array, i, array.length);
         }
 
