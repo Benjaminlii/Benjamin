@@ -33,23 +33,32 @@ public class QSort extends Thread {
         return quickSort(array, 0, array.length - 1);
     }
 
-    private  int[] quickSort(int[] array, int start, int end) throws Exception {
+    private int[] quickSort(int[] array, int start, int end) throws Exception {
         int sub = partition(array, start, end);
+        Thread t1 = null;
+        Thread t2 = null;
         if (sub > start) {
             // 子线程中向两边递归
-            new QSort(array,start,sub-1).start();
+            t1 = new QSort(array, start, sub - 1);
+            t1.start();
         }
         if (sub < end) {
             // 子线程中向两边递归
-            new QSort(array,sub+1, end).start();
+            t2 = new QSort(array, sub + 1, end);
+            t2.start();
         }
         // 等待子线程运行
-        join();
+        if (t1 != null) {
+            t1.join();
+        }
+        if (t2 != null) {
+            t2.join();
+        }
         return array;
     }
 
     // 将array数组[start,end]闭区间内的元素进行分类,返回分隔下标
-    private  int partition(int[] array, int start, int end) {
+    private int partition(int[] array, int start, int end) {
         int flag = array[start];
         while (start < end) {
             while (start < end && array[end] > flag)
@@ -66,7 +75,7 @@ public class QSort extends Thread {
     @Override
     public synchronized void start() {
         try {
-            quickSort(array,start,end);
+            quickSort(array, start, end);
         } catch (Exception e) {
             e.printStackTrace();
         }
