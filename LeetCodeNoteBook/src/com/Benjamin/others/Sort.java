@@ -243,13 +243,18 @@ public class Sort {
      * 就是使用原本的数组造一个大顶堆,每次把堆顶元素和最后的元素交换,并且把堆的边界向左移动
      * 然后重新调整堆
      * <p>
+     * 在初始化同的时候需要从后往前一个一个下沉元素,而不是从后向前简单比较一次就完了
+     * <p>
      * 时间复杂度:O(nlogn)
      * 稳定性:不稳定
      */
     public static void heapSort(int[] array) {
         // 先建立一个大顶堆(数组存储),也就是从后向前遍历元素,如果子节点的值大于双亲节点的值,那么进行交换
         // 保证每一个子结构的双亲大于左右两个孩子即可
-        for (int i = array.length - 1; i >= 0; i--) {
+        // 上面这种说法是错误的
+        // 可能会导致一个元素下沉到不合适的位置,然后就跳过这个元素了
+        // 从最后一个非叶子节点建立堆
+        for (int i = (array.length / 2 - 1); i >= 0; i--) {
             adjustHeap(array, i, array.length);
         }
 
@@ -257,12 +262,18 @@ public class Sort {
         int length = array.length - 1;
         while (length > 1) {
             swap(array, 0, length--);
-            adjustHeap(array,0,length);
+            adjustHeap(array, 0, length);
         }
     }
-    private static void adjustHeap(int[] array, int startSub, int length){
+
+    /**
+     * 将array数组中startSub位置上数字下沉
+     *
+     * @param length 堆的大小
+     */
+    private static void adjustHeap(int[] array, int startSub, int length) {
         int sub = startSub;
-        // 这里使用死循环,当这轮循环不发生元素交换是跳出
+        // 这里使用死循环,当这轮循环不发生元素交换时跳出
         // 每层循环从判定节点和左右孩子中找出最大的
         // 如果这个最大的节点不是判定节点,那么交换,如果是就要跳出了
         // 更新被交换节点为新的判定节点,继续向下寻找
