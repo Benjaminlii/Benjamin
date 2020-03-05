@@ -249,37 +249,38 @@ public class Sort {
     public static void heapSort(int[] array) {
         // 先建立一个大顶堆(数组存储),也就是从后向前遍历元素,如果子节点的值大于双亲节点的值,那么进行交换
         // 保证每一个子结构的双亲大于左右两个孩子即可
-        for (int i = array.length - 1; i > 0; i--) {
-            if (array[i] > array[i / 2]) {
-                swap(array, i, i / 2);
-            }
+        for (int i = array.length - 1; i >= 0; i--) {
+            adjustHeap(array, i, array.length);
         }
 
         // 把堆从后往前一个一个出元素,length表示堆内最后一个元素的下标
         int length = array.length - 1;
         while (length > 1) {
             swap(array, 0, length--);
-            int sub = 0;
-            // 这里使用死循环,当这轮循环不发生元素交换是跳出
-            // 每层循环从判定节点和左右孩子中找出最大的
-            // 如果这个最大的节点不是判定节点,那么交换,如果是就要跳出了
-            // 更新被交换节点为新的判定节点,继续向下寻找
-            while (true) {
-                int maxSub = sub;
-                // 左子树
-                if (sub * 2 < length && array[sub * 2] > array[maxSub]) {
-                    maxSub = sub * 2;
-                }
-                // 右子树
-                if (sub * 2 + 1 < length && array[sub * 2 + 1] > array[maxSub]) {
-                    maxSub = sub * 2 + 1;
-                }
-                if (maxSub != sub) {
-                    swap(array, sub, maxSub);
-                    sub = maxSub;
-                } else {
-                    break;
-                }
+            adjustHeap(array,0,length);
+        }
+    }
+    private static void adjustHeap(int[] array, int startSub, int length){
+        int sub = startSub;
+        // 这里使用死循环,当这轮循环不发生元素交换是跳出
+        // 每层循环从判定节点和左右孩子中找出最大的
+        // 如果这个最大的节点不是判定节点,那么交换,如果是就要跳出了
+        // 更新被交换节点为新的判定节点,继续向下寻找
+        while (true) {
+            int maxSub = sub;
+            // 左子树
+            if (sub * 2 < length && array[sub * 2] > array[maxSub]) {
+                maxSub = sub * 2;
+            }
+            // 右子树
+            if (sub * 2 + 1 < length && array[sub * 2 + 1] > array[maxSub]) {
+                maxSub = sub * 2 + 1;
+            }
+            if (maxSub != sub) {
+                swap(array, sub, maxSub);
+                sub = maxSub;
+            } else {
+                break;
             }
         }
     }
@@ -382,7 +383,7 @@ public class Sort {
 
     public static void main(String[] args) {
         int[] array = new int[]{6, 5, 7, 3, 1, 8, 2, 4, 23, 45, 87, 11, 105, 1123, 653, 999, 12, 53, 13, 9};
-        radixSort(array);
+        heapSort(array);
         System.out.println(Arrays.toString(array));
     }
 
