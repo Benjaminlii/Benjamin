@@ -32,7 +32,9 @@ public class LeetCode215 {
     }
 
     public int findKthLargest(int[] nums, int k) {
-        for (int i = k - 1; i >= 0; i--) {
+        // 从最后一个非叶子节点建立堆
+        // 下标从0开始的堆,第一个非叶子节点应该是length/2
+        for (int i = k / 2 ; i >= 0; i--) {
             adjustHeap(nums, i, k);
         }
         for (int i = k; i < nums.length; i++) {
