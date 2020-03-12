@@ -532,5 +532,9 @@ setnx和expire中间出现故障的解决办法:
        // set操作成功完成时，返回ok，否则返回nil
        ```
 
-       ## 6. 一致性哈希算法
 
+## 6. 一致性哈希算法
+
+## 7. Redis之外的NoSQL数据库
+
+HBase, MongoDB
