@@ -497,3 +497,19 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
     1.  double 8字节
 1.  布尔型
     1.  boolean (布尔类型比较复杂,单个的布尔类型,编译时会被当做int类型处理,原因是32位机一次处理的数据量就是4字节.而对于bollean[],会被转化成byte[],每个元素占1字节)
+
+## 11. GC诊断
+
+1.  查看GC日志
+1.  jmap查看堆内存初始化配置信息以及堆内存的使用情况
+1.  jstat 可以监测 Java 应用程序的实时运行情况,包括堆内存信息以及垃圾回收信息
+1.  jstack 经常用来查看线程的堆栈信息
+
+1.  young GC:
+    1.  排查每次YoungGC后幸存对象大小,如果每次YoungGC后幸存对象较大，可能存在问题
+    1.  如果youngGC过于繁忙,扩大young区,Young区在整个堆占比在25%~40%比较合理
+1.  old GC
+    1.  检查Young区与Old区比值
+    1.  通过jstat查看每次YoungGC后晋升到Old区对象占比
+    1.  如果不停的CMS GC，Old区降不下去，建议先执行jmap -histo pid | head -n20 查看TOP20对象分布
+
