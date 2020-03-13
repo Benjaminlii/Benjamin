@@ -5,6 +5,7 @@ package com.Benjamin.offer;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 反转链表
  * 输入一个链表，反转链表后，输出新链表的表头。
  * 非递归实现:
  * 三指针,寻常解法
