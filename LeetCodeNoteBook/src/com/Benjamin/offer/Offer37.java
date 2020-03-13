@@ -5,6 +5,7 @@ package com.Benjamin.offer;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 数字在排序数组中出现的次数
  * 统计一个数字在排序数组中出现的次数。
  * <p>
  * 思路:
