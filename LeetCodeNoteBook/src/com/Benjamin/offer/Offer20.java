@@ -7,6 +7,7 @@ import java.util.Stack;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 包含min函数的栈
  * 定义栈的数据结构，请在该类型中实现一个能够得到栈中所含最小元素的min函数（时间复杂度应为O（1））。
  *
  * 最小值更新的时候存一份上一个最小值(在当前最小值入栈之前先将上一个最小值入栈)
