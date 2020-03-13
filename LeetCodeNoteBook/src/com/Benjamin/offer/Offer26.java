@@ -8,6 +8,7 @@ import java.util.Stack;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 二叉搜索树与双向链表
  * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。要求不能创建任何新的结点，只能调整树中结点指针的指向。
  *
  * 思路:
@@ -70,15 +71,16 @@ public class Offer26 {
     // 递归解法
     private static TreeNode head,node;
     public TreeNode Convert_(TreeNode pRootOfTree) {
-        muthod(pRootOfTree);
+        method(pRootOfTree);
         node.right = null;
         return head;
     }
-    private static void muthod(TreeNode root){
+    private static void method(TreeNode root){
         if (root == null){
             return ;
         }
-        muthod(root.left);
+        method(root.left);
+
         if (node!=null){
             node.right = root;
             root.left = node;
@@ -87,7 +89,8 @@ public class Offer26 {
             root.left = node;
         }
         node = root;
-        muthod(root.right);
+
+        method(root.right);
     }
 
     public static void main(String[] args) {
