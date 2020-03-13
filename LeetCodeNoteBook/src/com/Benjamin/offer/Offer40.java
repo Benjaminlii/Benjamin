@@ -5,6 +5,7 @@ package com.Benjamin.offer;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 数组中只出现一次的数字
  * 一个整型数组里除了两个数字之外，其他的数字都出现了两次。请写程序找出这两个只出现一次的数字。
  * <p>
  * 根据之前做过的异或的那个题
