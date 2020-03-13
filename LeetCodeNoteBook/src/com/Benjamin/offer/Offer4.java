@@ -82,6 +82,7 @@ public class Offer4 {
         // 这里初始化为start,实际上不会出现后面找不到rootSub的情况
         int rootSub = start;
         // 在先序序列中找到第一个出现在被分割的中序序列中的元素,作为分割元素
+        // 这里不能使用二分查找,序列是不有序的
         MARK:
         for (int i : pre) {
             // 注意这个for中间都是相等
