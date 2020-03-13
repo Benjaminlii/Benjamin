@@ -6,6 +6,9 @@ package com.Benjamin.offer;
  * <p>
  * Description:
  * 链表中倒数第k个节点
+ * 输入一个链表，输出该链表中倒数第k个结点。
+ * 思路:
+ * 快慢指针
  *
  * @author: Benjamin
  * @date: 19-11-25 下午4:25
