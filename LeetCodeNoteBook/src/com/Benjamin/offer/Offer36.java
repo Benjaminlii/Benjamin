@@ -7,6 +7,7 @@ import java.util.Stack;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 两个链表的第一个公共结点
  * 输入两个链表，找出它们的第一个公共结点。
  *
  * 有公共节点,说明两条链表是Y字型的,那么两边同时入栈,倒着判断,元素不等时,找到了交界处
