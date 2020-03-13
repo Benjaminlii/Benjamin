@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 孩子们的游戏(圆圈中最后剩下的数)
  * 每年六一儿童节,牛客都会准备一些小礼物去看望孤儿院的小朋友,今年亦是如此。
  * HF作为牛客的资深元老,自然也准备了一些小游戏。
  * 其中,有个游戏是这样的:首先,让小朋友们围成一个大圈。
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  * 从他的下一个小朋友开始,继续0...m-1报数....这样下去....直到剩下最后一个小朋友,
  * 可以不用表演,并且拿到牛客名贵的“名侦探柯南”典藏版(名额有限哦!!^_^)。
  * 请你试着想下,哪个小朋友会得到这份礼品呢？(注：小朋友的编号是从0到n-1)
- *
+ * <p>
  * 如果没有小朋友，请返回-1
  *
  * @author: Benjamin
@@ -30,12 +31,15 @@ public class Offer46 {
         for (int i = 0; i < n; i++) {
             data.add(i);
         }
-        int index = -1;
+        int index = 0;
         while (data.size() > 1) {
-            index = (index + m) % data.size();
+            index = (index + m - 1) % data.size();
             data.remove(index);
-            index--;
         }
         return data.get(0);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new Offer46().LastRemaining_Solution(30, 9));
     }
 }
