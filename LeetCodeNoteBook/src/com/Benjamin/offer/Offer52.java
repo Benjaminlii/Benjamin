@@ -5,6 +5,7 @@ package com.Benjamin.offer;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 正则表达式匹配
  * 请实现一个函数用来匹配包括'.'和'*'的正则表达式。
  * 模式中的字符'.'表示任意一个字符，而'*'表示它前面的字符可以出现任意次（包含0次）。
  * 在本题中，匹配是指字符串的所有字符匹配整个模式。
