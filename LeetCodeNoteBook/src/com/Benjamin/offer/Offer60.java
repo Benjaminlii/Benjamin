@@ -9,6 +9,7 @@ import java.util.Queue;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 把二叉树打印成多行
  * 从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
  *
  * 思路:
