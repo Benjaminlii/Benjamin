@@ -7,6 +7,7 @@ import java.util.Arrays;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 数组中重复的数字
  * 在一个长度为n的数组里的所有数字都在0到n-1的范围内。
  * 数组中某些数字是重复的，但不知道有几个数字是重复的。
  * 也不知道每个数字重复几次。请找出数组中任意一个重复的数字。
@@ -21,15 +22,11 @@ public class Offer50 {
             return false;
         }
         for (int i = 0; i < numbers.length; i++) {
-            if (numbers[numbers[i] > 0 ? numbers[i] : -numbers[i]] < 0) {
-                duplication[0] = numbers[i] > 0 ? numbers[i] : -numbers[i];
+            if (numbers[Math.abs(numbers[i])] < 0) {
+                duplication[0] = Math.abs(numbers[i]);
                 return true;
             }
-            if (numbers[i] < 0) {
-                numbers[-numbers[i]] *= -1;
-            } else {
-                numbers[numbers[i]] *= -1;
-            }
+            numbers[Math.abs(numbers[i])] *= -1;
         }
         return false;
     }
