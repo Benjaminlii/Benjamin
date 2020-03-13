@@ -5,6 +5,7 @@ package com.Benjamin.offer;
  * Package:com.Benjamin.offer
  * <p>
  * Description:
+ * 序列化二叉树
  * 请实现两个函数，分别用来序列化和反序列化二叉树
  *
  * 二叉树的序列化是指：
