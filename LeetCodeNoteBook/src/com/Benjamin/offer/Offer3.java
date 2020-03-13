@@ -10,10 +10,15 @@ import java.util.List;
  * Description:
  * 从尾到头打印链表
  * 输入一个链表，按链表从尾到头的顺序返回一个ArrayList。
+ *
  * 思路一:
  * 递归
+ *
  * 思路二:
  * 栈
+ *
+ * 思路三:
+ * LinkedList一直头插
  *
  * @author: Benjamin
  * @date: 19-11-20 上午11:07
