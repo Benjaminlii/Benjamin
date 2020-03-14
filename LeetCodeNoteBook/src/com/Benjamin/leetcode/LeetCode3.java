@@ -6,10 +6,13 @@ import java.util.Map;
 /**
  * ClassName:LeetCode3 Package:com.Benjamin.leetcode
  * <p>
- * Description: 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+ * Description:
+ * 3. 无重复字符的最长子串
+ * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
  *
  * 思路:
  * 滑动窗口
+ * 使用map存储某一个元素最后一次出现的下标
  * 当窗口右侧为重复元素时,窗口左侧调整为之前出现过的重复元素的后继元素
  * 每层循环更新一次ans
  *
