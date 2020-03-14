@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * 15. 三数之和
  * 给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。
  * <p>
  * 解题思路:
@@ -22,10 +23,6 @@ import java.util.stream.Collectors;
  * date:2017.2.27
  */
 public class LeetCode15 {
-    public static void main(String[] args) {
-        System.out.println(new LeetCode15().threeSum(new int[]{-1, 0, 1, 2, -1, -4}));
-    }
-
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> lists = new ArrayList<>();
         //先对数据进行排序
@@ -60,5 +57,61 @@ public class LeetCode15 {
             }
         }
         return lists;
+    }
+
+    /**
+     * 复习,重写一遍
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum_(int[] nums) {
+        List<List<Integer>> ans = new ArrayList<>();
+        // 先排序
+        Arrays.sort(nums);
+        System.out.println(Arrays.toString(nums));
+        int i = 0, l, r;
+        int length = nums.length;
+        // 三指针中的i是从前往后走的
+        for (i = 0; i < length; i++) {
+            // 当三个数中的最小值大于0,那么他们的和也不可能为0了
+            if (nums[i] > 0) {
+                break;
+            }
+            // 去掉i的重复
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            l = i + 1;
+            r = length - 1;
+            // 后面的l和r两个指针两边往中间走,因为是有序的
+            while (l < r) {
+                // 找到答案,那么添加结果集,去重复
+                int sum = nums[i] + nums[l] + nums[r];
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    // 去重复
+                    while (l < r && nums[l] == nums[l + 1]) {
+                        l++;
+                    }
+                    while (l < r && nums[r] == nums[r - 1]) {
+                        r--;
+                    }
+                    // 移动指针,两边都需要移动,因为取了重复,移动一个的情况下不可能还是满足答案的
+                    l++;
+                    r--;
+                } else if (sum > 0) { // 如果和大于0,那么吧右边的指针左移
+                    r--;
+                } else { // 相反,如果和小于0,那么右移左侧的指针
+                    l++;
+                }
+            }
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new LeetCode15().threeSum_(new int[]{-1, 0, 1, 2, -1, -4}));
     }
 }
