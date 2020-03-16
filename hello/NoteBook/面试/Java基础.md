@@ -171,7 +171,7 @@ public MyClass{
 
 #### 2). 监视锁Monitor
 
-​		每一个Object对象中都内置了一个Monitor.(对象头中Mark Word中的LockWord指向的是Monitor的起始地址)
+Java内存模型		每一个Object对象中都内置了一个Monitor.(对象头中Mark Word中的LockWord指向的是Monitor的起始地址)
 
 ​		Monitor相当于许可证,拿到Monitor可以进行操作,没拿到需要等待.
 
@@ -400,7 +400,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
 -   Class.getDeclaredFields()获取所有属性数组
     -   通过set设置属性,私有setAccessible(true)
 
-## 8. 抽象类和接口的区别
+## 8. 抽象类和接口的区别Java内存模型
 
 ### (1). 组成
 
@@ -468,7 +468,7 @@ public ScheduledThreadPoolExecutor(int corePoolSize) {
     -   删除了 永久代（PermGen）.
     -   方法调用的字节码指令支持默认方法。
 
-#### 代理类的特点java9
+#### java9
 
 1.  java模块系统 （Java Platform Module System）。
 
