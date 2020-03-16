@@ -555,7 +555,7 @@ private static int hugeCapacity(int minCapacity) {
 | 扩容     | 二倍加一扩容                                                 | 二倍扩容                                                     |
 | 扩容机制 | 全部元素再次hash一遍                                         | 判断key的hash结果的倒数第n位的值为0或者1                     |
 | hash函数 | (hash & 0x7FFFFFFF) % tab.length (与操作去掉符号位,直接取余) | 与高16位按位异或后取余                                       |
-|          |                                                              |                                                              |
+| 继承关系 | 继承dictionary                                               | 继承abstractmap                                              |
 |          |                                                              |                                                              |
 
 >   关于扩容机制:
