@@ -1,8 +1,11 @@
 package com.Benjamin.leetcode;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+
+import sun.plugin.javascript.navig.LinkArray;
 
 /**
  * ClassName:LeetCode94
@@ -85,6 +88,33 @@ public class LeetCode94 {
         return ans;
     }
 
+    /**
+     * 莫里斯遍历
+     * 空间复杂度为O(1)
+     * 如果节点有左子树,那么把整个右子树连接在左子树的最右节点中(这里满足中序遍历的原则)
+     * 没有则添加到结果集,向右走
+     */
+    public List<Integer> inorderTraversal__(TreeNode root){
+        List<Integer> ans = new ArrayList<>();
+        TreeNode pre;
+        while (root!=null){
+            if (root.left!=null){
+                pre = root.left;
+                while (pre.right!=null){
+                    pre = pre.right;
+                }
+                pre.right = root;
+                TreeNode tmp = root;
+                root = root.left;
+                tmp.left = null;
+            }else{
+                ans.add(root.val);
+                root = root.right;
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
@@ -93,8 +123,9 @@ public class LeetCode94 {
         root.left.right = new TreeNode(5);
         root.right.left = new TreeNode(6);
         root.right.right = new TreeNode(7);
-        System.out.println(new LeetCode94().inorderTraversal_(root));
         System.out.println(new LeetCode94().inorderTraversal(root));
+        System.out.println(new LeetCode94().inorderTraversal_(root));
+        System.out.println(new LeetCode94().inorderTraversal__(root));
     }
 
 }
