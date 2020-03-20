@@ -41,7 +41,7 @@ typedef struct redisObject{
 
 ### (1). string
 
-#### 1). 定义
+1). 定义
 
 ​		==字符串,能保存任何类型的数据==,包括二进制数据,最大512M(单个的key-value)
 
@@ -49,11 +49,11 @@ typedef struct redisObject{
 
 ​		格式: set key value
 
-#### 2). 编码
+2). 编码
 
 ​		编码可以是int编码(long类型的整数值),embstr编码(长度大于44字节的字符串),raw编码(大于44字节的字符串)
 
-#### 3). 存储
+3). 存储
 
 ​		raw和embstr编码使用==sdshdr==保存数据,其==内部维护一个字符数组,并存储已用容量和未使用容量==.(这与C语言中的字符串实现不同,C语言中的字符串的数组是不可变的,但是共同点是都==以'\0'结尾==,目的是为了使用c的部分str库函数)
 
@@ -73,13 +73,13 @@ struct sdshdr{
 
 ​		raw分配空间时,redisObject和sdshdr不在一起,使用指针连接.embstr分配空间则是连续的.
 
-#### 4). 转码
+4). 转码
 
 ​		int编码保存的值超过long大小范围后,会转化为raw.对于embstr编码的数据在修改时一定会转化为raw编码.
 
 ### (2). list
 
-#### 1). 定义
+1). 定义
 
 ​		==list:列表,简单的字符串列表==,按照插入顺序排序
 
@@ -87,11 +87,11 @@ struct sdshdr{
 
 ​		格式: lpush name value1 value2......
 
-#### 2). 编码
+2). 编码
 
 ​		编码可以是ziplist(压缩链表,将数据按照一定规则编码在一块连续的内存区域)和linkedlist(双端链表)
 
-##### 1>. 压缩链表
+1>. 压缩链表
 
 ![image-20200221163321598](/home/benjamin/.config/Typora/typora-user-images/image-20200221163321598.png)
 
@@ -109,7 +109,7 @@ struct sdshdr{
 
 　　③、content：content区域用于保存节点的内容，节点内容类型和长度由encoding决定。内部数据如果是数值类型,那么转换为2进制存储,如果是字符串类型,那么将每个字符的ACSII码找出,然后用两位16进制数存储(一共16位的空间).
 
-##### 2>. 双端链表
+2>. 双端链表
 
 ```c
 typedef  struct listNode{
@@ -141,17 +141,17 @@ typedef struct list{
 
 ### (3). hash
 
-#### 1). 定义
+1). 定义
 
 ​		哈希类型,是一个string类型的field和value的映射表(参考Map,name指的是数据类型的名称,下同)
 
 ​		格式: hmset name key1 value1 key2 value2........
 
-#### 2). 编码
+2). 编码
 
 ​		ziplist(相邻节点存储key和value)和hashtable(下面讲解)
 
-##### 1>. hashtable
+1>. hashtable
 
 ​		类比HashMap
 
@@ -181,7 +181,7 @@ typedef struct dictEntry{
 }dictEntry;
 ```
 
-#####  2>. 哈希算法
+2>. 哈希算法
 
 ```c
 // 使用字典设置的哈希函数，计算键 key 的哈希值
@@ -192,7 +192,7 @@ int hash = dict->type->hashFunction(key);
 int index = hash & dict->ht[x].sizemask;
 ```
 
-##### 3>. 收缩和扩容
+3>. 收缩和扩容
 
 ​		二倍扩容/收缩.对每一个元素重新哈希后放入新的内存空间,然后将原内存空间释放.
 
@@ -200,25 +200,25 @@ int index = hash & dict->ht[x].sizemask;
 
 ​		执行磁盘访问时(BGSAVE和BGREWRITEAOF),负载因子大于5才会扩容,否则大于1就会扩容.
 
-##### 4>. 渐进式扩容
+4>. 渐进式扩容
 
 ​		扩容并不是一次性完成的,数据量过大的情况下阻塞会非常明显.
 
 ​		所以依次扩容行为分为多次进行,在这期间产生了两个hash,当对数据的操作在其中一张表中没有找到时,就会查找另一张表.
 
-#### 3). 转码
+3). 转码
 
 ​		保存元素小于512,每个元素长度小于64字节时,使用ziplist,否则使用hashtable
 
 ### (4). set
 
-#### 1). 定义
+1). 定义
 
 ​		set:集合,无序,成员唯一
 
 ​		格式: sadd name value1 value2......
 
-#### 2). 编码
+2). 编码
 
 ​		有intset和hashtable两种.
 
@@ -226,13 +226,13 @@ int index = hash & dict->ht[x].sizemask;
 
 ​		hashtable底层使用hash实现,可以理解为Java中的HashSet.
 
-#### 3). 转码
+3). 转码
 
 ​		当集合中所有元素都是整数,并且总量不超过512时,使用intset,其他所有情况使用hashtable.
 
 ### (5). zset
 
-#### 1). 定义
+1). 定义
 
 ​		有序集和,每一个value都对应一个score(double类型)用以排序
 
@@ -240,11 +240,11 @@ int index = hash & dict->ht[x].sizemask;
 
 ​		zset的成员是唯一的,但分数(score)却可以重复
 
-#### 2). 编码
+2). 编码
 
 ​		可以是ziplist(之前提到过,使用两个相邻的节点存储元素和分值,内部存储时就已经按分值排序了)和skiplist(跳跃表,下面讲解)
 
-##### 1>. skiplist
+1>. skiplist
 
 ```c
 typedef struct zset{
@@ -269,7 +269,7 @@ typedef struct zskiplistNode {
 } zskiplistNode;
 ```
 
-#### 3). 转码
+3). 转码
 
 ​		当满足元素数量小于128并且所有元素长度小于64字节时,使用ziplist,否则使用skiplist.
 
