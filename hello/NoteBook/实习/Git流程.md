@@ -13,6 +13,9 @@ git push --set-upstream origin feature/${Author}_${功能名称}_${yyMMdd}
 git checkout myBranch
 
 // 修改代码===================================
+// 如果没有在IDE中创建文件而是直接创建文件的话
+// 需要在命令行中使用git add命令将创建的文件加入到本地仓库中
+// 如果是IDE中创建的文件，一般会自动的进行这一步
 
 // 提交本地所有代码到本地仓库的缓冲中,text为描述性文字
 git commit -am "text"
