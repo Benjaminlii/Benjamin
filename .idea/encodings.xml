@@ -2,15 +2,30 @@
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="UTF-8">
     <file url="file://$PROJECT_DIR$/alarm" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/alarm/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/alarm/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/hello" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hello/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/hello/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mybatisGenerator" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mybatisGenerator/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/p2p-parent/p2p-dataservice" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-dataservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-dataservice/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/p2p-parent/p2p-pay" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-pay/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-pay/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/p2p-parent/p2p-timer" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-timer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-timer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/p2p-parent/p2p-web" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/p2p-parent/p2p-web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-boot" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/ssm-crud" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-boot/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/theMall" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/theMall/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/theMall/src/main/resources" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

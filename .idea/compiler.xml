@@ -20,9 +20,9 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="alarm" target="1.8" />
-      <module name="hello" target="1.8" />
+      <module name="hello" target="1.7" />
       <module name="museum" target="1.7" />
-      <module name="mybatisGenerator" target="1.8" />
+      <module name="mybatisGenerator" target="1.7" />
       <module name="noteBook" target="1.7" />
       <module name="p2p-common" target="1.8" />
       <module name="p2p-dataservice" target="1.8" />
