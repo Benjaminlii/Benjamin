@@ -31,7 +31,7 @@ public class LeetCode11 {
         int ans = Integer.MIN_VALUE;
         int num;
         while (left < right) {
-            num = weight * (height[left] < height[right] ? height[left] : height[right]);
+            num = weight * (Math.min(height[left], height[right]));
             if (ans < num) {
                 ans = num;
             }
