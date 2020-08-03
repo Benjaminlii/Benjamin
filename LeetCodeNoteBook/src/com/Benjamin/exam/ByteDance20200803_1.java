@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * ClassName:ByteDance20200803_1
+ * Package:com.Benjamin.exam
+ * <p>
+ * Description:
  * 无序数组中某个元素比前面都大，后面都小
+ *
+ * @author: Benjamin
+ * @date: 2020-08-03 20:36
  */
 public class ByteDance20200803_1 {
 
