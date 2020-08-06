@@ -1,7 +1,5 @@
 package com.Benjamin.leetcode;
 
-import java.util.Arrays;
-
 /**
  * ClassName:LeetCode274
  * Package:com.Benjamin.leetcode
