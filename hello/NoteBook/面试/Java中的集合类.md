@@ -287,7 +287,7 @@ final Node<K,V>[] resize() {
                 else {
                     // 构造两条链表
                     // 原链表中有一部分需要向后移动n位(n是扩容的容积变化量,也是扩容前的容积)
-					// 如果n = 2^x
+				// 如果n = 2^x
                     // 那么一个数组元素中的链表上的元素的hash值后x位全部都是一样的
                     // 因为从hash值到数组下表是通过对n取余(也就是对n-1进行按位与)获得的
                     // 所以后n位是一致的
@@ -334,25 +334,6 @@ final Node<K,V>[] resize() {
             }
         }
     }
-    //返回新表do {
-                        next = e.next;
-                        // 提取倒数第n+1位进行判断
-                        if ((e.hash & oldCap) == 0) {
-                            if (loTail == null)
-                                // 第一次插入
-                                loHead = e;
-                            else
-                                loTail.next = e;
-                            loTail = e;
-                        }
-                        else {
-                            if (hiTail == null)
-                                hiHead = e;
-                            else
-                                hiTail.next = e;
-                            hiTail = e;
-                        }
-                    } while ((e = next) != null);
     return newTab;
 }
 ```
