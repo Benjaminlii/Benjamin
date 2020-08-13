@@ -6,6 +6,8 @@
 
 -----
 
+[MySQL 万字精华总结 + 面试100 问，吊打面试官绰绰有余](https://www.jianshu.com/p/c189439fb32e)
+
 ## 1. JDBC连接的过程
 
 1.  加载驱动
@@ -287,6 +289,8 @@ on 表名 (索引列[,索引列2]);
 ​		读已提交(不可重复读)在每次进行select时创建新的read view,而可重复读只在第一次select时创建read view.
 
 ## 13. 什么是索引,其优缺点,注意事项
+
+[普通索引与唯一索引](https://blog.csdn.net/weixin_42570248/article/details/89099989?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
 
 ### (1). 什么是索引
 

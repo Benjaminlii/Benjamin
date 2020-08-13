@@ -10,7 +10,11 @@
 
 ​		\#{}是预编译处理，${}是字符串替换。
 
-​		#{}可以防止sql注入,会将传入的参数作为字符串来处理
+​		#{}可以防止sql注入,底层使用PreparedStatement执行sql。首先进行预编译，得到的PreparedStatement句柄其实是一个预编译好的SQL语句。词法分析、语义分析等过程都已经执行完毕，这就说明关键字、执行逻辑等都不会再变化，编译后注入的部分无法再改变执行逻辑，被当成字符串处理，从而达到了防止SQL注入的目的。
+
+> 预编译的局限性：
+>
+> 由于预编译时数据库会进行词法和语义的解析、生成执行计划，因此占位符只能占位SQL语句中的普通值，而表名、列名、关键字等影响编译的部分是不可以使用占位符的。
 
 ​		${}将传入的参数拼接(替换其中的${})到SQL上然后直接执行,可能会遭到SQL注入攻击
 
@@ -29,6 +33,8 @@
 ​		在底层是SQL的两种方式:字符串拼接和占位符填充参数
 
 >   在某些特殊场合下只能用${}，不能用#{}。例如：在使用排序时ORDER BY ${id}，如果使用#{id}，则会被解析成ORDER BY “id”,这显然是一种错误的写法。
+
+[Mybatis中#和$的区别及sql预编译](https://blog.csdn.net/erfu6081/article/details/90168542?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.nonecase)
 
 ## 2. MyBatis使用代理进行开发时,接口文件中的方法能不能重载?
 
