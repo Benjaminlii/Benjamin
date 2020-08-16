@@ -26,10 +26,12 @@ import java.util.Stack;
  * 输入：s = "abc3[cd]xyz"
  * 输出："abccdcdcdxyz"
  * <p>
- * 思路：
+ * 思路一：
  * 目测分治
  * 定义一个方法返回一个字符串解码后重复n次的结果
  * 在内部遇到编码后字符串调用自身即可
+ * 思路二：
+ * 栈，类似括号匹配的题
  *
  * @author: Benjamin
  * @date: 2020-08-16 20:59
