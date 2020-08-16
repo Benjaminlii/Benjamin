@@ -355,3 +355,32 @@ on 表名 (索引列[,索引列2]);
 3. count(col)是对表中col字段不为null的行进行计数，如果col是索引列，那么走索引判断是否非空（索引覆盖了），否则走聚集索引然后对数据判断非空。效率要低不少
 4. count(id)则只走主键索引，是count(col)的一个特殊情况，速度最快。
 
+## 16. SQL题
+
+### (1). 交并差集
+
+1. 交集：连接查询
+
+    ```sql
+    SELECT * from table_a
+    INNER JOIN table_b
+    on table_a.id = table_b.id;
+    ```
+
+2. 并集：union联合查询（不可使用 UNION ALL，这个不去重复）
+
+    ```sql
+    SELECT * FROM table_a
+    UNION
+    SELECT * FROM table_b;
+    ```
+
+3. 并集：except形成差集（except关键字从A集合中过滤掉B集合中的元素）
+
+    ```sql
+    SELECT * FROM table_a
+    EXCEPT
+    SELECT * FROM table_b;
+    ```
+
+    
