@@ -8,13 +8,13 @@ package com.Benjamin.offer;
  * 替换空格
  * 请实现一个函数，将一个字符串中的每个空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
  * 思路:
- * 调函数,或者使用StringBuffer
+ * 调函数,或者使用StringBuilder
  *
  * @author: Benjamin
  * @date: 19-11-18 上午9:38
  */
 public class Offer2 {
-    public String replaceSpace(StringBuffer str) {
+    public String replaceSpace(StringBuilder str) {
         if (str == null) {
             return null;
         }
@@ -28,6 +28,6 @@ public class Offer2 {
     }
 
     public static void main(String[] args) {
-        System.out.println(new Offer2().replaceSpace(new StringBuffer("We Are Happy")));
+        System.out.println(new Offer2().replaceSpace(new StringBuilder("We Are Happy")));
     }
 }
