@@ -128,34 +128,47 @@ public class Sort {
      * 时间复杂度:O(nlogn)
      * 稳定性:稳定(在合并时,相等元素优先使用前面的数组的,就不会打乱顺序)
      */
-    public static int[] mergeSort(int[] array) {
-        if (array.length < 2) {
-            return array;
-        } else {
-            int num = array.length / 2;
-            int[] array1 = Arrays.copyOfRange(array, 0, num);
-            int[] array2 = Arrays.copyOfRange(array, num, array.length);
-            return merge(mergeSort(array1), mergeSort(array2));
+    public static void mergeSort(int[] array) {
+        int[] tmp = new int[array.length];
+        int left = 0;
+        int right = array.length - 1;
+        sortMerge(array, left, right, tmp);
+    }
+
+    public static void sortMerge(int[] arr, int left, int right, int[] tmp) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            sortMerge(arr, left, mid, tmp);
+            sortMerge(arr, mid + 1, right, tmp);
+            merge(arr, left, mid, right, tmp);
         }
     }
 
-    private static int[] merge(int[] array1, int[] array2) {
-        int[] ans = new int[array1.length + array2.length];
-        int length = 0, length1 = 0, length2 = 0;
-        while (length < ans.length && length1 < array1.length && length2 < array2.length) {
-            if (array1[length1] <= array2[length2]) {
-                ans[length++] = array1[length1++];
+    public static void merge(int[] arr, int left, int mid, int right, int[] tmp) {
+        // 左指针
+        int i = left;
+        // 右指针
+        int j = mid + 1;
+        // 数组临时指针
+        int t = 0;
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                tmp[t++] = arr[i++];
             } else {
-                ans[length++] = array2[length2++];
+                tmp[t++] = arr[j++];
             }
         }
-        while (length1 < array1.length) {
-            ans[length++] = array1[length1++];
+        while (i <= mid) {
+            tmp[t++] = arr[i++];
         }
-        while (length2 < array2.length) {
-            ans[length++] = array2[length2++];
+        while (j <= right) {
+            tmp[t++] = arr[j++];
         }
-        return ans;
+
+        t = 0;
+        while (left <= right) {
+            arr[left++] = tmp[t++];
+        }
     }
 
     /**
