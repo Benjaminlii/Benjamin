@@ -6,9 +6,9 @@ package com.Benjamin.others;
  * @author: Benjamin
  * @Date: 2020.7.11
  */
-public class Test {
+public class Demo {
 
     public static void main(String[] args) {
-        System.out.println(-121 % 4);
+        System.out.println("hello world");
     }
 }
