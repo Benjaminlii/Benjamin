@@ -1,7 +1,6 @@
 package com.Benjamin.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ClassName:LeetCode105
@@ -43,19 +42,19 @@ public class LeetCode105 {
             val = x;
         }
 
-        public static void print_per(TreeNode root) {
-            if (root != null) {
-                System.out.print(root.val + " ");
-                print_per(root.left);
-                print_per(root.right);
-            }
+
+        static List<Integer> list = new ArrayList<>();
+
+        public static Integer[] getList(TreeNode root) {
+            getList_(root);
+            return list.toArray(new Integer[list.size()]);
         }
 
-        public static void print_in(TreeNode root) {
+        public static void getList_(TreeNode root) {
             if (root != null) {
-                print_in(root.left);
-                System.out.print(root.val + " ");
-                print_in(root.right);
+                getList_(root.left);
+                getList_(root.right);
+                list.add(root.val);
             }
         }
     }
@@ -88,18 +87,18 @@ public class LeetCode105 {
 
         }
         TreeNode root = new TreeNode(inorder[rootSubInInorder]);
-//        System.out.println("start = " + startSub + ", end = " + endSub + ", rootSubInInorder = " + rootSubInInorder);
         root.left = buildTree(inorder, startSub, rootSubInInorder);
         root.right = buildTree(inorder, rootSubInInorder + 1, endSub);
         return root;
     }
 
-    public static void main(String[] args) {
-        TreeNode root = new LeetCode105().buildTree(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7});
+    public Integer[] getList(int[] preorder, int[] inorder) {
+        TreeNode root = buildTree(preorder, inorder);
+        return TreeNode.getList(root);
+    }
 
-        TreeNode.print_per(root);
-        System.out.println();
-        TreeNode.print_in(root);
+    public static void main(String[] args) {
+        System.out.println(Arrays.toString(new LeetCode105().getList(new int[]{3, 9, 20, 15, 7}, new int[]{9, 3, 15, 20, 7})));
     }
 
 }
